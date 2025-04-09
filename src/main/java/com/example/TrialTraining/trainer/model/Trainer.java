@@ -1,6 +1,7 @@
 package com.example.TrialTraining.trainer.model;
 
-import com.example.TrialTraining.myEnum.Workout;
+import com.example.TrialTraining.workout.dto.WorkoutDto;
+import com.example.TrialTraining.workout.model.Workout;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
+
 @Data
 @Builder
 public class Trainer {
@@ -29,6 +32,7 @@ public class Trainer {
     @NotBlank(message = "Не может быть пустым")
     @NotNull
     private String login;
+    private Set<WorkoutDto> workout;
 
 
 }

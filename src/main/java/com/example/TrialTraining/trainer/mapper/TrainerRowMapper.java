@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 
 public class TrainerRowMapper implements RowMapper<TrainerDto> {
     @Override
@@ -15,6 +16,7 @@ public class TrainerRowMapper implements RowMapper<TrainerDto> {
                 .birthday(rs.getTimestamp("birthday").toLocalDateTime().toLocalDate())
                 .telephone(rs.getString("telephone"))
                 .email(rs.getString("email"))
+                .workout(new HashSet<>())
                 .build();
     }
 }
