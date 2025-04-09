@@ -2,11 +2,13 @@ package com.example.TrialTraining.trainer.mapper;
 
 import com.example.TrialTraining.trainer.trainerDto.TrainerDto;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 
+@Component
 public class TrainerRowMapper implements RowMapper<TrainerDto> {
     @Override
     public TrainerDto mapRow(ResultSet rs, int rowNum) throws SQLException {

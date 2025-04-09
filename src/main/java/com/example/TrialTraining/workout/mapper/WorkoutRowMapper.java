@@ -1,7 +1,6 @@
 package com.example.TrialTraining.workout.mapper;
 
 import com.example.TrialTraining.workout.dto.WorkoutDto;
-import com.example.TrialTraining.workout.model.Workout;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
