@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ClientRepository {
 
-    Client create(Client newClient);
+    ClientDto create(Client newClient);
 
     List<ClientDto> findAllClient();
 
