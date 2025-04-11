@@ -24,13 +24,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto create(Client newClient) {
         Client client = clientDbRepository.create(newClient);
-        return ClientDto.builder()
-                .name(client.getName())
-                .surname(client.getSurname())
-                .birthday(client.getBirthday())
-                .telephone(client.getTelephone())
-                .email(client.getEmail())
-                .build();
+        return builderClient(client);
     }
 
     @Override
@@ -38,13 +32,7 @@ public class ClientServiceImpl implements ClientService {
         List<Client> clients = clientDbRepository.findAllClient();
         List<ClientDto> allClient = new ArrayList<>();
         for (Client client : clients) {
-            ClientDto clientDto = ClientDto.builder()
-                    .name(client.getName())
-                    .surname(client.getSurname())
-                    .birthday(client.getBirthday())
-                    .telephone(client.getTelephone())
-                    .email(client.getEmail())
-                    .build();
+            ClientDto clientDto = builderClient(client);
             allClient.add(clientDto);
         }
         return allClient;
@@ -53,11 +41,16 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto findClient(Integer id) {
         Client client = clientDbRepository.findClient(id);
+        return builderClient(client);
+    }
+
+    private ClientDto builderClient(Client client) {
         return ClientDto.builder()
                 .name(client.getName())
                 .surname(client.getSurname())
                 .birthday(client.getBirthday())
                 .telephone(client.getTelephone())
                 .email(client.getEmail())
-                .build();    }
+                .build();
+    }
 }
