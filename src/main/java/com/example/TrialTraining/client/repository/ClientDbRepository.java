@@ -3,7 +3,7 @@ package com.example.TrialTraining.client.repository;
 import com.example.TrialTraining.client.dto.ClientDto;
 import com.example.TrialTraining.client.mapper.ClientRowMapper;
 import com.example.TrialTraining.client.model.Client;
-import com.example.TrialTraining.client.myInterface.ClientRepository;
+import com.example.TrialTraining.client.myInterface.ClientInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @Repository
 @Slf4j
-public class ClientDbRepository implements ClientRepository {
+public class ClientDbRepository implements ClientInterface {
 
     private final JdbcTemplate template;
     private final ClientRowMapper mapper;

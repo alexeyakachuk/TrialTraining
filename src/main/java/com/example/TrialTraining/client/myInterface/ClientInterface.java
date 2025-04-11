@@ -5,7 +5,7 @@ import com.example.TrialTraining.client.model.Client;
 
 import java.util.List;
 
-public interface ClientRepository {
+public interface ClientInterface {
 
     ClientDto create(Client newClient);
 

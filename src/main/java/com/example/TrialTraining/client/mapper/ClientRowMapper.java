@@ -20,5 +20,5 @@ public class ClientRowMapper implements RowMapper<ClientDto> {
                 .telephone(rs.getString("telephone"))
                 .email(rs.getString("email"))
                 .build();
-    }
+     }
 }
