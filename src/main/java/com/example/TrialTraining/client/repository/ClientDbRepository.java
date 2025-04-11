@@ -1,9 +1,7 @@
 package com.example.TrialTraining.client.repository;
 
-import com.example.TrialTraining.client.dto.ClientDto;
 import com.example.TrialTraining.client.mapper.ClientRowMapper;
 import com.example.TrialTraining.client.model.Client;
-import com.example.TrialTraining.client.myInterface.ClientInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,7 +15,7 @@ import java.util.Objects;
 
 @Repository
 @Slf4j
-public class ClientDbRepository implements ClientInterface {
+public class ClientDbRepository implements ClientRepository {
 
     private final JdbcTemplate template;
     private final ClientRowMapper mapper;
@@ -26,7 +24,9 @@ public class ClientDbRepository implements ClientInterface {
     private final String createSql = "INSERT INTO client (name, surname, birthday, telephone, email, login) " +
             "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
 
-    private final String findSql = "SELECT * FROM client WHERE id = :id";
+    private final String findSql = "SELECT * FROM client WHERE id = ?";
+
+    private final String findAllSql = "SELECT * FROM client";
 
 
 
@@ -38,10 +38,11 @@ public class ClientDbRepository implements ClientInterface {
     }
 
     @Override
-    public ClientDto create(Client newClient) {
+    public Client create(Client newClient) {
         log.info("Создаем нового клиента : {}", newClient);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", newClient.getId());
         params.addValue("name", newClient.getName());
         params.addValue("surname", newClient.getSurname());
         params.addValue("birthday", newClient.getBirthday());
@@ -60,12 +61,13 @@ public class ClientDbRepository implements ClientInterface {
     }
 
     @Override
-    public List<ClientDto> findAllClient() {
-        return List.of();
+    public List<Client> findAllClient() {
+
+        return template.query(findAllSql, mapper);
     }
 
     @Override
-    public ClientDto findClient(Integer id) {
+    public Client findClient(Integer id) {
 
         return template.queryForObject(findSql, mapper, id);
     }

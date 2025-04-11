@@ -2,7 +2,8 @@ package com.example.TrialTraining.client.controller;
 
 import com.example.TrialTraining.client.dto.ClientDto;
 import com.example.TrialTraining.client.model.Client;
-import com.example.TrialTraining.client.myInterface.ClientInterface;
+import com.example.TrialTraining.client.repository.ClientRepository;
+import com.example.TrialTraining.client.service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,30 +11,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class ClientController implements ClientInterface {
+@RequestMapping(path = "/clients")
+public class ClientController {
 
-    private final ClientInterface clientService;
+    private final ClientService clientService;
 
     @Autowired
-    public ClientController(ClientInterface clientService) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
 
-    @Override
+
     @PostMapping
     public ClientDto create(@Valid @RequestBody Client newClient) {
         return clientService.create(newClient);
     }
 
-    @Override
-    public List<ClientDto> findAllClient() {
-        return List.of();
-    }
-
-    @Override
-    @GetMapping("/client/id")
+    @GetMapping("/{id}")
     public ClientDto findClient(@PathVariable Integer id) {
         return clientService.findClient(id);
     }
 
+    @GetMapping()
+    public List<ClientDto> findAllClients() {
+        return clientService.findAllClient();
+    }
 }
