@@ -32,7 +32,7 @@ public class Trainer {
     @NotBlank(message = "Не может быть пустым")
     @NotNull
     private String login;
-    private Set<WorkoutDto> workout;
+//    private Set<WorkoutDto> workout;
 
 
 }

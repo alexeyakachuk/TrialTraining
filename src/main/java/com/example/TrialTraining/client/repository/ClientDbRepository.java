@@ -17,7 +17,7 @@ import java.util.Objects;
 @Slf4j
 public class ClientDbRepository implements ClientRepository {
 
-    private final JdbcTemplate template;
+    private final JdbcTemplate jdbcTemplate;
     private final ClientRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
 
@@ -30,16 +30,16 @@ public class ClientDbRepository implements ClientRepository {
 
 
 
-    public ClientDbRepository(JdbcTemplate template, ClientRowMapper mapper,
+    public ClientDbRepository(JdbcTemplate jdbcTemplate, ClientRowMapper mapper,
                               NamedParameterJdbcOperations jdbcOperations) {
-        this.template = template;
+        this.jdbcTemplate = jdbcTemplate;
         this.mapper = mapper;
         this.jdbcOperations = jdbcOperations;
     }
 
     @Override
     public Client create(Client newClient) {
-        log.info("Создаем нового клиента : {}", newClient);
+        log.info("Создаем нового клиента : {}", newClient.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", newClient.getId());
@@ -54,7 +54,7 @@ public class ClientDbRepository implements ClientRepository {
 
         jdbcOperations.update(createSql, params, keyHolder);
 
-        log.info("Новый клиент {} создан", newClient);
+        log.info("Новый клиент {} создан", newClient.getName());
 
         Integer clientId = Objects.requireNonNull(keyHolder.getKey()).intValue();
         return findClient(clientId);
@@ -63,12 +63,12 @@ public class ClientDbRepository implements ClientRepository {
     @Override
     public List<Client> findAllClient() {
 
-        return template.query(findAllSql, mapper);
+        return jdbcTemplate.query(findAllSql, mapper);
     }
 
     @Override
     public Client findClient(Integer id) {
 
-        return template.queryForObject(findSql, mapper, id);
+        return jdbcTemplate.queryForObject(findSql, mapper, id);
     }
 }

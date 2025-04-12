@@ -1,0 +1,68 @@
+package com.example.TrialTraining.trainer.repository;
+
+import com.example.TrialTraining.trainer.mapper.TrainerRowMapper;
+import com.example.TrialTraining.trainer.model.Trainer;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Objects;
+
+@Repository
+@Slf4j
+public class TrainerDbRepository implements TrainerRepository {
+
+    private final JdbcTemplate jdbcTemplate;
+    private final TrainerRowMapper mapper;
+    private final NamedParameterJdbcOperations jdbcOperations;
+
+    private final String createSql = "INSERT INTO client (name, surname, birthday, telephone, email, login) " +
+            "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
+
+    private final String findSql = "SELECT * FROM trainer WHERE id = ?";
+
+    private final String findAllSql = "SELECT * FROM trainer";
+
+    public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper, NamedParameterJdbcOperations jdbcOperations) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.mapper = mapper;
+        this.jdbcOperations = jdbcOperations;
+    }
+
+    @Override
+    public Trainer create(Trainer newTrainer) {
+        log.info("Создаем нового тренера : {}", newTrainer.getName());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", newTrainer.getId());
+        params.addValue("name", newTrainer.getName());
+        params.addValue("surname", newTrainer.getSurname());
+        params.addValue("birthday", newTrainer.getBirthday());
+        params.addValue("telephone", newTrainer.getTelephone());
+        params.addValue("email", newTrainer.getEmail());
+        params.addValue("login", newTrainer.getLogin());
+
+        jdbcOperations.update(createSql, params, keyHolder);
+
+        log.info("Новый тренер {} создан", newTrainer.getName());
+
+        Integer trainerId = Objects.requireNonNull(keyHolder.getKey()).intValue();
+
+        return findTrainer(trainerId);
+    }
+
+    @Override
+    public List<Trainer> findAllTrainer() {
+        return jdbcTemplate.query(findAllSql, mapper);
+    }
+
+    @Override
+    public Trainer findTrainer(Integer id) {
+        return jdbcTemplate.queryForObject(findSql, mapper, id);
+    }
+}

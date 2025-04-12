@@ -27,5 +27,5 @@ public class TrainerDto {
     @NotNull
     @Email
     private String email;
-    private Set<WorkoutDto> workout;
+//    private Set<WorkoutDto> workout;
 }

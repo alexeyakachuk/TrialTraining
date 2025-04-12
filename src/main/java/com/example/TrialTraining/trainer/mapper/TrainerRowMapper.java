@@ -1,5 +1,6 @@
 package com.example.TrialTraining.trainer.mapper;
 
+import com.example.TrialTraining.trainer.model.Trainer;
 import com.example.TrialTraining.trainer.trainerDto.TrainerDto;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -9,16 +10,18 @@ import java.sql.SQLException;
 import java.util.HashSet;
 
 @Component
-public class TrainerRowMapper implements RowMapper<TrainerDto> {
+public class TrainerRowMapper implements RowMapper<Trainer> {
     @Override
-    public TrainerDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return TrainerDto.builder()
+    public Trainer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return Trainer.builder()
+                .id(rs.getInt("id"))
                 .name(rs.getString("name"))
                 .surname(rs.getString("surname"))
                 .birthday(rs.getTimestamp("birthday").toLocalDateTime().toLocalDate())
                 .telephone(rs.getString("telephone"))
                 .email(rs.getString("email"))
-                .workout(new HashSet<>())
+                .login(rs.getString("login"))
+//                .workout(new HashSet<>())
                 .build();
     }
 }
