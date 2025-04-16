@@ -10,7 +10,9 @@ public class WorkoutRowMapper implements RowMapper<WorkoutDto> {
     @Override
     public WorkoutDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         return WorkoutDto.builder()
-                .workout(rs.getString("workout"))
+                .clientId(rs.getInt("clientId"))
+                .trainerId(rs.getInt("trainerId"))
+                .dateTime(rs.getTimestamp("dataTime").toLocalDateTime())
                 .build();
     }
 }

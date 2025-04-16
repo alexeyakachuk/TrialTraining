@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class ProjectConfig {
     @Bean
     public WorkoutRowMapper workoutRowMapper() {
-        WorkoutRowMapper w = new WorkoutRowMapper();
-        return w;
+        return new WorkoutRowMapper();
     }
 }

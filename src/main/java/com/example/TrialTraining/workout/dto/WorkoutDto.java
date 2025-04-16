@@ -4,9 +4,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class WorkoutDto {
-    @NotNull
-    private String workout;
+    private Integer clientId;
+    private Integer trainerId;
+    private LocalDateTime dateTime;
 }
