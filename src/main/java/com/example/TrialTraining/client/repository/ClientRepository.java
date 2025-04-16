@@ -11,4 +11,6 @@ public interface ClientRepository {
     List<Client> findAllClient();
 
     Client findClient(Integer id);
+
+    Client checkEmail(String email);
 }

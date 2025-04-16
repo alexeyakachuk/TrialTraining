@@ -22,4 +22,4 @@ birthday DATE NOT NULL,
 telephone VARCHAR(20) NOT NULL,
 email VARCHAR(50) NOT NULL,
 login VARCHAR(50) NOT NULL
-):
+);

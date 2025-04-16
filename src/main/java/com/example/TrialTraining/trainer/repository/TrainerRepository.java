@@ -11,4 +11,6 @@ public interface TrainerRepository {
     List<Trainer> findAllTrainer();
 
     Trainer findTrainer(Integer id);
+
+    Trainer checkEmail(String email);
 }

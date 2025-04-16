@@ -1,5 +1,7 @@
 package com.example.TrialTraining.trainer.service;
 
+import com.example.TrialTraining.excepion.ConflictException;
+import com.example.TrialTraining.excepion.NotFoundException;
 import com.example.TrialTraining.trainer.model.Trainer;
 import com.example.TrialTraining.trainer.repository.TrainerRepository;
 import com.example.TrialTraining.trainer.trainerDto.TrainerDto;
@@ -21,6 +23,10 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public TrainerDto create(Trainer newTrainer) {
+        if (trainerRepository.checkEmail(newTrainer.getEmail()) !=null) {
+            throw new ConflictException("Такой email уже существует");
+        }
+
         Trainer trainer = trainerRepository.create(newTrainer);
         return builderTrainer(trainer);
     }
@@ -41,6 +47,10 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public TrainerDto findTrainer(Integer id) {
         Trainer trainer = trainerRepository.findTrainer(id);
+
+        if (trainer == null) {
+            throw new NotFoundException("Тренер с id " + id + " не найден");
+        }
         return builderTrainer(trainer);
     }
 

@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 @Builder
 public class Trainer {
-    @NotNull
+//    @NotNull
     private Integer id;
     @NotNull
     private String name;

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class Client {
-    @NotNull
+//    @NotNull
     private Integer id;
     @NotNull
     private String name;

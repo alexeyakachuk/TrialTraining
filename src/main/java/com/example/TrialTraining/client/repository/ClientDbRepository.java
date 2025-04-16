@@ -3,6 +3,8 @@ package com.example.TrialTraining.client.repository;
 import com.example.TrialTraining.client.mapper.ClientRowMapper;
 import com.example.TrialTraining.client.model.Client;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -16,18 +18,20 @@ import java.util.Objects;
 @Repository
 @Slf4j
 public class ClientDbRepository implements ClientRepository {
+    private Integer id;
 
     private final JdbcTemplate jdbcTemplate;
     private final ClientRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
 
-    private final String createSql = "INSERT INTO client (name, surname, birthday, telephone, email, login) " +
+    private final String CREATE_SQL = "INSERT INTO client (name, surname, birthday, telephone, email, login) " +
             "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
 
     private final String findSql = "SELECT * FROM client WHERE id = ?";
 
-    private final String findAllSql = "SELECT * FROM client";
+    private final String emailSql = "SELECT * FROM client WHERE email = ?";
 
+    private final String findAllSql = "SELECT * FROM client";
 
 
     public ClientDbRepository(JdbcTemplate jdbcTemplate, ClientRowMapper mapper,
@@ -42,7 +46,7 @@ public class ClientDbRepository implements ClientRepository {
         log.info("Создаем нового клиента : {}", newClient.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id", newClient.getId());
+//        params.addValue("id", newClient.getId());
         params.addValue("name", newClient.getName());
         params.addValue("surname", newClient.getSurname());
         params.addValue("birthday", newClient.getBirthday());
@@ -51,8 +55,7 @@ public class ClientDbRepository implements ClientRepository {
         params.addValue("login", newClient.getLogin());
 
 
-
-        jdbcOperations.update(createSql, params, keyHolder);
+        jdbcOperations.update(CREATE_SQL, params, keyHolder);
 
         log.info("Новый клиент {} создан", newClient.getName());
 
@@ -68,7 +71,22 @@ public class ClientDbRepository implements ClientRepository {
 
     @Override
     public Client findClient(Integer id) {
-
-        return jdbcTemplate.queryForObject(findSql, mapper, id);
+        try {
+            return jdbcTemplate.queryForObject(findSql, mapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
+
+    @Override
+    public Client checkEmail(String email) {
+        try {
+            return jdbcTemplate.queryForObject(emailSql, mapper, email);
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+
+
 }

@@ -3,6 +3,7 @@ package com.example.TrialTraining.client.controller;
 import com.example.TrialTraining.client.dto.ClientDto;
 import com.example.TrialTraining.client.model.Client;
 import com.example.TrialTraining.client.service.ClientService;
+import com.example.TrialTraining.excepion.NotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ClientDto findClient(@PathVariable Integer id) {
+        
         return clientService.findClient(id);
     }
 

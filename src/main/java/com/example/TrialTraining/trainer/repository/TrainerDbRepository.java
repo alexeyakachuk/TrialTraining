@@ -3,6 +3,8 @@ package com.example.TrialTraining.trainer.repository;
 import com.example.TrialTraining.trainer.mapper.TrainerRowMapper;
 import com.example.TrialTraining.trainer.model.Trainer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -26,6 +28,8 @@ public class TrainerDbRepository implements TrainerRepository {
 
     private final String findSql = "SELECT * FROM trainer WHERE id = ?";
 
+    private final String emailSql = "SELECT * FROM trainer WHERE email = ?";
+
     private final String findAllSql = "SELECT * FROM trainer";
 
     public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper, NamedParameterJdbcOperations jdbcOperations) {
@@ -39,7 +43,7 @@ public class TrainerDbRepository implements TrainerRepository {
         log.info("Создаем нового тренера : {}", newTrainer.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id", newTrainer.getId());
+//        params.addValue("id", newTrainer.getId());
         params.addValue("name", newTrainer.getName());
         params.addValue("surname", newTrainer.getSurname());
         params.addValue("birthday", newTrainer.getBirthday());
@@ -63,6 +67,20 @@ public class TrainerDbRepository implements TrainerRepository {
 
     @Override
     public Trainer findTrainer(Integer id) {
-        return jdbcTemplate.queryForObject(findSql, mapper, id);
+        try {
+            return jdbcTemplate.queryForObject(findSql, mapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+
+    }
+
+    @Override
+    public Trainer checkEmail(String email) {
+        try {
+            return jdbcTemplate.queryForObject(emailSql, mapper, email);
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 }
