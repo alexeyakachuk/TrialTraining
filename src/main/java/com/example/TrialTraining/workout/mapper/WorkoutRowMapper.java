@@ -1,15 +1,18 @@
 package com.example.TrialTraining.workout.mapper;
 
 import com.example.TrialTraining.workout.dto.WorkoutDto;
+import com.example.TrialTraining.workout.model.Workout;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class WorkoutRowMapper implements RowMapper<WorkoutDto> {
+@Component
+public class WorkoutRowMapper implements RowMapper<Workout> {
     @Override
-    public WorkoutDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return WorkoutDto.builder()
+    public Workout mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return Workout.builder()
                 .clientId(rs.getInt("clientId"))
                 .trainerId(rs.getInt("trainerId"))
                 .dateTime(rs.getTimestamp("dataTime").toLocalDateTime())
