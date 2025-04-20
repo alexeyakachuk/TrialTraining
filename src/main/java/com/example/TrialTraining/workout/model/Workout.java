@@ -12,5 +12,6 @@ public class Workout {
     private Integer id;
     private Integer clientId;
     private Integer trainerId;
-    private LocalDateTime dateTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 }

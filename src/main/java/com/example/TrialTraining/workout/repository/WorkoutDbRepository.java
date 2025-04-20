@@ -12,6 +12,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -29,18 +30,25 @@ public class WorkoutDbRepository implements WorkoutRepository {
     }
 
     @Override
-    public Workout create(Integer clientId, Integer trainerId, LocalDateTime dateTime) {
-        String sql = "INSERT INTO workout (client_id, trainer_id, data_time) " +
-                "VALUES (:client_id, :trainer_id, :data_time)";
+    public Workout create(Workout newWorkout) {
+        String sql = "INSERT INTO workout (client_id, trainer_id, start_time, end_time) " +
+                "VALUES (:client_id, :trainer_id, :start_time, :end_time)";
+
+        LocalDateTime endTime = newWorkout.getStartTime().plusHours(1);
+        log.info("Создаем новую тренировку");
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("client_id", clientId);
-        params.addValue("trainer_id", trainerId);
-        params.addValue("data_time", dateTime);
+        params.addValue("client_id", newWorkout.getClientId());
+        params.addValue("trainer_id", newWorkout.getTrainerId());
+        params.addValue("start_time", newWorkout.getStartTime());
+        params.addValue("end_time", endTime);
         jdbcOperations.update(sql, params, keyHolder);
 
         Integer workoutId = Objects.requireNonNull(keyHolder.getKey()).intValue();
+
+        log.info("Новая тренировка {} создана", workoutId);
+
         return findWorkout(workoutId);
     }
 
@@ -54,4 +62,11 @@ public class WorkoutDbRepository implements WorkoutRepository {
         }
 
     }
+
+    @Override
+    public List<Workout> findAllWorkout() {
+        String sql = "SELECT * FROM workout";
+        return jdbcTemplate.query(sql, mapper);
+    }
+
 }

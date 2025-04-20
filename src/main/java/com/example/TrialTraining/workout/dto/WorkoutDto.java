@@ -11,5 +11,6 @@ import java.time.LocalDateTime;
 public class WorkoutDto {
     private Integer clientId;
     private Integer trainerId;
-    private LocalDateTime dateTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 }

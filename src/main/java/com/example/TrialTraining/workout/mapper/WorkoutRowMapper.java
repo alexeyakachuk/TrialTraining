@@ -13,9 +13,11 @@ public class WorkoutRowMapper implements RowMapper<Workout> {
     @Override
     public Workout mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Workout.builder()
-                .clientId(rs.getInt("clientId"))
-                .trainerId(rs.getInt("trainerId"))
-                .dateTime(rs.getTimestamp("dataTime").toLocalDateTime())
+                .id(rs.getInt("id"))
+                .clientId(rs.getInt("client_Id"))
+                .trainerId(rs.getInt("trainer_Id"))
+                .startTime(rs.getTimestamp("start_Time").toLocalDateTime())
+                .endTime(rs.getTimestamp("end_Time").toLocalDateTime())
                 .build();
     }
 }
