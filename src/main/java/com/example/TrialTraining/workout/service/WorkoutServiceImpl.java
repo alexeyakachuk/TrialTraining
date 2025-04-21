@@ -8,6 +8,8 @@ import com.example.TrialTraining.workout.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
+    //    private Object object = new Object();
+    private final ReentrantLock lock = new ReentrantLock();
 
     @Autowired
     public WorkoutServiceImpl(WorkoutRepository workoutRepository) {
@@ -24,13 +28,18 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public WorkoutDto create(Workout newWorkout) {
         // Проверка соводноли это время
-        if (isCheckTime(newWorkout.getStartTime())) {
-            throw new ConflictTimeException("На это время уже есть тренировка");
-        }
-
-        Workout workout = workoutRepository.create(newWorkout);
+        lock.lock();
+        try {
+            if (isCheckTime(newWorkout.getStartTime())) {
+                throw new ConflictTimeException("На это время уже есть тренировка");
+            }
+            Workout workout = workoutRepository.create(newWorkout);
 //добавить проверки на существование клиента и тренера
-        return builderWorkout(workout);
+            return builderWorkout(workout);
+
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Override
@@ -60,14 +69,15 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     private boolean isCheckTime(LocalDateTime start) {
-        LocalDateTime end = start.plusHours(1);
+//        LocalDateTime end = start.plusHours(1);
         List<Workout> allWorkout = workoutRepository.findAllWorkout();
 
         for (Workout workout : allWorkout) {
-//            if (workout.getStartTime().equals(start)) {
-//                return true;
-            if (start.isBefore(workout.getEndTime()) && end.isAfter(workout.getStartTime())) {
+            if (workout.getStartTime().equals(start)) {
                 return true;
+//            if (start.isBefore(workout.getEndTime()) && end.isAfter(workout.getStartTime())) {
+//                return true;
+//            }
             }
         }
         return false;

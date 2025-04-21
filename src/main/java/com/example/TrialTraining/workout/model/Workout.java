@@ -1,6 +1,5 @@
 package com.example.TrialTraining.workout.model;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 

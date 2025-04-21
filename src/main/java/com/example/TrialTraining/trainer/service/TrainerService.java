@@ -6,6 +6,7 @@ import com.example.TrialTraining.trainer.trainerDto.TrainerDto;
 import java.util.List;
 
 public interface TrainerService {
+
     TrainerDto create(Trainer newTrainer);
 
     List<TrainerDto> findAllTrainer();
