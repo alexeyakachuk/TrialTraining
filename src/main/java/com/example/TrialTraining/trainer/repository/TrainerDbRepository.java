@@ -23,7 +23,7 @@ public class TrainerDbRepository implements TrainerRepository {
     private final TrainerRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
 
-    private final String createSql = "INSERT INTO client (name, surname, birthday, telephone, email, login) " +
+    private final String createSql = "INSERT INTO trainer (name, surname, birthday, telephone, email, login) " +
             "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
 
     private final String findSql = "SELECT * FROM trainer WHERE id = ?";

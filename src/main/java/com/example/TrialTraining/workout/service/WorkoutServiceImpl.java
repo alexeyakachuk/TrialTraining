@@ -1,13 +1,11 @@
 package com.example.TrialTraining.workout.service;
 
 import com.example.TrialTraining.client.model.Client;
-import com.example.TrialTraining.client.repository.ClientDbRepository;
 import com.example.TrialTraining.client.repository.ClientRepository;
 import com.example.TrialTraining.excepion.ConflictTimeException;
 import com.example.TrialTraining.excepion.NotFoundException;
 import com.example.TrialTraining.trainer.model.Trainer;
 import com.example.TrialTraining.trainer.repository.TrainerRepository;
-import com.example.TrialTraining.trainer.service.TrainerService;
 import com.example.TrialTraining.workout.dto.WorkoutDto;
 import com.example.TrialTraining.workout.model.Workout;
 import com.example.TrialTraining.workout.repository.WorkoutRepository;
@@ -25,7 +23,6 @@ public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final ClientRepository clientRepository;
     private final TrainerRepository trainerRepository;
-    //    private Object object = new Object();
     private final ReentrantLock lock = new ReentrantLock();
 
     @Autowired
@@ -39,11 +36,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public WorkoutDto create(Workout newWorkout) {
         // Проверка соводноли это время
-        Client client = clientRepository.findClient(newWorkout.getId());
-        Trainer trainer = trainerRepository.findTrainer(newWorkout.getId());
-        if (client == null || trainer == null) {
-            throw new NotFoundException("Такого тренера или клиента нет");
-        }
+//        Client client = clientRepository.findClient(newWorkout.getId());
+//        Trainer trainer = trainerRepository.findTrainer(newWorkout.getId());
+//        if (client == null || trainer == null) {
+//            throw new NotFoundException("Такого тренера или клиента нет");
+//        }
         lock.lock();
         try {
             if (isCheckTime(newWorkout.getStartTime())) {
