@@ -119,7 +119,6 @@ public class WorkoutServiceImplTest {
         jdbcOperations.update("DELETE FROM workout", Map.of());
 
         testTrainer = trainerRepository.create(Trainer.builder()
-                .id(1)
                 .name("trainer")
                 .surname("surname")
                 .birthday(LocalDate.of(1989, 10, 17))
