@@ -15,8 +15,9 @@ public class WorkoutRowMapper implements RowMapper<Workout> {
                 .id(rs.getInt("id"))
                 .clientId(rs.getInt("client_Id"))
                 .trainerId(rs.getInt("trainer_Id"))
-                .startTime(rs.getTimestamp("start_Time").toLocalDateTime())
-                .endTime(rs.getTimestamp("end_Time").toLocalDateTime())
+                .date(rs.getDate("date").toLocalDate())
+                .startTime(rs.getTimestamp("start_Time").toLocalDateTime().toLocalTime())
+                .endTime(rs.getTimestamp("end_Time").toLocalDateTime().toLocalTime())
                 .build();
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,16 +32,17 @@ public class WorkoutDbRepository implements WorkoutRepository {
 
     @Override
     public Workout create(Workout newWorkout) {
-        String sql = "INSERT INTO workout (client_id, trainer_id, start_time, end_time) " +
-                "VALUES (:client_id, :trainer_id, :start_time, :end_time)";
+        String sql = "INSERT INTO workout (client_id, trainer_id, \"date\", start_time, end_time) " +
+                "VALUES (:client_id, :trainer_id, :date, :start_time, :end_time)";
 
-        LocalDateTime endTime = newWorkout.getStartTime().plusHours(1);
+        LocalTime endTime = newWorkout.getStartTime().plusHours(1);
         log.info("Создаем новую тренировку");
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("client_id", newWorkout.getClientId());
         params.addValue("trainer_id", newWorkout.getTrainerId());
+        params.addValue("date", newWorkout.getDate());
         params.addValue("start_time", newWorkout.getStartTime());
         params.addValue("end_time", endTime);
         jdbcOperations.update(sql, params, keyHolder);

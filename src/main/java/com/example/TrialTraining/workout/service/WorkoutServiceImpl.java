@@ -12,6 +12,7 @@ import com.example.TrialTraining.workout.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.concurrent.locks.ReentrantLock;
 
 import java.time.LocalDateTime;
@@ -36,11 +37,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public WorkoutDto create(Workout newWorkout) {
         // Проверка соводноли это время
-//        Client client = clientRepository.findClient(newWorkout.getId());
-//        Trainer trainer = trainerRepository.findTrainer(newWorkout.getId());
-//        if (client == null || trainer == null) {
-//            throw new NotFoundException("Такого тренера или клиента нет");
-//        }
+        Client client = clientRepository.findClient(newWorkout.getClientId());
+        Trainer trainer = trainerRepository.findTrainer(newWorkout.getTrainerId());
+        if (client == null || trainer == null) {
+            throw new NotFoundException("Такого тренера или клиента нет");
+        }
         lock.lock();
         try {
             if (isCheckTime(newWorkout.getStartTime())) {
@@ -76,12 +77,13 @@ public class WorkoutServiceImpl implements WorkoutService {
         return WorkoutDto.builder()
                 .clientId(workout.getClientId())
                 .trainerId(workout.getTrainerId())
+                .date(workout.getDate())
                 .startTime(workout.getStartTime())
                 .endTime(workout.getEndTime())
                 .build();
     }
 
-    private boolean isCheckTime(LocalDateTime start) {
+    private boolean isCheckTime(LocalTime start) {
 //        LocalDateTime end = start.plusHours(1);
         List<Workout> allWorkout = workoutRepository.findAllWorkout();
 
