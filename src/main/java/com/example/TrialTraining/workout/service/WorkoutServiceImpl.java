@@ -12,10 +12,10 @@ import com.example.TrialTraining.workout.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.concurrent.locks.ReentrantLock;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +44,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         }
         lock.lock();
         try {
-            if (isCheckTime(newWorkout.getStartTime())) {
+            if (isCheckTime(newWorkout.getStartTime(), newWorkout.getDate())) {
                 throw new ConflictTimeException("На это время уже есть тренировка");
             }
             Workout workout = workoutRepository.create(newWorkout);
@@ -72,6 +72,11 @@ public class WorkoutServiceImpl implements WorkoutService {
         return builderWorkout(workout);
     }
 
+    @Override
+    public void deleteWorkout(Integer id) {
+        workoutRepository.deleteWorkout(id);
+    }
+
 
     private WorkoutDto builderWorkout(Workout workout) {
         return WorkoutDto.builder()
@@ -83,12 +88,12 @@ public class WorkoutServiceImpl implements WorkoutService {
                 .build();
     }
 
-    private boolean isCheckTime(LocalTime start) {
+    private boolean isCheckTime(LocalTime start, LocalDate date) {
 //        LocalDateTime end = start.plusHours(1);
         List<Workout> allWorkout = workoutRepository.findAllWorkout();
 
         for (Workout workout : allWorkout) {
-            if (workout.getStartTime().equals(start)) {
+            if (workout.getStartTime().equals(start) && workout.getDate().equals(date)) {
                 return true;
 //            if (start.isBefore(workout.getEndTime()) && end.isAfter(workout.getStartTime())) {
 //                return true;

@@ -49,9 +49,15 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
+    public void deleteTrainer(Integer id) {
+        trainerRepository.deleteTrainer(id);
+    }
+
+    @Override
     public List<TrainingCalendar> findAllTrainerWorkouts(Integer id) {
         return trainerCalendarRepository.findAllTrainerWorkouts(id);
     }
+
 
     @Override
     public TrainerDto findTrainer(Integer id) {

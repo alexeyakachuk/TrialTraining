@@ -34,4 +34,9 @@ public class WorkoutController {
     public List<WorkoutDto> findAllWorkout() {
         return workoutService.findAllWorkout();
     }
+
+    @DeleteMapping("{id}")
+    public void deleteWorkout(@PathVariable Integer id) {
+        workoutService.deleteWorkout(id);
+    }
 }

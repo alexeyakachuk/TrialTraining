@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -84,22 +85,25 @@ public class WorkoutServiceImplTest {
         testWorkout1 = Workout.builder()
                 .clientId(testClient1.getId())
                 .trainerId(testTrainer.getId())
-                .startTime(LocalDateTime.of(2024, 4, 23, 10, 0))
-                .endTime(LocalDateTime.of(2024, 4, 23, 10, 0).plusHours(1))
+                .date(LocalDate.of(2024, 4, 23))
+                .startTime(LocalTime.of(10, 0))
+                .endTime(LocalTime.of(11, 0))
                 .build();
 
         testWorkout2 = Workout.builder()
                 .clientId(testClient2.getId())
                 .trainerId(testTrainer.getId())
-                .startTime(LocalDateTime.of(2024, 4, 23, 10, 0))
-                .endTime(LocalDateTime.of(2024, 4, 23, 10, 0).plusHours(1))
+                .date(LocalDate.of(2024, 4, 23))
+                .startTime(LocalTime.of(10, 0))
+                .endTime(LocalTime.of(11, 0))
                 .build();
 
         testWorkout3 = Workout.builder()
                 .clientId(testClient3.getId())
                 .trainerId(testTrainer.getId())
-                .startTime(LocalDateTime.of(2024, 4, 23, 12, 0))
-                .endTime(LocalDateTime.of(2024, 4, 23, 12, 0).plusHours(1))
+                .date(LocalDate.of(2024, 4, 23))
+                .startTime(LocalTime.of(12, 0))
+                .endTime(LocalTime.of(13, 0))
                 .build();
     }
 

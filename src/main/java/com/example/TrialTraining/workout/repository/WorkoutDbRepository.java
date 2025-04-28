@@ -11,7 +11,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -69,6 +68,16 @@ public class WorkoutDbRepository implements WorkoutRepository {
     public List<Workout> findAllWorkout() {
         String sql = "SELECT * FROM workout";
         return jdbcTemplate.query(sql, mapper);
+    }
+
+    @Override
+    public void deleteWorkout(Integer id) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        String sql = "DELETE FROM workout WHERE id = :id";
+
+        jdbcOperations.update(sql, params);
     }
 
 }

@@ -12,5 +12,7 @@ public interface TrainerRepository {
 
     Trainer findTrainer(Integer id);
 
+    void deleteTrainer(Integer id);
+
     Trainer checkEmail(String email);
 }

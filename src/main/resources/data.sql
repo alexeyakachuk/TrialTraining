@@ -1,6 +1,7 @@
 -- Вставка данных в таблицу TRAINER
 INSERT INTO TRAINER (name, surname, birthday, telephone, email, login) VALUES
-('Иван', 'Иванов', '1985-05-15', '+79001234567', 'ivan.ivanov@example.com', 'ivan123');
+('Иван', 'Иванов', '1985-05-15', '+79001234567', 'ivan.ivanov@example.com', 'ivan123'),
+('Ткачук', 'Алексей', '1989-10-17', '+79658436975', 'box03-853@yandex.ru', 'box03');
 
 -- Вставка данных в таблицу CLIENT
 INSERT INTO CLIENT (name, surname, birthday, telephone, email, login) VALUES

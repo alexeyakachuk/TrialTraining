@@ -36,4 +36,9 @@ public class ClientController {
     public List<ClientDto> findAllClients() {
         return clientService.findAllClient();
     }
+
+    @DeleteMapping("{id}")
+    public void deleteClient(@PathVariable Integer id) {
+        clientService.deleteClient(id);
+    }
 }

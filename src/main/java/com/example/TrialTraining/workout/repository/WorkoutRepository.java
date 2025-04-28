@@ -12,4 +12,6 @@ public interface WorkoutRepository {
     Workout findWorkout(Integer id);
 
     List<Workout> findAllWorkout();
+
+    void deleteWorkout(Integer id);
 }

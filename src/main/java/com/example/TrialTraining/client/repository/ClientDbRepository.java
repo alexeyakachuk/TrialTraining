@@ -87,6 +87,13 @@ public class ClientDbRepository implements ClientRepository {
         }
     }
 
+    @Override
+    public void deleteClient(Integer id) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
 
+        String sql = "DELETE FROM client WHERE id = :id";
 
+        jdbcOperations.update(sql, params);
+    }
 }

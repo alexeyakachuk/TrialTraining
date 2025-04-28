@@ -40,4 +40,5 @@ public class TrainerController {
     public List<TrainingCalendar> findAllTrainerWorkouts(@PathVariable Integer id) {
         return trainerService.findAllTrainerWorkouts(id);
     }
+
 }

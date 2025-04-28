@@ -9,7 +9,6 @@ import com.example.TrialTraining.excepion.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +58,11 @@ public class ClientServiceImpl implements ClientService {
             throw new NotFoundException("Клиент с id " + id + " не найден");
         }
         return builderClient(client);
+    }
+
+    @Override
+    public void deleteClient(Integer id) {
+        clientDbRepository.deleteClient(id);
     }
 
     private ClientDto builderClient(Client client) {

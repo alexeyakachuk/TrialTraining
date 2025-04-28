@@ -72,7 +72,16 @@ public class TrainerDbRepository implements TrainerRepository {
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
 
+    @Override
+    public void deleteTrainer(Integer id) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        String sql = "DELETE FROM trainer WHERE id = :id";
+
+        jdbcOperations.update(sql, params);
     }
 
     @Override

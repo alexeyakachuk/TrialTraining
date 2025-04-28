@@ -2,7 +2,6 @@ package com.example.TrialTraining.trainingCalendar.repository;
 
 import com.example.TrialTraining.trainingCalendar.model.TrainingCalendar;
 import com.example.TrialTraining.workout.mapper.TrainingCalendarRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -12,12 +11,10 @@ import java.util.List;
 @Repository
 public class TrainerCalendarBdRepository implements TrainerCalendarRepository {
 
-    private final JdbcTemplate jdbcTemplate;
     private final TrainingCalendarRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
 
-    public TrainerCalendarBdRepository(JdbcTemplate jdbcTemplate, TrainingCalendarRowMapper mapper, NamedParameterJdbcOperations jdbcOperations) {
-        this.jdbcTemplate = jdbcTemplate;
+    public TrainerCalendarBdRepository(TrainingCalendarRowMapper mapper, NamedParameterJdbcOperations jdbcOperations) {
         this.mapper = mapper;
         this.jdbcOperations = jdbcOperations;
     }
@@ -36,4 +33,5 @@ public class TrainerCalendarBdRepository implements TrainerCalendarRepository {
 
         return allTrainings;
     }
+
 }

@@ -13,4 +13,6 @@ public interface ClientRepository {
     Client findClient(Integer id);
 
     Client checkEmail(String email);
+
+    void deleteClient(Integer id);
 }

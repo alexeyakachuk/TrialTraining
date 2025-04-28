@@ -12,4 +12,6 @@ public interface WorkoutService {
     List<WorkoutDto> findAllWorkout();
 
     WorkoutDto findWorkout(Integer id);
+
+    void deleteWorkout(Integer id);
 }
