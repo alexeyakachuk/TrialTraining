@@ -41,4 +41,9 @@ public class ClientController {
     public void deleteClient(@PathVariable Integer id) {
         clientService.deleteClient(id);
     }
+
+    @PutMapping
+    public Integer updateClient(@Valid @RequestBody Client newClient) {
+        return clientService.updateClient(newClient);
+    }
 }

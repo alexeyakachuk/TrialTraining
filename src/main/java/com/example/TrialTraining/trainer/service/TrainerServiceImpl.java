@@ -54,6 +54,11 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
+    public Integer updateTrainer(Trainer newTrainer) {
+        return trainerRepository.updateTrainer(newTrainer);
+    }
+
+    @Override
     public List<TrainingCalendar> findAllTrainerWorkouts(Integer id) {
         return trainerCalendarRepository.findAllTrainerWorkouts(id);
     }

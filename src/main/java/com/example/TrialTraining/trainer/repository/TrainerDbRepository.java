@@ -75,6 +75,23 @@ public class TrainerDbRepository implements TrainerRepository {
     }
 
     @Override
+    public Integer updateTrainer(Trainer newTrainer) {
+        String sql = "UPDATE trainer SET name = :name, surname = :surname, birthday = :birthday, " +
+                "telephone = :telephone, email = :email, login = :login WHERE id = :id";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", newTrainer.getId());
+        params.addValue("name", newTrainer.getName());
+        params.addValue("surname", newTrainer.getSurname());
+        params.addValue("birthday", newTrainer.getBirthday());
+        params.addValue("telephone", newTrainer.getTelephone());
+        params.addValue("email", newTrainer.getEmail());
+        params.addValue("login", newTrainer.getLogin());
+
+        return jdbcOperations.update(sql, params);
+    }
+
+    @Override
     public void deleteTrainer(Integer id) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);

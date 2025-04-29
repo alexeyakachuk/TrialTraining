@@ -88,6 +88,23 @@ public class ClientDbRepository implements ClientRepository {
     }
 
     @Override
+    public Integer updateClient(Client newClient) {
+        String sql = "UPDATE client SET name = :name, surname = :surname, birthday = :birthday, " +
+                "telephone = :telephone, email = :email, login = :login WHERE id = :id";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", newClient.getId());
+        params.addValue("name", newClient.getName());
+        params.addValue("surname", newClient.getSurname());
+        params.addValue("birthday", newClient.getBirthday());
+        params.addValue("telephone", newClient.getTelephone());
+        params.addValue("email", newClient.getEmail());
+        params.addValue("login", newClient.getLogin());
+
+        return jdbcOperations.update(sql, params);
+    }
+
+    @Override
     public void deleteClient(Integer id) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);

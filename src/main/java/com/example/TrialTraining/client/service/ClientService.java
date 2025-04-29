@@ -13,5 +13,7 @@ public interface ClientService {
 
     ClientDto findClient(Integer id);
 
+    Integer updateClient(Client newClient);
+
     void deleteClient(Integer id);
 }

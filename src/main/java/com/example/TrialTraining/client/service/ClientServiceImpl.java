@@ -61,6 +61,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Integer updateClient(Client newClient) {
+        return clientDbRepository.updateClient(newClient);
+    }
+
+    @Override
     public void deleteClient(Integer id) {
         clientDbRepository.deleteClient(id);
     }

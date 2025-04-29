@@ -14,6 +14,8 @@ public interface TrainerService {
 
     void deleteTrainer(Integer id);
 
+    Integer updateTrainer(Trainer newTrainer);
+
     List<TrainingCalendar> findAllTrainerWorkouts(Integer id);
 
     TrainerDto findTrainer(Integer id);

@@ -12,6 +12,8 @@ public interface TrainerRepository {
 
     Trainer findTrainer(Integer id);
 
+    Integer updateTrainer(Trainer newTrainer);
+
     void deleteTrainer(Integer id);
 
     Trainer checkEmail(String email);
