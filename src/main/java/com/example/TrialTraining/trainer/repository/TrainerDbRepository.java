@@ -23,14 +23,11 @@ public class TrainerDbRepository implements TrainerRepository {
     private final TrainerRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
 
-    private final String createSql = "INSERT INTO trainer (name, surname, birthday, telephone, email, login) " +
-            "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
 
-    private final String findSql = "SELECT * FROM trainer WHERE id = ?";
+
 
     private final String emailSql = "SELECT * FROM trainer WHERE email = ?";
 
-    private final String findAllSql = "SELECT * FROM trainer";
 
     public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper, NamedParameterJdbcOperations jdbcOperations) {
         this.jdbcTemplate = jdbcTemplate;
@@ -51,7 +48,10 @@ public class TrainerDbRepository implements TrainerRepository {
         params.addValue("email", newTrainer.getEmail());
         params.addValue("login", newTrainer.getLogin());
 
-        jdbcOperations.update(createSql, params, keyHolder);
+        String sql = "INSERT INTO trainer (name, surname, birthday, telephone, email, login) " +
+                "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
+
+        jdbcOperations.update(sql, params, keyHolder);
 
         log.info("Новый тренер {} создан", newTrainer.getName());
 
@@ -62,13 +62,15 @@ public class TrainerDbRepository implements TrainerRepository {
 
     @Override
     public List<Trainer> findAllTrainer() {
-        return jdbcTemplate.query(findAllSql, mapper);
+        String sql = "SELECT * FROM trainer";
+        return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
     public Trainer findTrainer(Integer id) {
+        String sql = "SELECT * FROM trainer WHERE id = ?";
         try {
-            return jdbcTemplate.queryForObject(findSql, mapper, id);
+            return jdbcTemplate.queryForObject(sql, mapper, id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
