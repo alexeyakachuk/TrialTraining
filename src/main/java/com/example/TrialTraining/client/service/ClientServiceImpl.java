@@ -25,10 +25,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto create(Client newClient) {
-        if (clientDbRepository.checkEmail(newClient.getEmail()) != null) {
-            throw new ConflictException("Такой email уже существует");
-        }
-
         Client client = clientDbRepository.create(newClient);
         return builderClient(client);
     }

@@ -24,11 +24,6 @@ public class ClientDbRepository implements ClientRepository {
     private final ClientRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
 
-
-    private final String emailSql = "SELECT * FROM client WHERE email = ?";
-
-
-
     public ClientDbRepository(JdbcTemplate jdbcTemplate, ClientRowMapper mapper,
                               NamedParameterJdbcOperations jdbcOperations) {
         this.jdbcTemplate = jdbcTemplate;
@@ -72,15 +67,6 @@ public class ClientDbRepository implements ClientRepository {
         try {
             return jdbcTemplate.queryForObject(sql, mapper, id);
         } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
-    }
-
-    @Override
-    public Client checkEmail(String email) {
-        try {
-            return jdbcTemplate.queryForObject(emailSql, mapper, email);
-        } catch (DataAccessException e) {
             return null;
         }
     }

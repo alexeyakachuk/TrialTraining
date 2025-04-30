@@ -27,10 +27,6 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public TrainerDto create(Trainer newTrainer) {
-        if (trainerRepository.checkEmail(newTrainer.getEmail()) != null) {
-            throw new ConflictException("Такой email уже существует");
-        }
-
         Trainer trainer = trainerRepository.create(newTrainer);
         return builderTrainer(trainer);
     }
@@ -62,7 +58,6 @@ public class TrainerServiceImpl implements TrainerService {
     public List<TrainingCalendar> findAllTrainerWorkouts(Integer id) {
         return trainerCalendarRepository.findAllTrainerWorkouts(id);
     }
-
 
     @Override
     public TrainerDto findTrainer(Integer id) {

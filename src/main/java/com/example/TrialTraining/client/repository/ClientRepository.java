@@ -12,8 +12,6 @@ public interface ClientRepository {
 
     Client findClient(Integer id);
 
-    Client checkEmail(String email);
-
     Integer updateClient(Client newClient);
 
     void deleteClient(Integer id);
