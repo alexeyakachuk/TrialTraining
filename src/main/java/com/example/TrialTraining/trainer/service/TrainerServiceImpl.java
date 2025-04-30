@@ -1,6 +1,5 @@
 package com.example.TrialTraining.trainer.service;
 
-import com.example.TrialTraining.excepion.ConflictException;
 import com.example.TrialTraining.excepion.NotFoundException;
 import com.example.TrialTraining.trainer.model.Trainer;
 import com.example.TrialTraining.trainer.repository.TrainerRepository;

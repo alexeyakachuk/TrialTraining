@@ -77,7 +77,6 @@ public class WorkoutServiceImpl implements WorkoutService {
         workoutRepository.deleteWorkout(id);
     }
 
-
     private WorkoutDto builderWorkout(Workout workout) {
         return WorkoutDto.builder()
                 .clientId(workout.getClientId())
@@ -89,15 +88,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     private boolean isCheckTime(LocalTime start, LocalDate date) {
-//        LocalDateTime end = start.plusHours(1);
         List<Workout> allWorkout = workoutRepository.findAllWorkout();
 
         for (Workout workout : allWorkout) {
             if (workout.getStartTime().equals(start) && workout.getDate().equals(date)) {
                 return true;
-//            if (start.isBefore(workout.getEndTime()) && end.isAfter(workout.getStartTime())) {
-//                return true;
-//            }
             }
         }
         return false;

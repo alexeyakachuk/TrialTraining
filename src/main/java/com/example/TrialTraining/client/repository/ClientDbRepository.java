@@ -3,7 +3,6 @@ package com.example.TrialTraining.client.repository;
 import com.example.TrialTraining.client.mapper.ClientRowMapper;
 import com.example.TrialTraining.client.model.Client;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -18,8 +17,6 @@ import java.util.Objects;
 @Repository
 @Slf4j
 public class ClientDbRepository implements ClientRepository {
-    private Integer id;
-
     private final JdbcTemplate jdbcTemplate;
     private final ClientRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;

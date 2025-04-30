@@ -4,7 +4,6 @@ import com.example.TrialTraining.client.dto.ClientDto;
 import com.example.TrialTraining.client.model.Client;
 import com.example.TrialTraining.client.repository.ClientRepository;
 import com.example.TrialTraining.client.repository.ClientDbRepository;
-import com.example.TrialTraining.excepion.ConflictException;
 import com.example.TrialTraining.excepion.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +27,6 @@ public class ClientServiceImpl implements ClientService {
         Client client = clientDbRepository.create(newClient);
         return builderClient(client);
     }
-
-//    @Override
-//    public List<ClientDto> findAllClient() {
-//        List<Client> clients = clientDbRepository.findAllClient();
-//        List<ClientDto> allClient = new ArrayList<>();
-//        for (Client client : clients) {
-//            ClientDto clientDto = builderClient(client);
-//            allClient.add(clientDto);
-//        }
-//        return allClient;
-//    }
 
     @Override
     public List<ClientDto> findAllClient() {

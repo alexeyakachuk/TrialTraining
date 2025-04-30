@@ -3,7 +3,6 @@ package com.example.TrialTraining.trainer.repository;
 import com.example.TrialTraining.trainer.mapper.TrainerRowMapper;
 import com.example.TrialTraining.trainer.model.Trainer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -18,16 +17,9 @@ import java.util.Objects;
 @Repository
 @Slf4j
 public class TrainerDbRepository implements TrainerRepository {
-
     private final JdbcTemplate jdbcTemplate;
     private final TrainerRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
-
-
-
-
-    private final String emailSql = "SELECT * FROM trainer WHERE email = ?";
-
 
     public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper, NamedParameterJdbcOperations jdbcOperations) {
         this.jdbcTemplate = jdbcTemplate;

@@ -3,7 +3,6 @@ package com.example.TrialTraining.workout.service;
 import com.example.TrialTraining.workout.dto.WorkoutDto;
 import com.example.TrialTraining.workout.model.Workout;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface WorkoutService {

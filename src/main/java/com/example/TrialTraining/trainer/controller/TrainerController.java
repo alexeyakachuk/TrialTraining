@@ -1,6 +1,5 @@
 package com.example.TrialTraining.trainer.controller;
 
-import com.example.TrialTraining.client.model.Client;
 import com.example.TrialTraining.trainer.model.Trainer;
 import com.example.TrialTraining.trainer.service.TrainerService;
 import com.example.TrialTraining.trainer.trainerDto.TrainerDto;

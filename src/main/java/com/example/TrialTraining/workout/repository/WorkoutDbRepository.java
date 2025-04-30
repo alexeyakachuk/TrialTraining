@@ -79,5 +79,4 @@ public class WorkoutDbRepository implements WorkoutRepository {
 
         jdbcOperations.update(sql, params);
     }
-
 }
