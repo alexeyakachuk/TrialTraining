@@ -16,9 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,10 +28,6 @@ public class WorkoutServiceImplTest {
     private final TrainerRepository trainerRepository;
     private final WorkoutService workoutService;
     private final NamedParameterJdbcOperations jdbcOperations;
-    private Trainer testTrainer;
-    private Client testClient1;
-    private Client testClient2;
-    private Client testClient3;
     private Workout testWorkout1;
     private Workout testWorkout2;
     private Workout testWorkout3;
@@ -46,7 +40,7 @@ public class WorkoutServiceImplTest {
         jdbcOperations.update("DELETE FROM client", Map.of());
         jdbcOperations.update("DELETE FROM workout", Map.of());
 
-        testTrainer = trainerRepository.create(Trainer.builder()
+        Trainer testTrainer = trainerRepository.create(Trainer.builder()
                 .name("trainer")
                 .surname("surname")
                 .birthday(LocalDate.of(1989, 10, 17))
@@ -55,7 +49,7 @@ public class WorkoutServiceImplTest {
                 .login("1111")
                 .build());
 
-        testClient1 = clientRepository.create(Client.builder()
+        Client testClient1 = clientRepository.create(Client.builder()
                 .name("client1")
                 .surname("surname1")
                 .birthday(LocalDate.of(1990, 11, 18))
@@ -64,7 +58,7 @@ public class WorkoutServiceImplTest {
                 .login("1111")
                 .build());
 
-        testClient2 = clientRepository.create(Client.builder()
+        Client testClient2 = clientRepository.create(Client.builder()
                 .name("client2")
                 .surname("surname2")
                 .birthday(LocalDate.of(1991, 12, 19))
@@ -73,7 +67,7 @@ public class WorkoutServiceImplTest {
                 .login("2222")
                 .build());
 
-        testClient3 = clientRepository.create(Client.builder()
+        Client testClient3 = clientRepository.create(Client.builder()
                 .name("client3")
                 .surname("surname3")
                 .birthday(LocalDate.of(1993, 11, 19))
