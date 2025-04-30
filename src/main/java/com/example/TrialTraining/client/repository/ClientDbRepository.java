@@ -24,14 +24,9 @@ public class ClientDbRepository implements ClientRepository {
     private final ClientRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
 
-    private final String CREATE_SQL = "INSERT INTO client (name, surname, birthday, telephone, email, login) " +
-            "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
-
-    private final String findSql = "SELECT * FROM client WHERE id = ?";
 
     private final String emailSql = "SELECT * FROM client WHERE email = ?";
 
-    private final String findAllSql = "SELECT * FROM client";
 
 
     public ClientDbRepository(JdbcTemplate jdbcTemplate, ClientRowMapper mapper,
@@ -46,7 +41,6 @@ public class ClientDbRepository implements ClientRepository {
         log.info("Создаем нового клиента : {}", newClient.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();
-//        params.addValue("id", newClient.getId());
         params.addValue("name", newClient.getName());
         params.addValue("surname", newClient.getSurname());
         params.addValue("birthday", newClient.getBirthday());
@@ -54,8 +48,9 @@ public class ClientDbRepository implements ClientRepository {
         params.addValue("email", newClient.getEmail());
         params.addValue("login", newClient.getLogin());
 
-
-        jdbcOperations.update(CREATE_SQL, params, keyHolder);
+        String sql = "INSERT INTO client (name, surname, birthday, telephone, email, login) " +
+                "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
+        jdbcOperations.update(sql, params, keyHolder);
 
         log.info("Новый клиент {} создан", newClient.getName());
 
@@ -65,14 +60,17 @@ public class ClientDbRepository implements ClientRepository {
 
     @Override
     public List<Client> findAllClient() {
+        String sql = "SELECT * FROM client";
 
-        return jdbcTemplate.query(findAllSql, mapper);
+        return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
     public Client findClient(Integer id) {
+        String sql = "SELECT * FROM client WHERE id = ?";
+
         try {
-            return jdbcTemplate.queryForObject(findSql, mapper, id);
+            return jdbcTemplate.queryForObject(sql, mapper, id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
