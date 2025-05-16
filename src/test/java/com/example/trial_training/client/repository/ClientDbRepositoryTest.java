@@ -1,6 +1,7 @@
 package com.example.trial_training.client.repository;
 
-import com.example.trial_training.client.model.Client;
+import com.example.trial_training.model.client.Client;
+import com.example.trial_training.repository.client.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

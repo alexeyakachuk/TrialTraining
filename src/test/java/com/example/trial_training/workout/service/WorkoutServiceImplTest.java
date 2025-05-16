@@ -1,11 +1,12 @@
 package com.example.trial_training.workout.service;
 
-import com.example.trial_training.client.model.Client;
-import com.example.trial_training.client.repository.ClientRepository;
-import com.example.trial_training.trainer.model.Trainer;
-import com.example.trial_training.trainer.repository.TrainerRepository;
-import com.example.trial_training.workout.dto.WorkoutDto;
-import com.example.trial_training.workout.model.Workout;
+import com.example.trial_training.model.client.Client;
+import com.example.trial_training.repository.client.ClientRepository;
+import com.example.trial_training.model.trainer.Trainer;
+import com.example.trial_training.repository.trainer.TrainerRepository;
+import com.example.trial_training.dto.workout.WorkoutDto;
+import com.example.trial_training.model.workout.Workout;
+import com.example.trial_training.service.workout.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

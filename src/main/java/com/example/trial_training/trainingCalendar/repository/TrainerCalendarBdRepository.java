@@ -1,7 +1,7 @@
 package com.example.trial_training.trainingCalendar.repository;
 
 import com.example.trial_training.trainingCalendar.model.TrainingCalendar;
-import com.example.trial_training.workout.mapper.TrainingCalendarRowMapper;
+import com.example.trial_training.mapper.workout.TrainingCalendarRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
