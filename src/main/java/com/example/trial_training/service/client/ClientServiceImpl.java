@@ -1,5 +1,6 @@
 package com.example.trial_training.service.client;
 
+import com.example.trial_training.CreateClientRequest;
 import com.example.trial_training.dto.client.ClientDto;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
@@ -23,7 +24,7 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
-    public ClientDto create(Client newClient) {
+    public ClientDto create(CreateClientRequest newClient) {
         Client client = clientDbRepository.create(newClient);
         return builderClient(client);
     }

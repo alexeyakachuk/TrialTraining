@@ -1,12 +1,13 @@
 package com.example.trial_training.repository.trainer;
 
+import com.example.trial_training.CreateTrainerRequest;
 import com.example.trial_training.model.trainer.Trainer;
 
 import java.util.List;
 
 public interface TrainerRepository {
 
-    Trainer create(Trainer newTrainer);
+    Trainer create(CreateTrainerRequest newTrainer);
 
     List<Trainer> findAllTrainer();
 

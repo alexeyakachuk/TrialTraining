@@ -1,5 +1,6 @@
 package com.example.trial_training.repository.client;
 
+import com.example.trial_training.CreateClientRequest;
 import com.example.trial_training.mapper.client.ClientRowMapper;
 import com.example.trial_training.model.client.Client;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class ClientDbRepository implements ClientRepository {
     }
 
     @Override
-    public Client create(Client newClient) {
+    public Client create(CreateClientRequest newClient) {
         log.info("Создаем нового клиента : {}", newClient.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();

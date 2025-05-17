@@ -1,5 +1,6 @@
 package com.example.trial_training.repository.trainer;
 
+import com.example.trial_training.CreateTrainerRequest;
 import com.example.trial_training.mapper.trainer.TrainerRowMapper;
 import com.example.trial_training.model.trainer.Trainer;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class TrainerDbRepository implements TrainerRepository {
     }
 
     @Override
-    public Trainer create(Trainer newTrainer) {
+    public Trainer create(CreateTrainerRequest newTrainer) {
         log.info("Создаем нового тренера : {}", newTrainer.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = new MapSqlParameterSource();

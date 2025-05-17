@@ -1,5 +1,6 @@
 package com.example.trial_training.controller.trainer;
 
+import com.example.trial_training.CreateTrainerRequest;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.service.trainer.TrainerService;
 import com.example.trial_training.dto.trainer.TrainerDto;
@@ -22,7 +23,7 @@ public class TrainerController {
     }
 
     @PostMapping
-    public TrainerDto create(@Valid @RequestBody Trainer newTrainer) {
+    public TrainerDto create(@Valid @RequestBody CreateTrainerRequest newTrainer) {
         return trainerService.create(newTrainer);
     }
 

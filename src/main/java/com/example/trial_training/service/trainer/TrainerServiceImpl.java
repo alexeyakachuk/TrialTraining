@@ -1,5 +1,6 @@
 package com.example.trial_training.service.trainer;
 
+import com.example.trial_training.CreateTrainerRequest;
 import com.example.trial_training.exception.NotFoundException;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.repository.trainer.TrainerRepository;
@@ -25,7 +26,7 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public TrainerDto create(Trainer newTrainer) {
+    public TrainerDto create(CreateTrainerRequest newTrainer) {
         Trainer trainer = trainerRepository.create(newTrainer);
         return builderTrainer(trainer);
     }
