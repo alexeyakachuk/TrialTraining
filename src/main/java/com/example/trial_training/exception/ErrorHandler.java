@@ -21,7 +21,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public Map<String, String> handConflictException(final ConflictException e) {
+    public Map<String, String> handConflictException(final UserConflictDataException e) {
         log.error("Ошибка пользователь с такими данными уже есть");
         return Map.of("Произошла ошибка", e.getMessage());
     }

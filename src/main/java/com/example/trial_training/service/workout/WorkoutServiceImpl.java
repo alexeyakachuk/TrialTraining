@@ -17,7 +17,6 @@ import java.time.LocalTime;
 import java.util.concurrent.locks.ReentrantLock;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
@@ -49,7 +48,7 @@ public class WorkoutServiceImpl implements WorkoutService {
             }
             Workout workout = workoutRepository.create(newWorkout);
 //добавить проверки на существование клиента и тренера
-            return builderWorkout(workout);
+            return WorkoutDto.fromWorkout(workout);
 
         } finally {
             lock.unlock();
@@ -59,7 +58,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public List<WorkoutDto> findAllWorkouts() {
         return workoutRepository.findAllWorkouts().stream()
-                .map(workout -> builderWorkout(workout))
+                .map(workout -> WorkoutDto.fromWorkout(workout))
                 .toList();
     }
 
@@ -69,7 +68,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         if (workout == null) {
             throw new NotFoundException("Тренировка с id " + id + " не найдена");
         }
-        return builderWorkout(workout);
+        return WorkoutDto.fromWorkout(workout);
     }
 
     @Override
@@ -77,15 +76,15 @@ public class WorkoutServiceImpl implements WorkoutService {
         workoutRepository.deleteWorkout(id);
     }
 
-    private WorkoutDto builderWorkout(Workout workout) {
-        return WorkoutDto.builder()
-                .clientId(workout.getClientId())
-                .trainerId(workout.getTrainerId())
-                .date(workout.getDate())
-                .startTime(workout.getStartTime())
-                .endTime(workout.getEndTime())
-                .build();
-    }
+//    private WorkoutDto builderWorkout(Workout workout) {
+//        return WorkoutDto.builder()
+//                .clientId(workout.getClientId())
+//                .trainerId(workout.getTrainerId())
+//                .date(workout.getDate())
+//                .startTime(workout.getStartTime())
+//                .endTime(workout.getEndTime())
+//                .build();
+//    }
 
     private boolean isCheckTime(LocalTime start, LocalDate date) {
         List<Workout> allWorkout = workoutRepository.findAllWorkouts();
