@@ -28,13 +28,13 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public TrainerDto create(CreateTrainerRequest newTrainer) {
         Trainer trainer = trainerRepository.create(newTrainer);
-        return builderTrainer(trainer);
+        return TrainerDto.fromTrainer(trainer);
     }
 
     @Override
     public List<TrainerDto> findAllTrainers() {
         return trainerRepository.findAllTrainers().stream()
-                .map(trainer -> builderTrainer(trainer))
+                .map(trainer -> TrainerDto.fromTrainer(trainer))
                 .toList();
     }
 
@@ -60,16 +60,6 @@ public class TrainerServiceImpl implements TrainerService {
         if (trainer == null) {
             throw new NotFoundException("Тренер с id " + id + " не найден");
         }
-        return builderTrainer(trainer);
-    }
-
-    private TrainerDto builderTrainer(Trainer trainer) {
-        return TrainerDto.builder()
-                .name(trainer.getName())
-                .surname(trainer.getSurname())
-                .birthday(trainer.getBirthday())
-                .telephone(trainer.getTelephone())
-                .email(trainer.getEmail())
-                .build();
+        return TrainerDto.fromTrainer(trainer);
     }
 }

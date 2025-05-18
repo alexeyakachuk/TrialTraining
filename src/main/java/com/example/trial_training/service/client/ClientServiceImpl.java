@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -22,18 +21,17 @@ public class ClientServiceImpl implements ClientService {
         this.clientDbRepository = clientDbRepository;
     }
 
-
     @Override
     public ClientDto create(CreateClientRequest newClient) {
         Client client = clientDbRepository.create(newClient);
-        return builderClient(client);
+        return ClientDto.fromClient(client);
     }
 
     @Override
     public List<ClientDto> findAllClients() {
-        return clientDbRepository.findAllClients().stream()
-                .map(client -> builderClient(client)) // Преобразуем каждый Client в ClientDto
-                .toList(); // Собираем результаты в список
+         return clientDbRepository.findAllClients().stream()
+                 .map(client -> ClientDto.fromClient(client))
+                 .toList();
     }
 
     @Override
@@ -42,7 +40,7 @@ public class ClientServiceImpl implements ClientService {
         if (client == null) {
             throw new NotFoundException("Клиент с id " + id + " не найден");
         }
-        return builderClient(client);
+        return ClientDto.fromClient(client);
     }
 
     @Override
@@ -53,15 +51,5 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void deleteClient(Integer id) {
         clientDbRepository.deleteClient(id);
-    }
-
-    private ClientDto builderClient(Client client) {
-        return ClientDto.builder()
-                .name(client.getName())
-                .surname(client.getSurname())
-                .birthday(client.getBirthday())
-                .telephone(client.getTelephone())
-                .email(client.getEmail())
-                .build();
     }
 }
