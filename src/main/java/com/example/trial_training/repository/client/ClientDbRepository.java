@@ -52,7 +52,7 @@ public class ClientDbRepository implements ClientRepository {
     }
 
     @Override
-    public List<Client> findAllClient() {
+    public List<Client> findAllClients() {
         String sql = "SELECT * FROM client";
 
         return jdbcTemplate.query(sql, mapper);

@@ -1,5 +1,7 @@
 package com.example.trial_training.workout.service;
 
+import com.example.trial_training.CreateClientRequest;
+import com.example.trial_training.CreateTrainerRequest;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.model.trainer.Trainer;
@@ -41,7 +43,7 @@ public class WorkoutServiceImplTest {
         jdbcOperations.update("DELETE FROM client", Map.of());
         jdbcOperations.update("DELETE FROM workout", Map.of());
 
-        Trainer testTrainer = trainerRepository.create(Trainer.builder()
+        Trainer testTrainer = trainerRepository.create(CreateTrainerRequest.builder()
                 .name("trainer")
                 .surname("surname")
                 .birthday(LocalDate.of(1989, 10, 17))
@@ -50,7 +52,7 @@ public class WorkoutServiceImplTest {
                 .login("1111")
                 .build());
 
-        Client testClient1 = clientRepository.create(Client.builder()
+        Client testClient1 = clientRepository.create(CreateClientRequest.builder()
                 .name("client1")
                 .surname("surname1")
                 .birthday(LocalDate.of(1990, 11, 18))
@@ -59,7 +61,7 @@ public class WorkoutServiceImplTest {
                 .login("1111")
                 .build());
 
-        Client testClient2 = clientRepository.create(Client.builder()
+        Client testClient2 = clientRepository.create(CreateClientRequest.builder()
                 .name("client2")
                 .surname("surname2")
                 .birthday(LocalDate.of(1991, 12, 19))
@@ -68,7 +70,7 @@ public class WorkoutServiceImplTest {
                 .login("2222")
                 .build());
 
-        Client testClient3 = clientRepository.create(Client.builder()
+        Client testClient3 = clientRepository.create(CreateClientRequest.builder()
                 .name("client3")
                 .surname("surname3")
                 .birthday(LocalDate.of(1993, 11, 19))
@@ -133,7 +135,7 @@ public class WorkoutServiceImplTest {
         thread3.join();
 
 
-        List<WorkoutDto> allWorkout = workoutService.findAllWorkout();
+        List<WorkoutDto> allWorkout = workoutService.findAllWorkouts();
         System.out.println("количество тренировок - " + allWorkout.size());
 
 

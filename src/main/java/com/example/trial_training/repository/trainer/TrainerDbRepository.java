@@ -53,7 +53,7 @@ public class TrainerDbRepository implements TrainerRepository {
     }
 
     @Override
-    public List<Trainer> findAllTrainer() {
+    public List<Trainer> findAllTrainers() {
         String sql = "SELECT * FROM trainer";
         return jdbcTemplate.query(sql, mapper);
     }

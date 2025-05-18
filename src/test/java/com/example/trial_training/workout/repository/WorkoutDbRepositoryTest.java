@@ -1,5 +1,7 @@
 package com.example.trial_training.workout.repository;
 
+import com.example.trial_training.CreateClientRequest;
+import com.example.trial_training.CreateTrainerRequest;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.model.trainer.Trainer;
@@ -43,7 +45,7 @@ public class WorkoutDbRepositoryTest {
         jdbcOperations.update("DELETE FROM client", Map.of());
         jdbcOperations.update("DELETE FROM workout", Map.of());
 
-        testClient1 = clientRepository.create(Client.builder()
+        testClient1 = clientRepository.create(CreateClientRequest.builder()
                 .name("client1")
                 .surname("surname1")
                 .birthday(LocalDate.of(1991, 10, 10))
@@ -53,7 +55,7 @@ public class WorkoutDbRepositoryTest {
                 .build());
 
 
-        testClient2 = clientRepository.create(Client.builder()
+        testClient2 = clientRepository.create(CreateClientRequest.builder()
                 .name("client2")
                 .surname("surname2")
                 .birthday(LocalDate.of(1992, 10, 10))
@@ -63,7 +65,7 @@ public class WorkoutDbRepositoryTest {
                 .build());
 
 
-        testTrainer1 = trainerRepository.create(Trainer.builder()
+        testTrainer1 = trainerRepository.create(CreateTrainerRequest.builder()
                 .name("trainer1")
                 .surname("surname1")
                 .birthday(LocalDate.of(1991, 10, 10))
@@ -73,7 +75,7 @@ public class WorkoutDbRepositoryTest {
                 .build());
 
 
-        testTrainer2 = trainerRepository.create(Trainer.builder()
+        testTrainer2 = trainerRepository.create(CreateTrainerRequest.builder()
                 .name("trainer2")
                 .surname("surname2")
                 .birthday(LocalDate.of(1992, 10, 10))
@@ -132,7 +134,7 @@ public class WorkoutDbRepositoryTest {
 
     @Test
     void findAllWorkouts() {
-        List<Workout> allWorkout = workoutRepository.findAllWorkout();
+        List<Workout> allWorkout = workoutRepository.findAllWorkouts();
 
         assertEquals(2, allWorkout.size());
     }
@@ -140,7 +142,7 @@ public class WorkoutDbRepositoryTest {
     @Test
     void deleteWorkout() {
         workoutRepository.deleteWorkout(testWorkout1.getId());
-        List<Workout> allWorkout = workoutRepository.findAllWorkout();
+        List<Workout> allWorkout = workoutRepository.findAllWorkouts();
 
         assertEquals(1, allWorkout.size());
     }

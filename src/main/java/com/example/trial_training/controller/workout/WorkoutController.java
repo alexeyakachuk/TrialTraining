@@ -31,8 +31,8 @@ public class WorkoutController {
     }
 
     @GetMapping
-    public List<WorkoutDto> findAllWorkout() {
-        return workoutService.findAllWorkout();
+    public List<WorkoutDto> findAllWorkouts() {
+        return workoutService.findAllWorkouts();
     }
 
     @DeleteMapping("{id}")

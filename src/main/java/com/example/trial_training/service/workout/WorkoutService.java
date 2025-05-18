@@ -8,7 +8,7 @@ import java.util.List;
 public interface WorkoutService {
     WorkoutDto create(Workout workout);
 
-    List<WorkoutDto> findAllWorkout();
+    List<WorkoutDto> findAllWorkouts();
 
     WorkoutDto findWorkout(Integer id);
 

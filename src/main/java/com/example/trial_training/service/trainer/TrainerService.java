@@ -11,7 +11,7 @@ public interface TrainerService {
 
     TrainerDto create(CreateTrainerRequest newTrainer);
 
-    List<TrainerDto> findAllTrainer();
+    List<TrainerDto> findAllTrainers();
 
     void deleteTrainer(Integer id);
 

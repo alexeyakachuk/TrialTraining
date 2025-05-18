@@ -10,7 +10,7 @@ public interface ClientService {
 
     ClientDto create(CreateClientRequest newClient);
 
-    List<ClientDto> findAllClient();
+    List<ClientDto> findAllClients();
 
     ClientDto findClient(Integer id);
 

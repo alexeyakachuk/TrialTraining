@@ -30,8 +30,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientDto> findAllClient() {
-        return clientDbRepository.findAllClient().stream()
+    public List<ClientDto> findAllClients() {
+        return clientDbRepository.findAllClients().stream()
                 .map(client -> builderClient(client)) // Преобразуем каждый Client в ClientDto
                 .collect(Collectors.toList()); // Собираем результаты в список
     }

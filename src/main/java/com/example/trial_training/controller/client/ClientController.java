@@ -34,7 +34,7 @@ public class ClientController {
 
     @GetMapping()
     public List<ClientDto> findAllClients() {
-        return clientService.findAllClient();
+        return clientService.findAllClients();
     }
 
     @DeleteMapping("{id}")

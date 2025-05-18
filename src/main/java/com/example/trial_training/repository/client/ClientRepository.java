@@ -9,7 +9,7 @@ public interface ClientRepository {
 
     Client create(CreateClientRequest newClient);
 
-    List<Client> findAllClient();
+    List<Client> findAllClients();
 
     Client findClient(Integer id);
 

@@ -33,8 +33,8 @@ public class TrainerController {
     }
 
     @GetMapping()
-    public List<TrainerDto> findAllTrainer() {
-        return trainerService.findAllTrainer();
+    public List<TrainerDto> findAllTrainers() {
+        return trainerService.findAllTrainers();
     }
 
     @GetMapping("/{id}/workout")

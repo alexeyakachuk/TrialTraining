@@ -85,7 +85,7 @@ public class ClientDbRepositoryTest {
 
     @Test
     void findAllClientsTest() {
-        List<Client> allClient = clientRepository.findAllClient();
+        List<Client> allClient = clientRepository.findAllClients();
 
         assertEquals(2, allClient.size());
     }
@@ -93,7 +93,7 @@ public class ClientDbRepositoryTest {
     @Test
     void deleteClientTest() {
         clientRepository.deleteClient(testClient1.getId());
-        List<Client> allClient = clientRepository.findAllClient();
+        List<Client> allClient = clientRepository.findAllClients();
 
         assertEquals(1, allClient.size());
     }

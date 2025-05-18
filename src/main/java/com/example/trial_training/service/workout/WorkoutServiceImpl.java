@@ -57,8 +57,8 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public List<WorkoutDto> findAllWorkout() {
-        return workoutRepository.findAllWorkout().stream()
+    public List<WorkoutDto> findAllWorkouts() {
+        return workoutRepository.findAllWorkouts().stream()
                 .map(workout -> builderWorkout(workout))
                 .collect(Collectors.toList());
     }
@@ -88,7 +88,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     private boolean isCheckTime(LocalTime start, LocalDate date) {
-        List<Workout> allWorkout = workoutRepository.findAllWorkout();
+        List<Workout> allWorkout = workoutRepository.findAllWorkouts();
 
         for (Workout workout : allWorkout) {
             if (workout.getStartTime().equals(start) && workout.getDate().equals(date)) {

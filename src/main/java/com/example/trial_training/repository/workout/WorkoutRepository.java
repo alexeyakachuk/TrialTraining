@@ -10,7 +10,7 @@ public interface WorkoutRepository {
 
     Workout findWorkout(Integer id);
 
-    List<Workout> findAllWorkout();
+    List<Workout> findAllWorkouts();
 
     void deleteWorkout(Integer id);
 }

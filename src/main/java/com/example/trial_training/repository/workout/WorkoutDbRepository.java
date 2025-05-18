@@ -65,7 +65,7 @@ public class WorkoutDbRepository implements WorkoutRepository {
     }
 
     @Override
-    public List<Workout> findAllWorkout() {
+    public List<Workout> findAllWorkouts() {
         String sql = "SELECT * FROM workout";
         return jdbcTemplate.query(sql, mapper);
     }

@@ -9,7 +9,7 @@ public interface TrainerRepository {
 
     Trainer create(CreateTrainerRequest newTrainer);
 
-    List<Trainer> findAllTrainer();
+    List<Trainer> findAllTrainers();
 
     Trainer findTrainer(Integer id);
 

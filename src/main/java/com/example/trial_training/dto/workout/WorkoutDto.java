@@ -2,7 +2,6 @@ package com.example.trial_training.dto.workout;
 
 import lombok.Builder;
 import lombok.Data;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
