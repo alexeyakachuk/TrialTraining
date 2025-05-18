@@ -33,15 +33,9 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public List<TrainerDto> findAllTrainers() {
-        List<Trainer> trainers = trainerRepository.findAllTrainers();
-        List<TrainerDto> allTrainers = new ArrayList<>();
-
-        for (Trainer trainer : trainers) {
-            TrainerDto trainerDto = builderTrainer(trainer);
-            allTrainers.add(trainerDto);
-        }
-
-        return allTrainers;
+        return trainerRepository.findAllTrainers().stream()
+                .map(trainer -> builderTrainer(trainer))
+                .toList();
     }
 
     @Override

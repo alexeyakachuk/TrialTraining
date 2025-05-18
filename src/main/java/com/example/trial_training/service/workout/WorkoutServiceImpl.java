@@ -60,7 +60,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     public List<WorkoutDto> findAllWorkouts() {
         return workoutRepository.findAllWorkouts().stream()
                 .map(workout -> builderWorkout(workout))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

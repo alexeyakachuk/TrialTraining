@@ -33,7 +33,7 @@ public class ClientServiceImpl implements ClientService {
     public List<ClientDto> findAllClients() {
         return clientDbRepository.findAllClients().stream()
                 .map(client -> builderClient(client)) // Преобразуем каждый Client в ClientDto
-                .collect(Collectors.toList()); // Собираем результаты в список
+                .toList(); // Собираем результаты в список
     }
 
     @Override
