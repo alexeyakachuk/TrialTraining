@@ -1,5 +1,6 @@
 package com.example.trial_training.service.workout;
 
+import com.example.trial_training.exception.ErrorHandler;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.exception.ConflictTimeException;
@@ -33,6 +34,28 @@ public class WorkoutServiceImpl implements WorkoutService {
         this.trainerRepository = trainerRepository;
     }
 
+//    @Override
+//    public WorkoutDto create(Workout newWorkout) {
+//        // Проверка соводноли это время
+//        Client client = clientRepository.findClient(newWorkout.getClientId());
+//        Trainer trainer = trainerRepository.findTrainer(newWorkout.getTrainerId());
+//        if (client == null || trainer == null) {
+//            throw new NotFoundException("Такого тренера или клиента нет");
+//        }
+//        lock.lock();
+//        try {
+//            if (isCheckTime(newWorkout.getStartTime(), newWorkout.getDate())) {
+//                throw new ConflictTimeException("На это время уже есть тренировка");
+//            }
+//            Workout workout = workoutRepository.create(newWorkout);
+
+    /// /добавить проверки на существование клиента и тренера
+//            return WorkoutDto.fromWorkout(workout);
+//
+//        } finally {
+//            lock.unlock();
+//        }
+//    }
     @Override
     public WorkoutDto create(Workout newWorkout) {
         // Проверка соводноли это время
@@ -41,17 +64,16 @@ public class WorkoutServiceImpl implements WorkoutService {
         if (client == null || trainer == null) {
             throw new NotFoundException("Такого тренера или клиента нет");
         }
-        lock.lock();
+
         try {
-            if (isCheckTime(newWorkout.getStartTime(), newWorkout.getDate())) {
-                throw new ConflictTimeException("На это время уже есть тренировка");
-            }
+
             Workout workout = workoutRepository.create(newWorkout);
 //добавить проверки на существование клиента и тренера
             return WorkoutDto.fromWorkout(workout);
 
-        } finally {
-            lock.unlock();
+        } catch (RuntimeException e) {
+            throw new ConflictTimeException("Это время на тренировку занято");
+
         }
     }
 

@@ -9,6 +9,7 @@ import java.time.LocalTime;
 @Data
 @Builder
 public class Workout {
+    private Integer id;
     private Integer clientId;
     private Integer trainerId;
     private LocalDate date;

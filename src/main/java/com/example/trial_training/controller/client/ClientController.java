@@ -6,12 +6,13 @@ import com.example.trial_training.model.client.Client;
 import com.example.trial_training.service.client.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/clients")
+@RequestMapping(path = "/clients", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class ClientController {
 
     private final ClientService clientService;

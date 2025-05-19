@@ -43,8 +43,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public Map<String, String> handConflictTimeException(final ConflictTimeException e) {
-        log.error("ПРоизошла ошибка не корретно веденно время тренировки");
+        log.error("Произошла ошибка не корретно веденно время тренировки");
         return Map.of("Произошла ошибка", e.getMessage());
     }
-
 }

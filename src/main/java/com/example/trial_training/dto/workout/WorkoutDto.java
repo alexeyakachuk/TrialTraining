@@ -9,6 +9,7 @@ import java.time.LocalTime;
 @Data
 @Builder
 public class WorkoutDto {
+    private Integer id;
     private Integer clientId;
     private Integer trainerId;
     private LocalDate date;
@@ -17,6 +18,7 @@ public class WorkoutDto {
 
     public static WorkoutDto fromWorkout(Workout workout) {
         return WorkoutDto.builder()
+                .id(workout.getId())
                 .clientId(workout.getClientId())
                 .trainerId(workout.getTrainerId())
                 .date(workout.getDate())

@@ -30,4 +30,14 @@ public class ClientDto {
                 .login(client.getLogin())
                 .build();
     }
+
+//    public ClientDto(Client client) {
+//        this.id = client.getId();
+//        this.name = client.getName();
+//        this.surname = client.getSurname();
+//        this.birthday = client.getBirthday();
+//        this.telephone = client.getTelephone();
+//        this.email = client.getEmail();
+//        this.login = client.getLogin();
+//    }
 }
