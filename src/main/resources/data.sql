@@ -7,3 +7,7 @@ INSERT INTO TRAINER (name, surname, birthday, telephone, email, login) VALUES
 INSERT INTO CLIENT (name, surname, birthday, telephone, email, login) VALUES
 ('Петр', 'Петров', '1990-01-10', '+79007654321', 'petr.petrov@example.com', 'petr123'),
 ('Светлана', 'Сидорова', '1995-03-20', '+79009876543', 'svetlana.sidorova@example.com', 'svetlana123');
+
+--Вставка данных в таблицу WORKOUT
+INSERT INTO WORKOUT (client_id, trainer_id, "date", start_time, end_time) VALUES
+(1, 1, '2023-10-01', '10:00:00', '11:00:00');
