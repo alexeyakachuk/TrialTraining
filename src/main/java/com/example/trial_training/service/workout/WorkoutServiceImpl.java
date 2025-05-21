@@ -46,7 +46,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         try {
 
             Workout workout = workoutRepository.create(newWorkout);
-            return WorkoutDto.fromWorkout(workout, client, trainer);
+            return new WorkoutDto(workout, client, trainer);
 
         } catch (RuntimeException e) {
             throw new ConflictTimeException("Это время на тренировку занято");
@@ -56,10 +56,15 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public List<WorkoutDto> findAllWorkouts() {
-//        return workoutRepository.findAllWorkouts().stream()
-//                .map(workout -> WorkoutDto.fromWorkout(workout))
-//                .toList();
-        return null;
+        return workoutRepository.findAllWorkouts().stream()
+                .map(workout -> {
+                    Integer clientId = workout.getClientId();
+                    Client client = clientRepository.findClient(clientId);
+                    Integer trainerId = workout.getTrainerId();
+                    Trainer trainer = trainerRepository.findTrainer(trainerId);
+                    return new WorkoutDto(workout, client, trainer);
+                })
+                .toList();
     }
 
     @Override
@@ -68,8 +73,11 @@ public class WorkoutServiceImpl implements WorkoutService {
         if (workout == null) {
             throw new NotFoundException("Тренировка с id " + id + " не найдена");
         }
-//        return WorkoutDto.fromWorkout(workout);
-        return null;
+        Integer clientId = workout.getClientId();
+        Client client = clientRepository.findClient(clientId);
+        Integer trainerId = workout.getTrainerId();
+        Trainer trainer = trainerRepository.findTrainer(trainerId);
+        return new WorkoutDto(workout, client, trainer);
     }
 
     @Override
