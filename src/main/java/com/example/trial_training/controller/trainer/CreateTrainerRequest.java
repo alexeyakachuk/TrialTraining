@@ -1,4 +1,4 @@
-package com.example.trial_training;
+package com.example.trial_training.controller.trainer;
 
 
 import lombok.Builder;

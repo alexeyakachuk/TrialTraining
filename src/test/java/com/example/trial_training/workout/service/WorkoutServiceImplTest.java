@@ -1,7 +1,7 @@
 package com.example.trial_training.workout.service;
 
-import com.example.trial_training.CreateClientRequest;
-import com.example.trial_training.CreateTrainerRequest;
+import com.example.trial_training.controller.client.CreateClientRequest;
+import com.example.trial_training.controller.trainer.CreateTrainerRequest;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.model.trainer.Trainer;

@@ -1,6 +1,6 @@
 package com.example.trial_training.repository.client;
 
-import com.example.trial_training.CreateClientRequest;
+import com.example.trial_training.controller.client.CreateClientRequest;
 import com.example.trial_training.mapper.client.ClientRowMapper;
 import com.example.trial_training.model.client.Client;
 import lombok.extern.slf4j.Slf4j;

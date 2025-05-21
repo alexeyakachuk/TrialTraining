@@ -1,6 +1,6 @@
 package com.example.trial_training.service.trainer;
 
-import com.example.trial_training.CreateTrainerRequest;
+import com.example.trial_training.controller.trainer.CreateTrainerRequest;
 import com.example.trial_training.exception.NotFoundException;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.repository.trainer.TrainerRepository;
@@ -10,7 +10,6 @@ import com.example.trial_training.trainingCalendar.repository.TrainerCalendarRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

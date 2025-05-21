@@ -34,28 +34,6 @@ public class WorkoutServiceImpl implements WorkoutService {
         this.trainerRepository = trainerRepository;
     }
 
-//    @Override
-//    public WorkoutDto create(Workout newWorkout) {
-//        // Проверка соводноли это время
-//        Client client = clientRepository.findClient(newWorkout.getClientId());
-//        Trainer trainer = trainerRepository.findTrainer(newWorkout.getTrainerId());
-//        if (client == null || trainer == null) {
-//            throw new NotFoundException("Такого тренера или клиента нет");
-//        }
-//        lock.lock();
-//        try {
-//            if (isCheckTime(newWorkout.getStartTime(), newWorkout.getDate())) {
-//                throw new ConflictTimeException("На это время уже есть тренировка");
-//            }
-//            Workout workout = workoutRepository.create(newWorkout);
-
-    /// /добавить проверки на существование клиента и тренера
-//            return WorkoutDto.fromWorkout(workout);
-//
-//        } finally {
-//            lock.unlock();
-//        }
-//    }
     @Override
     public WorkoutDto create(Workout newWorkout) {
         // Проверка соводноли это время
@@ -68,7 +46,6 @@ public class WorkoutServiceImpl implements WorkoutService {
         try {
 
             Workout workout = workoutRepository.create(newWorkout);
-//добавить проверки на существование клиента и тренера
             return WorkoutDto.fromWorkout(workout);
 
         } catch (RuntimeException e) {
@@ -97,16 +74,6 @@ public class WorkoutServiceImpl implements WorkoutService {
     public void deleteWorkout(Integer id) {
         workoutRepository.deleteWorkout(id);
     }
-
-//    private WorkoutDto builderWorkout(Workout workout) {
-//        return WorkoutDto.builder()
-//                .clientId(workout.getClientId())
-//                .trainerId(workout.getTrainerId())
-//                .date(workout.getDate())
-//                .startTime(workout.getStartTime())
-//                .endTime(workout.getEndTime())
-//                .build();
-//    }
 
     private boolean isCheckTime(LocalTime start, LocalDate date) {
         List<Workout> allWorkout = workoutRepository.findAllWorkouts();

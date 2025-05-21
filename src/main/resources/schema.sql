@@ -32,7 +32,6 @@ trainer_id INTEGER NOT NULL,
 "date" DATE NOT NULL,
 start_time TIME NOT NULL,
 end_time TIME NOT NULL,
---PRIMARY KEY (trainer_id, "date", start_time, client_id),
 FOREIGN KEY (client_id) REFERENCES CLIENT(id) ON DELETE CASCADE,
 FOREIGN KEY (trainer_id) REFERENCES TRAINER(id) ON DELETE CASCADE,
 CONSTRAINT unique_trainer_date_time UNIQUE (trainer_id, "date", start_time),
@@ -40,14 +39,3 @@ CONSTRAINT unique_client_date_time UNIQUE (client_id, "date", start_time)
 );
 
 
-----Создание таблицы WORKOUT
---CREATE TABLE IF NOT EXISTS WORKOUT (
---id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
---client_id INTEGER NOT NULL,
---trainer_id INTEGER NOT NULL,
---"date" DATE NOT NULL,
---start_time TIME NOT NULL,
---end_time TIME NOT NULL,
---FOREIGN KEY (client_id) REFERENCES CLIENT(id) ON DELETE CASCADE,
---FOREIGN KEY (trainer_id) REFERENCES TRAINER(id) ON DELETE CASCADE
---)
