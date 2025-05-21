@@ -1,12 +1,18 @@
 package com.example.trial_training.dto.trainer;
 
+import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.trainer.Trainer;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TrainerDto {
     private Integer id;
     private String name;
@@ -16,15 +22,13 @@ public class TrainerDto {
     private String email;
     private String login;
 
-    public static TrainerDto fromTrainer(Trainer trainer) {
-        return TrainerDto.builder()
-                .id(trainer.getId())
-                .name(trainer.getName())
-                .surname(trainer.getSurname())
-                .birthday(trainer.getBirthday())
-                .telephone(trainer.getTelephone())
-                .email(trainer.getEmail())
-                .login(trainer.getLogin())
-                .build();
-    }
+    public TrainerDto(Trainer trainer) {
+        this.id = trainer.getId();
+        this.name = trainer.getName();
+        this.surname = trainer.getSurname();
+        this.birthday = trainer.getBirthday();
+        this.telephone = trainer.getTelephone();
+        this.email = trainer.getEmail();
+        this.login = trainer.getLogin();
+}
 }

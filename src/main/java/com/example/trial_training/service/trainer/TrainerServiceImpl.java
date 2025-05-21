@@ -27,13 +27,13 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public TrainerDto create(CreateTrainerRequest newTrainer) {
         Trainer trainer = trainerRepository.create(newTrainer);
-        return TrainerDto.fromTrainer(trainer);
+        return new TrainerDto(trainer);
     }
 
     @Override
     public List<TrainerDto> findAllTrainers() {
         return trainerRepository.findAllTrainers().stream()
-                .map(trainer -> TrainerDto.fromTrainer(trainer))
+                .map(trainer -> new TrainerDto(trainer))
                 .toList();
     }
 
@@ -59,6 +59,6 @@ public class TrainerServiceImpl implements TrainerService {
         if (trainer == null) {
             throw new NotFoundException("Тренер с id " + id + " не найден");
         }
-        return TrainerDto.fromTrainer(trainer);
+        return new TrainerDto(trainer);
     }
 }

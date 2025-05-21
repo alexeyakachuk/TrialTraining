@@ -1,15 +1,18 @@
 package com.example.trial_training.dto.client;
 
 import com.example.trial_training.model.client.Client;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
 @Data
 @Builder
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientDto {
     private Integer id;
     private String name;
@@ -19,25 +22,13 @@ public class ClientDto {
     private String email;
     private String login;
 
-    public static ClientDto fromClient(Client client) {
-        return ClientDto.builder()
-                .id(client.getId())
-                .name(client.getName())
-                .surname(client.getSurname())
-                .birthday(client.getBirthday())
-                .telephone(client.getTelephone())
-                .email(client.getEmail())
-                .login(client.getLogin())
-                .build();
+    public ClientDto(Client client) {
+        this.id = client.getId();
+        this.name = client.getName();
+        this.surname = client.getSurname();
+        this.birthday = client.getBirthday();
+        this.telephone = client.getTelephone();
+        this.email = client.getEmail();
+        this.login = client.getLogin();
     }
-
-//    public ClientDto(Client client) {
-//        this.id = client.getId();
-//        this.name = client.getName();
-//        this.surname = client.getSurname();
-//        this.birthday = client.getBirthday();
-//        this.telephone = client.getTelephone();
-//        this.email = client.getEmail();
-//        this.login = client.getLogin();
-//    }
 }

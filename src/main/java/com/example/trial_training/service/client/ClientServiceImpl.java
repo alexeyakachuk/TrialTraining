@@ -24,13 +24,13 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto create(CreateClientRequest newClient) {
         Client client = clientDbRepository.create(newClient);
-        return ClientDto.fromClient(client);
+        return new ClientDto(client);
     }
 
     @Override
     public List<ClientDto> findAllClients() {
          return clientDbRepository.findAllClients().stream()
-                 .map(client -> ClientDto.fromClient(client))
+                 .map(client -> new ClientDto(client))
                  .toList();
     }
 
@@ -40,7 +40,7 @@ public class ClientServiceImpl implements ClientService {
         if (client == null) {
             throw new NotFoundException("Клиент с id " + id + " не найден");
         }
-        return ClientDto.fromClient(client);
+        return new ClientDto(client);
     }
 
     @Override
