@@ -1,12 +1,12 @@
 package com.example.trial_training.service.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.exception.NotFoundException;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.repository.trainer.TrainerRepository;
 import com.example.trial_training.dto.trainer.TrainerDto;
-import com.example.trial_training.trainingCalendar.model.TrainingCalendar;
-import com.example.trial_training.trainingCalendar.repository.TrainerCalendarRepository;
+import com.example.trial_training.service.workout.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,13 @@ import java.util.List;
 public class TrainerServiceImpl implements TrainerService {
 
     private final TrainerRepository trainerRepository;
-    private final TrainerCalendarRepository trainerCalendarRepository;
+    private final WorkoutService workoutService;
 
     @Autowired
-    public TrainerServiceImpl(TrainerRepository trainerRepository, TrainerCalendarRepository trainerCalendarRepository) {
+    public TrainerServiceImpl(TrainerRepository trainerRepository,
+                              WorkoutService workoutService) {
         this.trainerRepository = trainerRepository;
-        this.trainerCalendarRepository = trainerCalendarRepository;
+        this.workoutService = workoutService;
     }
 
     @Override
@@ -48,8 +49,10 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public List<TrainingCalendar> findAllTrainerWorkouts(Integer id) {
-        return trainerCalendarRepository.findAllTrainerWorkouts(id);
+    public List<WorkoutDto> findAllTrainerWorkouts(Integer trainerId) {
+        return workoutService.findAllWorkouts().stream()
+                .filter(workoutDto -> workoutDto.getTrainer().getId().equals(trainerId))
+                .toList();
     }
 
     @Override

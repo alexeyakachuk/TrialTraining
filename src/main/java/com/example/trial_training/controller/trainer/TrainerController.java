@@ -1,5 +1,6 @@
 package com.example.trial_training.controller.trainer;
 
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.service.trainer.TrainerService;
 import com.example.trial_training.dto.trainer.TrainerDto;
@@ -37,7 +38,7 @@ public class TrainerController {
     }
 
     @GetMapping("/{id}/workout")
-    public List<TrainingCalendar> findAllTrainerWorkouts(@PathVariable Integer id) {
+    public List<WorkoutDto> findAllTrainerWorkouts(@PathVariable Integer id) {
         return trainerService.findAllTrainerWorkouts(id);
     }
 

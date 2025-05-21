@@ -1,6 +1,7 @@
 package com.example.trial_training.service.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.dto.trainer.TrainerDto;
 import com.example.trial_training.trainingCalendar.model.TrainingCalendar;
@@ -17,7 +18,7 @@ public interface TrainerService {
 
     Integer updateTrainer(Trainer newTrainer);
 
-    List<TrainingCalendar> findAllTrainerWorkouts(Integer id);
+    List<WorkoutDto> findAllTrainerWorkouts(Integer id);
 
     TrainerDto findTrainer(Integer id);
 }
