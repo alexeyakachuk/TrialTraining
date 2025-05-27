@@ -66,7 +66,7 @@ public class WorkoutServiceImpl implements WorkoutService {
                 })
                 .toList();
     }
-
+//Пока не используется
     @Override
     public WorkoutDto findWorkout(Integer id) {
         Workout workout = workoutRepository.findWorkout(id);
@@ -84,6 +84,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     public void deleteWorkout(Integer id) {
         workoutRepository.deleteWorkout(id);
     }
+
 
     private boolean isCheckTime(LocalTime start, LocalDate date) {
         List<Workout> allWorkout = workoutRepository.findAllWorkouts();

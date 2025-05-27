@@ -1,8 +1,11 @@
 package com.example.trial_training.repository.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.mapper.trainer.TrainerRowMapper;
+import com.example.trial_training.mapper.workout.WorkoutRowMapper;
 import com.example.trial_training.model.trainer.Trainer;
+import com.example.trial_training.model.workout.Workout;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,11 +24,14 @@ public class TrainerDbRepository implements TrainerRepository {
     private final JdbcTemplate jdbcTemplate;
     private final TrainerRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
+    private final WorkoutRowMapper workoutRowMapper;
 
-    public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper, NamedParameterJdbcOperations jdbcOperations) {
+    public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper,
+                               NamedParameterJdbcOperations jdbcOperations, WorkoutRowMapper workoutRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.mapper = mapper;
         this.jdbcOperations = jdbcOperations;
+        this.workoutRowMapper = workoutRowMapper;
     }
 
     @Override
@@ -93,5 +99,10 @@ public class TrainerDbRepository implements TrainerRepository {
         String sql = "DELETE FROM trainer WHERE id = :id";
 
         jdbcOperations.update(sql, params);
+    }
+
+    @Override
+    public List<Workout> findWorkoutTrainersId(Integer id) {
+        return null;
     }
 }

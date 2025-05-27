@@ -12,7 +12,6 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Trainer {
     private Integer id;
     @NotNull

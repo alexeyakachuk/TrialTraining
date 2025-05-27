@@ -2,6 +2,7 @@ package com.example.trial_training.dto.trainer;
 
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.trainer.Trainer;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TrainerDto {
     private Integer id;
     private String name;

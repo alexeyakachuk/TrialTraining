@@ -4,7 +4,6 @@ import com.example.trial_training.controller.trainer.CreateTrainerRequest;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.dto.trainer.TrainerDto;
-import com.example.trial_training.trainingCalendar.model.TrainingCalendar;
 
 import java.util.List;
 

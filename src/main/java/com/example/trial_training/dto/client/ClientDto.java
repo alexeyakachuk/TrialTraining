@@ -1,6 +1,7 @@
 package com.example.trial_training.dto.client;
 
 import com.example.trial_training.model.client.Client;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClientDto {
     private Integer id;
     private String name;
