@@ -1,7 +1,9 @@
 package com.example.trial_training.repository.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.dto.AllWorkoutDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
+import com.example.trial_training.mapper.AllWorkoutDtoRowMapper;
 import com.example.trial_training.mapper.trainer.TrainerRowMapper;
 import com.example.trial_training.mapper.workout.WorkoutRowMapper;
 import com.example.trial_training.model.trainer.Trainer;
@@ -22,14 +24,17 @@ import java.util.Objects;
 @Slf4j
 public class TrainerDbRepository implements TrainerRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final TrainerRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
+    private final TrainerRowMapper mapper;
+    private final AllWorkoutDtoRowMapper allWorkoutDtoRowMapper;
 
     public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper,
-                               NamedParameterJdbcOperations jdbcOperations) {
+                               NamedParameterJdbcOperations jdbcOperations,
+                               AllWorkoutDtoRowMapper allWorkoutDtoRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
-        this.mapper = mapper;
         this.jdbcOperations = jdbcOperations;
+        this.allWorkoutDtoRowMapper = allWorkoutDtoRowMapper;
+        this.mapper = mapper;
     }
 
     @Override
@@ -97,5 +102,20 @@ public class TrainerDbRepository implements TrainerRepository {
         String sql = "DELETE FROM trainer WHERE id = :id";
 
         jdbcOperations.update(sql, params);
+    }
+
+    @Override
+    public List<AllWorkoutDto> findAllWorkoutsOfTrainer(Integer id) {
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        String sql = "SELECT CLIENT.name, CLIENT.surname, CLIENT.telephone, WORKOUT.\"date\", WORKOUT.start_time, WORKOUT.end_time " +
+                "FROM WORKOUT " +
+                "LEFT JOIN CLIENT ON WORKOUT.client_id = CLIENT.id " +
+                "LEFT JOIN TRAINER ON WORKOUT.trainer_id = TRAINER.id " +
+                "WHERE WORKOUT.trainer_id = :id";
+
+        return jdbcOperations.query(sql, params, allWorkoutDtoRowMapper);
     }
 }

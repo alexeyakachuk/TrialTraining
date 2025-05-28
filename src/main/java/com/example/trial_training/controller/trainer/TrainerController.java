@@ -1,5 +1,6 @@
 package com.example.trial_training.controller.trainer;
 
+import com.example.trial_training.dto.AllWorkoutDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.service.trainer.TrainerService;
@@ -44,6 +45,11 @@ public class TrainerController {
     @PutMapping
     public Integer updateTrainer(@Valid @RequestBody  Trainer newTrainer) {
         return trainerService.updateTrainer(newTrainer);
+    }
+
+    @GetMapping("/{id}/workouts")
+    public List<AllWorkoutDto> findAllWorkoutsOfTrainer(@PathVariable Integer id) {
+        return trainerService.findAllWorkoutsOfTrainer(id);
     }
 
 }

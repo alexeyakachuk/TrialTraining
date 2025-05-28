@@ -1,6 +1,7 @@
 package com.example.trial_training.repository.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.dto.AllWorkoutDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.model.workout.Workout;
@@ -19,4 +20,5 @@ public interface TrainerRepository {
 
     void deleteTrainer(Integer id);
 
+    List<AllWorkoutDto> findAllWorkoutsOfTrainer(Integer id);
 }
