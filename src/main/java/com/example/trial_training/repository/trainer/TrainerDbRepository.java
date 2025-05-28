@@ -24,14 +24,12 @@ public class TrainerDbRepository implements TrainerRepository {
     private final JdbcTemplate jdbcTemplate;
     private final TrainerRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
-    private final WorkoutRowMapper workoutRowMapper;
 
     public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper,
-                               NamedParameterJdbcOperations jdbcOperations, WorkoutRowMapper workoutRowMapper) {
+                               NamedParameterJdbcOperations jdbcOperations) {
         this.jdbcTemplate = jdbcTemplate;
         this.mapper = mapper;
         this.jdbcOperations = jdbcOperations;
-        this.workoutRowMapper = workoutRowMapper;
     }
 
     @Override
@@ -99,10 +97,5 @@ public class TrainerDbRepository implements TrainerRepository {
         String sql = "DELETE FROM trainer WHERE id = :id";
 
         jdbcOperations.update(sql, params);
-    }
-
-    @Override
-    public List<Workout> findWorkoutTrainersId(Integer id) {
-        return null;
     }
 }

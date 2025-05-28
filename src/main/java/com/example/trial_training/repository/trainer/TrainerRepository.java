@@ -19,5 +19,4 @@ public interface TrainerRepository {
 
     void deleteTrainer(Integer id);
 
-    List<Workout> findWorkoutTrainersId(Integer id);
 }

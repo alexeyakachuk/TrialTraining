@@ -81,18 +81,4 @@ public class WorkoutDbRepository implements WorkoutRepository {
 
         jdbcOperations.update(sql, params);
     }
-
-    //времменый метод для проверки создания тренировки
-    private Workout findNewCreateWorkout(Integer trainerId, LocalDate date, LocalTime startTime, Integer clientId) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("trainer_id", trainerId);
-        params.addValue("date", date);
-        params.addValue("start_time", startTime);
-        params.addValue("client_id", clientId);
-
-        String sql = "SELECT * FROM workout WHERE trainer_id = :trainer_id AND \"date\" = :date " +
-                "AND start_time = :start_time AND client_id = :client_id";
-
-        return jdbcOperations.queryForObject(sql, params, mapper);
-    }
 }
