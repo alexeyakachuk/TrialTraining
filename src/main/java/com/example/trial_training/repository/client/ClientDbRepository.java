@@ -1,6 +1,8 @@
 package com.example.trial_training.repository.client;
 
 import com.example.trial_training.controller.client.CreateClientRequest;
+import com.example.trial_training.dto.workout.WorkoutDto;
+import com.example.trial_training.mapper.client.AllWorkoutOfClientDtoRowMapper;
 import com.example.trial_training.mapper.client.ClientRowMapper;
 import com.example.trial_training.model.client.Client;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +23,14 @@ public class ClientDbRepository implements ClientRepository {
     private final JdbcTemplate jdbcTemplate;
     private final ClientRowMapper mapper;
     private final NamedParameterJdbcOperations jdbcOperations;
+    private final AllWorkoutOfClientDtoRowMapper allWorkoutDtoRowMapper;
 
-    public ClientDbRepository(JdbcTemplate jdbcTemplate, ClientRowMapper mapper,
-                              NamedParameterJdbcOperations jdbcOperations) {
+    public ClientDbRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcOperations jdbcOperations,
+                              ClientRowMapper mapper, AllWorkoutOfClientDtoRowMapper allWorkoutDtoRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
-        this.mapper = mapper;
         this.jdbcOperations = jdbcOperations;
+        this.mapper = mapper;
+        this.allWorkoutDtoRowMapper = allWorkoutDtoRowMapper;
     }
 
     @Override
@@ -94,5 +98,21 @@ public class ClientDbRepository implements ClientRepository {
         String sql = "DELETE FROM client WHERE id = :id";
 
         jdbcOperations.update(sql, params);
+    }
+
+    @Override
+    public List<WorkoutDto> findAllWorkoutsOfClient(Integer id) {
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        String sql = "SELECT TRAINER.name, TRAINER.surname, TRAINER.telephone, WORKOUT.id, WORKOUT.\"date\", " +
+                "WORKOUT.start_time, WORKOUT.end_time " +
+                "FROM WORKOUT " +
+                "LEFT JOIN TRAINER ON WORKOUT.trainer_id = TRAINER.id " + // Исправлено: сначала соединяем с TRAINER
+                "LEFT JOIN CLIENT ON WORKOUT.client_id = CLIENT.id " + // Затем соединяем с CLIENT
+                "WHERE WORKOUT.client_id = :id";
+
+        return jdbcOperations.query(sql, params, allWorkoutDtoRowMapper);
     }
 }

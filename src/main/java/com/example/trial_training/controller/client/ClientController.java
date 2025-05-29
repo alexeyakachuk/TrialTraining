@@ -1,6 +1,7 @@
 package com.example.trial_training.controller.client;
 
 import com.example.trial_training.dto.client.ClientDto;
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.service.client.ClientService;
 import jakarta.validation.Valid;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/clients", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/clients", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/clients")
 public class ClientController {
 
     private final ClientService clientService;
@@ -28,7 +30,6 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ClientDto findClient(@PathVariable Integer id) {
-        
         return clientService.findClient(id);
     }
 
@@ -45,5 +46,10 @@ public class ClientController {
     @PutMapping
     public Integer updateClient(@Valid @RequestBody Client newClient) {
         return clientService.updateClient(newClient);
+    }
+
+    @GetMapping("/{id}/workouts")
+    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id) {
+        return clientService.findAllWorkoutsOfClient(id);
     }
 }

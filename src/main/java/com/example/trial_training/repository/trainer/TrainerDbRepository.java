@@ -1,13 +1,10 @@
 package com.example.trial_training.repository.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
-import com.example.trial_training.dto.AllWorkoutDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
-import com.example.trial_training.mapper.AllWorkoutDtoRowMapper;
+import com.example.trial_training.mapper.trainer.AllWorkoutOfTrainerDtoRowMapper;
 import com.example.trial_training.mapper.trainer.TrainerRowMapper;
-import com.example.trial_training.mapper.workout.WorkoutRowMapper;
 import com.example.trial_training.model.trainer.Trainer;
-import com.example.trial_training.model.workout.Workout;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,11 +23,11 @@ public class TrainerDbRepository implements TrainerRepository {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcOperations jdbcOperations;
     private final TrainerRowMapper mapper;
-    private final AllWorkoutDtoRowMapper allWorkoutDtoRowMapper;
+    private final AllWorkoutOfTrainerDtoRowMapper allWorkoutDtoRowMapper;
 
     public TrainerDbRepository(JdbcTemplate jdbcTemplate, TrainerRowMapper mapper,
                                NamedParameterJdbcOperations jdbcOperations,
-                               AllWorkoutDtoRowMapper allWorkoutDtoRowMapper) {
+                               AllWorkoutOfTrainerDtoRowMapper allWorkoutDtoRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.jdbcOperations = jdbcOperations;
         this.allWorkoutDtoRowMapper = allWorkoutDtoRowMapper;
@@ -105,12 +102,13 @@ public class TrainerDbRepository implements TrainerRepository {
     }
 
     @Override
-    public List<AllWorkoutDto> findAllWorkoutsOfTrainer(Integer id) {
+    public List<WorkoutDto> findAllWorkoutsOfTrainer(Integer id) {
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
 
-        String sql = "SELECT CLIENT.name, CLIENT.surname, CLIENT.telephone, WORKOUT.\"date\", WORKOUT.start_time, WORKOUT.end_time " +
+        String sql = "SELECT CLIENT.name, CLIENT.surname, CLIENT.telephone,WORKOUT.id, WORKOUT.\"date\", " +
+                "WORKOUT.start_time, WORKOUT.end_time " +
                 "FROM WORKOUT " +
                 "LEFT JOIN CLIENT ON WORKOUT.client_id = CLIENT.id " +
                 "LEFT JOIN TRAINER ON WORKOUT.trainer_id = TRAINER.id " +

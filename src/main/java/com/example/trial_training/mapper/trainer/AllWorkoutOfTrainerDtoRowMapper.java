@@ -1,6 +1,6 @@
-package com.example.trial_training.mapper;
+package com.example.trial_training.mapper.trainer;
 
-import com.example.trial_training.dto.AllWorkoutDto;
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.workout.Workout;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,9 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class AllWorkoutDtoRowMapper implements RowMapper<AllWorkoutDto> {
+public class AllWorkoutOfTrainerDtoRowMapper implements RowMapper<WorkoutDto> {
     @Override
-    public AllWorkoutDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public WorkoutDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 
         Client client = Client.builder()
                 .name(rs.getString("name"))
@@ -21,14 +21,12 @@ public class AllWorkoutDtoRowMapper implements RowMapper<AllWorkoutDto> {
                 .build();
 
         Workout workout = Workout.builder()
+                .id(rs.getInt("id"))
                 .date(rs.getDate("date").toLocalDate())
                 .startTime(rs.getTime("start_time").toLocalTime())
                 .endTime(rs.getTime("end_time").toLocalTime())
                 .build();
 
-        return AllWorkoutDto.builder()
-                .client(client)
-                .workout(workout)
-                .build();
+        return new WorkoutDto(workout, client);
     }
 }

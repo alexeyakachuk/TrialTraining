@@ -2,6 +2,7 @@ package com.example.trial_training.service.client;
 
 import com.example.trial_training.controller.client.CreateClientRequest;
 import com.example.trial_training.dto.client.ClientDto;
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.repository.client.ClientDbRepository;
@@ -51,5 +52,10 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void deleteClient(Integer id) {
         clientDbRepository.deleteClient(id);
+    }
+
+    @Override
+    public List<WorkoutDto> findAllWorkoutsOfClient(Integer id) {
+        return clientDbRepository.findAllWorkoutsOfClient(id);
     }
 }

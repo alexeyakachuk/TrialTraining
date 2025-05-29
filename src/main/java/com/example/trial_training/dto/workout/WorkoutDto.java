@@ -45,4 +45,32 @@ public class WorkoutDto {
         this.startTime = workout.getStartTime();
         this.endTime = workout.getEndTime();
     }
+
+    public WorkoutDto(Workout workout, Client client) {
+        this.id = workout.getId();
+        this.client = ClientDto.builder()
+                .id(client.getId())
+                .name(client.getName())
+                .surname(client.getSurname())
+                .birthday(client.getBirthday())
+                .telephone(client.getTelephone())
+                .build();
+        this.date = workout.getDate();
+        this.startTime = workout.getStartTime();
+        this.endTime = workout.getEndTime();
+    }
+
+    public WorkoutDto(Workout workout, Trainer trainer) {
+        this.id = workout.getId();
+        this.trainer = TrainerDto.builder()
+                .id(trainer.getId())
+                .name(trainer.getName())
+                .surname(trainer.getSurname())
+                .birthday(trainer.getBirthday())
+                .telephone(trainer.getTelephone())
+                .build();
+        this.date = workout.getDate();
+        this.startTime = workout.getStartTime();
+        this.endTime = workout.getEndTime();
+    }
 }

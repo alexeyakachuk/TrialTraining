@@ -1,7 +1,6 @@
 package com.example.trial_training.service.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
-import com.example.trial_training.dto.AllWorkoutDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.exception.NotFoundException;
 import com.example.trial_training.model.trainer.Trainer;
@@ -67,7 +66,7 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public List<AllWorkoutDto> findAllWorkoutsOfTrainer(Integer id) {
+    public List<WorkoutDto> findAllWorkoutsOfTrainer(Integer id) {
         return trainerRepository.findAllWorkoutsOfTrainer(id);
     }
 }
