@@ -13,8 +13,6 @@ import com.example.trial_training.repository.workout.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.concurrent.locks.ReentrantLock;
 
 import java.util.List;
@@ -85,15 +83,4 @@ public class WorkoutServiceImpl implements WorkoutService {
         workoutRepository.deleteWorkout(id);
     }
 
-
-    private boolean isCheckTime(LocalTime start, LocalDate date) {
-        List<Workout> allWorkout = workoutRepository.findAllWorkouts();
-
-        for (Workout workout : allWorkout) {
-            if (workout.getStartTime().equals(start) && workout.getDate().equals(date)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

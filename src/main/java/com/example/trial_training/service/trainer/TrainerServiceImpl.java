@@ -6,7 +6,6 @@ import com.example.trial_training.exception.NotFoundException;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.repository.trainer.TrainerRepository;
 import com.example.trial_training.dto.trainer.TrainerDto;
-import com.example.trial_training.service.workout.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +15,10 @@ import java.util.List;
 public class TrainerServiceImpl implements TrainerService {
 
     private final TrainerRepository trainerRepository;
-    private final WorkoutService workoutService;
 
     @Autowired
-    public TrainerServiceImpl(TrainerRepository trainerRepository,
-                              WorkoutService workoutService) {
+    public TrainerServiceImpl(TrainerRepository trainerRepository) {
         this.trainerRepository = trainerRepository;
-        this.workoutService = workoutService;
     }
 
     @Override
@@ -46,13 +42,6 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public Integer updateTrainer(Trainer newTrainer) {
         return trainerRepository.updateTrainer(newTrainer);
-    }
-
-    @Override
-    public List<WorkoutDto> findAllTrainerWorkouts(Integer trainerId) {
-        return workoutService.findAllWorkouts().stream()
-                .filter(workoutDto -> workoutDto.getTrainer().getId().equals(trainerId))
-                .toList();
     }
 
     @Override

@@ -17,8 +17,6 @@ public interface TrainerService {
 
     Integer updateTrainer(Trainer newTrainer);
 
-    List<WorkoutDto> findAllTrainerWorkouts(Integer id);
-
     TrainerDto findTrainer(Integer id);
 
     List<WorkoutDto> findAllWorkoutsOfTrainer(Integer id);
