@@ -1,5 +1,6 @@
 package com.example.trial_training.repository.workout;
 
+import com.example.trial_training.controller.workout.CreateWorkoutRequest;
 import com.example.trial_training.mapper.workout.WorkoutRowMapper;
 import com.example.trial_training.model.workout.Workout;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +31,7 @@ public class WorkoutDbRepository implements WorkoutRepository {
     }
 
     @Override
-    public Workout create(Workout newWorkout) {
+    public Workout create(CreateWorkoutRequest newWorkout) {
         String sql = "INSERT INTO workout (client_id, trainer_id, \"date\", start_time, end_time) " +
                 "VALUES (:client_id, :trainer_id, :date, :start_time, :end_time)";
 
@@ -57,7 +57,6 @@ public class WorkoutDbRepository implements WorkoutRepository {
     @Override
     public Workout findWorkout(Integer id) {
         String sql = "SELECT * FROM workout WHERE id = ?";
-//        String sql = "SELECT * FROM workout WHERE client_id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, mapper, id);
         } catch (EmptyResultDataAccessException e) {

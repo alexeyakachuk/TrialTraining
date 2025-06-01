@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 @Component
 public class AllWorkoutOfTrainerDtoRowMapper implements RowMapper<WorkoutDto> {
+
     @Override
     public WorkoutDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 

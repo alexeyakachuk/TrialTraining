@@ -1,6 +1,6 @@
 package com.example.trial_training.service.workout;
 
-import com.example.trial_training.exception.ErrorHandler;
+import com.example.trial_training.controller.workout.CreateWorkoutRequest;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.exception.ConflictTimeException;
@@ -35,7 +35,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public WorkoutDto create(Workout newWorkout) {
+    public WorkoutDto create(CreateWorkoutRequest newWorkout) {
         // Проверка соводноли это время
         Client client = clientRepository.findClient(newWorkout.getClientId());
         Trainer trainer = trainerRepository.findTrainer(newWorkout.getTrainerId());

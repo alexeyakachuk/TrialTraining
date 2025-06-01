@@ -21,7 +21,7 @@ public class WorkoutController {
     }
 
     @PostMapping
-    public WorkoutDto create(@Valid @RequestBody Workout newWorkout) {
+    public WorkoutDto create(@Valid @RequestBody CreateWorkoutRequest newWorkout) {
         return workoutService.create(newWorkout);
     }
 

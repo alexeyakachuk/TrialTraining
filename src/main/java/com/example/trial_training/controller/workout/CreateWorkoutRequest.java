@@ -1,4 +1,4 @@
-package com.example.trial_training.model.workout;
+package com.example.trial_training.controller.workout;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 @Data
 @Builder
-public class Workout {
+public class CreateWorkoutRequest {
     private Integer id;
     private Integer clientId;
     private Integer trainerId;
@@ -16,3 +16,5 @@ public class Workout {
     private LocalTime startTime;
     private LocalTime endTime;
 }
+
+

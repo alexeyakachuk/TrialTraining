@@ -1,6 +1,5 @@
 package com.example.trial_training.dto.trainer;
 
-import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.trainer.Trainer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

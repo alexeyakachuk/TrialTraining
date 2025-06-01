@@ -1,7 +1,6 @@
 package com.example.trial_training.mapper.client;
 
 import com.example.trial_training.dto.workout.WorkoutDto;
-import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.model.workout.Workout;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,8 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 @Component
 public class AllWorkoutOfClientDtoRowMapper implements RowMapper<WorkoutDto> {
+
     @Override
     public WorkoutDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         Trainer trainer = Trainer.builder()

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 @Component
 public class TrainerRowMapper implements RowMapper<Trainer> {
+
     @Override
     public Trainer mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Trainer.builder()
