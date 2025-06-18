@@ -58,4 +58,9 @@ public class TrainerServiceImpl implements TrainerService {
     public List<WorkoutDto> findAllWorkoutsOfTrainer(Integer id) {
         return trainerRepository.findAllWorkoutsOfTrainer(id);
     }
+
+    @Override
+    public List<WorkoutDto> findAllTrainerWorkouts(Integer id) {
+        return trainerRepository.findAllTrainerWorkouts(id);
+    }
 }

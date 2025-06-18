@@ -19,4 +19,6 @@ public interface TrainerRepository {
     void deleteTrainer(Integer id);
 
     List<WorkoutDto> findAllWorkoutsOfTrainer(Integer id);
+
+    List<WorkoutDto> findAllTrainerWorkouts(Integer id);
 }

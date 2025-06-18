@@ -116,4 +116,20 @@ public class TrainerDbRepository implements TrainerRepository {
 
         return jdbcOperations.query(sql, params, allWorkoutDtoRowMapper);
     }
+
+    @Override
+    public List<WorkoutDto> findAllTrainerWorkouts(Integer id) {
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        String sql = "SELECT CLIENT.name AS client_name, CLIENT.surname AS client_surname, " +
+                "CLIENT.telephone AS client_telephone, WORKOUT.id, WORKOUT.\"date\", " +
+                "WORKOUT.start_time, WORKOUT.end_time " +
+                "FROM WORKOUT " +
+                "LEFT JOIN CLIENT ON WORKOUT.client_id = CLIENT.id " +
+                "WHERE WORKOUT.trainer_id = :id";
+
+        return jdbcOperations.query(sql, params, allWorkoutDtoRowMapper);
+    }
 }

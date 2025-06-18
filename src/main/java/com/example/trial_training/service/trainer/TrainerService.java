@@ -20,4 +20,6 @@ public interface TrainerService {
     TrainerDto findTrainer(Integer id);
 
     List<WorkoutDto> findAllWorkoutsOfTrainer(Integer id);
+
+    List<WorkoutDto> findAllTrainerWorkouts(Integer id);
 }
