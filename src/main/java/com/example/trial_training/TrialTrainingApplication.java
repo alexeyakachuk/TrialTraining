@@ -1,4 +1,4 @@
-package com.example.TrialTraining;
+package com.example.trial_training;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
