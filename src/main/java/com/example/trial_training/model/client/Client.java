@@ -28,4 +28,6 @@ public class Client {
     @NotBlank(message = "Не может быть пустым")
     @NotNull
     private String login;
+    @NotNull
+    private String password;
 }

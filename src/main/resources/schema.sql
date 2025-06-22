@@ -10,7 +10,8 @@ surname VARCHAR(50) NOT NULL,
 birthday DATE NOT NULL,
 telephone VARCHAR(20) NOT NULL,
 email VARCHAR(50) NOT NULL,
-login VARCHAR(50) NOT NULL
+login VARCHAR(50) NOT NULL,
+password VARCHAR(50) NOT NULL
 );
 
 --Создание таблицы TRAINER
