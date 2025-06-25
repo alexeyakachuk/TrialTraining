@@ -2,6 +2,7 @@ package com.example.trial_training.controller.client;
 
 import com.example.trial_training.dto.client.ClientDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
+import com.example.trial_training.exception.AuthenticationException;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.service.client.ClientService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class ClientController {
     public ClientDto findClient(@PathVariable Integer id, HttpServletRequest request) {
         final HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userId") != id) {
-            throw new IllegalStateException("Не найдена сессия");
+            throw new AuthenticationException("Не найдена сессия");
         }
         return clientService.findClient(id);
     }
@@ -58,7 +59,7 @@ public class ClientController {
     public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id, HttpServletRequest request) {
         final HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userId") != id) {
-            throw new IllegalStateException("Не найдена сессия");
+            throw new AuthenticationException("Не найдена сессия");
         }
         return clientService.findAllWorkoutsOfClient(id);
     }

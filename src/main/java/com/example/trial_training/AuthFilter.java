@@ -12,7 +12,8 @@ import java.util.List;
 @Component
 public class AuthFilter implements Filter {
 
-    private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout", "/trainers");
+    private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout",
+                                                               "/trainers", "/trainers/{id}");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -35,7 +36,7 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        chain.doFilter(request,response);
+        chain.doFilter(request, response);
 
     }
 }
