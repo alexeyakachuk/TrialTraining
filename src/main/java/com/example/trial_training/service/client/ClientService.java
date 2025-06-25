@@ -20,4 +20,7 @@ public interface ClientService {
     void deleteClient(Integer id);
 
     List<WorkoutDto> findAllWorkoutsOfClient(Integer id);
+
+    ClientDto findByLogin(String login);
 }
+

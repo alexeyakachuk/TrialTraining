@@ -4,6 +4,8 @@ import com.example.trial_training.dto.client.ClientDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.service.client.ClientService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,7 +31,11 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ClientDto findClient(@PathVariable Integer id) {
+    public ClientDto findClient(@PathVariable Integer id, HttpServletRequest request) {
+        final HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userId") != id) {
+            throw new IllegalStateException("Не найдена сессия");
+        }
         return clientService.findClient(id);
     }
 
@@ -49,7 +55,11 @@ public class ClientController {
     }
 
     @GetMapping("/{id}/workouts")
-    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id) {
+    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id, HttpServletRequest request) {
+        final HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userId") != id) {
+            throw new IllegalStateException("Не найдена сессия");
+        }
         return clientService.findAllWorkoutsOfClient(id);
     }
 }

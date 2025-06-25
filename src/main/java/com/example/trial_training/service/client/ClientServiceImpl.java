@@ -45,6 +45,15 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public ClientDto findByLogin(String login) {
+        Client client = clientDbRepository.findClientByLogin(login);
+        if (client == null) {
+            throw new NotFoundException("Клиент с login " + login + " не найден");
+        }
+        return new ClientDto(client);
+    }
+
+    @Override
     public Integer updateClient(Client newClient) {
         return clientDbRepository.updateClient(newClient);
     }

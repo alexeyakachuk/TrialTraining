@@ -21,6 +21,7 @@ public class ClientRowMapper implements RowMapper<Client> {
                 .telephone(rs.getString("telephone"))
                 .email(rs.getString("email"))
                 .login(rs.getString("login"))
+                .password(rs.getString("password"))
                 .build();
      }
 }
