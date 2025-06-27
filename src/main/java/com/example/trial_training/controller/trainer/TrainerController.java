@@ -1,11 +1,15 @@
 package com.example.trial_training.controller.trainer;
 
 import com.example.trial_training.dto.workout.WorkoutDto;
+import com.example.trial_training.exception.AuthenticationException;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.service.trainer.TrainerService;
 import com.example.trial_training.dto.trainer.TrainerDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,12 +41,34 @@ public class TrainerController {
     }
 
     @GetMapping("/{id}/workout")
-    public List<WorkoutDto> findAllTrainerWorkouts(@PathVariable Integer id) {
+    public List<WorkoutDto> findAllTrainerWorkouts(@PathVariable Integer id, HttpServletRequest request) {
+        final HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userId") != id) {
+            throw new AuthenticationException("Не найдена сессия");
+        }
+        // В следующей ветке написать ролии
         return trainerService.findAllTrainerWorkouts(id);
     }
 
     @PutMapping
-    public Integer updateTrainer(@Valid @RequestBody  Trainer newTrainer) {
+    public Integer updateTrainer(@Valid @RequestBody  Trainer newTrainer, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            throw new AuthenticationException("Не найдена сессия");
+        }
+        Object userId = session.getAttribute("userId");
+
+        if (!((userId) instanceof Integer)) {
+            throw new AuthenticationException("Некорректные данные сессии");
+        }
+
+        Integer id = (Integer) userId;
+
+        if (!id.equals(newTrainer.getId())) {
+            throw new AuthenticationException("Доступ запрещён: можно обновлять только свои данные");
+        }
+
         return trainerService.updateTrainer(newTrainer);
     }
 

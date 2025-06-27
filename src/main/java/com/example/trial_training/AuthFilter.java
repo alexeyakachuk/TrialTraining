@@ -1,5 +1,6 @@
 package com.example.trial_training;
 
+import com.example.trial_training.exception.AuthenticationException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +14,7 @@ import java.util.List;
 public class AuthFilter implements Filter {
 
     private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout",
-                                                               "/trainers", "/trainers/{id}");
+            "/trainers", "/trainers/{id}");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -22,6 +23,12 @@ public class AuthFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
 
         String path = req.getRequestURI();
+        String method = req.getMethod();
+
+        if("POST".equals(method) && ("/clients".equals(path) || "/trainers".equals(path))) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         if (EXCLUDED_PATHS.contains(path)) {
             chain.doFilter(request, response);
@@ -29,12 +36,27 @@ public class AuthFilter implements Filter {
         }
 
         HttpSession session = req.getSession(false);
+
         if (session == null || session.getAttribute("username") == null) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.setContentType("text/plain; charset=UTF-8");
             resp.getWriter().write("Требуется аутентификация");
             return;
         }
+
+        Object userId = session.getAttribute("userId");
+        if (!((userId) instanceof Integer)) {
+            throw new AuthenticationException("Некоректныее данные сессии");
+        }
+
+        Integer id = (Integer) userId;
+
+        if (session == null || session.getAttribute("userId") != id) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+
 
         chain.doFilter(request, response);
 

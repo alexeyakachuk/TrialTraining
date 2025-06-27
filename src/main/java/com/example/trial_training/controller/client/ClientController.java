@@ -33,10 +33,12 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ClientDto findClient(@PathVariable Integer id, HttpServletRequest request) {
-        final HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userId") != id) {
-            throw new AuthenticationException("Не найдена сессия");
-        }
+        //В следующей ветке доработать что бы мог смотреть тоько тренер которому записан на тренировку
+        // этот клиент
+//        final HttpSession session = request.getSession(false);
+//        if (session == null || session.getAttribute("userId") != id) {
+//            throw new AuthenticationException("Не найдена сессия");
+//        }
         return clientService.findClient(id);
     }
 
@@ -44,14 +46,37 @@ public class ClientController {
     public List<ClientDto> findAllClients() {
         return clientService.findAllClients();
     }
+    //добавить метод findAllClients(Integer id) id - тренера. Тренер должен иметь возможность
+    // посмотреть всех своих клиентов. Спросить у Андрея писать этот метод у тренера или клиента
 
     @DeleteMapping("{id}")
-    public void deleteClient(@PathVariable Integer id) {
+    public void deleteClient(@PathVariable Integer id, HttpServletRequest request) {
+//        final HttpSession session = request.getSession(false);
+//        if (session == null || session.getAttribute("userId") != id) {
+//            throw new AuthenticationException("Не найдена сессия");
+//        }
         clientService.deleteClient(id);
     }
 
     @PutMapping
-    public Integer updateClient(@Valid @RequestBody Client newClient) {
+    public Integer updateClient(@Valid @RequestBody Client newClient, HttpServletRequest request) {
+
+//        HttpSession session = request.getSession(false);
+//
+//        if (session == null) {
+//            throw new AuthenticationException("Не найдена сессия");
+//        }
+//        Object userId = session.getAttribute("userId");
+//
+//        if (!((userId) instanceof Integer)) {
+//            throw new AuthenticationException("Некорректные данные сессии");
+//        }
+//
+//        Integer id = (Integer) userId;
+//
+//        if (!id.equals(newClient.getId())) {
+//            throw new AuthenticationException("Доступ запрещён: можно обновлять только свои данные");
+//        }
         return clientService.updateClient(newClient);
     }
 
