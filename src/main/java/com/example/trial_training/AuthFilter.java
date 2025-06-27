@@ -15,12 +15,14 @@ public class AuthFilter implements Filter {
 
     private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout",
             "/trainers", "/trainers/{id}");
+    private Integer id;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
+
 
         String path = req.getRequestURI();
         String method = req.getMethod();
@@ -44,19 +46,23 @@ public class AuthFilter implements Filter {
             return;
         }
 
+//        Object userId = session.getAttribute("userId");
+//        if (!((userId) instanceof Integer)) {
+//            throw new AuthenticationException("Некоректныее данные сессии");
+//        }
+
+//        Integer id = (Integer) userId;
+
+        if (path.startsWith("/clients")) {
+            String idStr = path.substring("/clients/".length());
+            id = Integer.valueOf(idStr);
+//
+        }
+
         Object userId = session.getAttribute("userId");
-        if (!((userId) instanceof Integer)) {
+        if (userId == null || !userId.equals(id)) {
             throw new AuthenticationException("Некоректныее данные сессии");
         }
-
-        Integer id = (Integer) userId;
-
-        if (session == null || session.getAttribute("userId") != id) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-
 
         chain.doFilter(request, response);
 

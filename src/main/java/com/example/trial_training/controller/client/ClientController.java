@@ -35,10 +35,6 @@ public class ClientController {
     public ClientDto findClient(@PathVariable Integer id, HttpServletRequest request) {
         //В следующей ветке доработать что бы мог смотреть тоько тренер которому записан на тренировку
         // этот клиент
-//        final HttpSession session = request.getSession(false);
-//        if (session == null || session.getAttribute("userId") != id) {
-//            throw new AuthenticationException("Не найдена сессия");
-//        }
         return clientService.findClient(id);
     }
 
