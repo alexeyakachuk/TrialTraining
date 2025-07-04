@@ -30,7 +30,7 @@ public class ClientController {
     public ClientDto create(@Valid @RequestBody CreateClientRequest newClient) {
         return clientService.create(newClient);
     }
-
+// этот метод готов
     @GetMapping("/{id}")
     public ClientDto findClient(@PathVariable Integer id, HttpServletRequest request) {
         //В следующей ветке доработать что бы мог смотреть тоько тренер которому записан на тренировку
@@ -45,6 +45,7 @@ public class ClientController {
     //добавить метод findAllClients(Integer id) id - тренера. Тренер должен иметь возможность
     // посмотреть всех своих клиентов. Спросить у Андрея писать этот метод у тренера или клиента
 
+// этот метод готов
     @DeleteMapping("{id}")
     public void deleteClient(@PathVariable Integer id, HttpServletRequest request) {
 //        final HttpSession session = request.getSession(false);
@@ -67,7 +68,7 @@ public class ClientController {
 //        if (!((userId) instanceof Integer)) {
 //            throw new AuthenticationException("Некорректные данные сессии");
 //        }
-//
+
 //        Integer id = (Integer) userId;
 //
 //        if (!id.equals(newClient.getId())) {

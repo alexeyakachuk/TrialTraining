@@ -1,5 +1,6 @@
 package com.example.trial_training.model.client;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class Client {
     private String surname;
     @NotNull
     @PastOrPresent(message = "не может быть в будущем")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     @NotNull
     private String telephone;
