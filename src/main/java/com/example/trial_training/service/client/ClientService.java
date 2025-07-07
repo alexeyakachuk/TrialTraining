@@ -6,6 +6,7 @@ import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.client.Client;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ClientService {
 
@@ -21,6 +22,6 @@ public interface ClientService {
 
     List<WorkoutDto> findAllWorkoutsOfClient(Integer id);
 
-    ClientDto findByLogin(String login);
+    Optional<ClientDto> findByLogin(String login);
 }
 

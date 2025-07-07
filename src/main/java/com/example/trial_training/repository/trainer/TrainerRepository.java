@@ -23,5 +23,5 @@ public interface TrainerRepository {
 
     List<WorkoutDto> findAllTrainerWorkouts(Integer id);
 
-    Trainer findClientByLogin(String login);
+    Trainer findTrainerByLogin(String login);
 }

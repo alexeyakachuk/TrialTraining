@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TrainerServiceImpl implements TrainerService {
@@ -29,12 +30,9 @@ public class TrainerServiceImpl implements TrainerService {
         return new TrainerDto(trainer);
     }
     @Override
-    public TrainerDto findByLogin(String login) {
-        Trainer trainer = trainerRepository.findClientByLogin(login);
-        if (trainer == null) {
-            throw new NotFoundException("Клиент с login " + login + " не найден");
-        }
-        return new TrainerDto(trainer);
+    public Optional<TrainerDto> findByLogin(String login) {
+        Trainer trainer = trainerRepository.findTrainerByLogin(login);
+        return Optional.ofNullable(trainer).map(TrainerDto::new);
     }
 
     @Override

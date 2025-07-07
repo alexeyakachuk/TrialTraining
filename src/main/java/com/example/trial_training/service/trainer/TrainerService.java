@@ -7,6 +7,7 @@ import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.dto.trainer.TrainerDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TrainerService {
 
@@ -24,5 +25,5 @@ public interface TrainerService {
 
     List<WorkoutDto> findAllTrainerWorkouts(Integer id);
 
-    TrainerDto findByLogin(String login);
+    Optional<TrainerDto> findByLogin(String login);
 }

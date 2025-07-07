@@ -61,7 +61,7 @@ public class TrainerDbRepository implements TrainerRepository {
     }
 
     @Override
-    public Trainer findClientByLogin(String login) {
+    public Trainer findTrainerByLogin(String login) {
         String sql = "SELECT * FROM trainer WHERE login = ?";
 
         try {
