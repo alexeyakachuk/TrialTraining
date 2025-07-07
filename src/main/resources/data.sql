@@ -1,6 +1,6 @@
-INSERT INTO TRAINER (name, surname, birthday, telephone, email, login) VALUES
-('Алексей', 'Иванов', '1980-05-15', '+79161234567', 'alexey.ivanov@example.com', 'alexey80'),
-('Марина', 'Кузнецова', '1985-09-20', '+79169876543', 'marina.kuznetsova@example.com', 'marina85');
+INSERT INTO TRAINER (name, surname, birthday, telephone, email, login, password) VALUES
+('Алексей', 'Иванов', '1980-05-15', '+79161234567', 'alexey.ivanov@example.com', 'alexey80', '1111'),
+('Марина', 'Кузнецова', '1985-09-20', '+79169876543', 'marina.kuznetsova@example.com', 'marina85', '2222');
 
 INSERT INTO CLIENT (name, surname, birthday, telephone, email, login, password) VALUES
 ('Иван', 'Петров', '1990-01-10', '+79007654321', 'ivan.petrov@example.com', 'ivan90', '0000'),

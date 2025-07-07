@@ -2,7 +2,9 @@ package com.example.trial_training.controller.authController;
 
 import com.example.trial_training.controller.authRequest.AuthRequest;
 import com.example.trial_training.dto.client.ClientDto;
+import com.example.trial_training.dto.trainer.TrainerDto;
 import com.example.trial_training.service.client.ClientService;
+import com.example.trial_training.service.trainer.TrainerService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

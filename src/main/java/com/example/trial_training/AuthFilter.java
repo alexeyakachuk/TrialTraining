@@ -3,6 +3,7 @@ package com.example.trial_training;
 import com.example.trial_training.exception.AuthenticationException;
 import com.example.trial_training.model.client.Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,11 +18,11 @@ public class AuthFilter implements Filter {
 
     private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout",
             "/trainers", "/trainers/{id}");
-    private Integer id;
     private final ObjectMapper objectMapper;
 
     public AuthFilter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+        this.objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Override
@@ -71,6 +72,8 @@ public class AuthFilter implements Filter {
         if (id != null && !userId.equals(id)) {
             throw new AuthenticationException("Некоректныее данные сессии");
         }
+
+
 
         if ("PUT".equals(method) && "/clients".equals(path)) {
             CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);

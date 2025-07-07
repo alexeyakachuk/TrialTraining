@@ -20,7 +20,6 @@ public class Client {
     private String surname;
     @NotNull
     @PastOrPresent(message = "не может быть в будущем")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     @NotNull
     private String telephone;

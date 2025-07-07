@@ -1,8 +1,10 @@
 package com.example.trial_training.service.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.dto.client.ClientDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.exception.NotFoundException;
+import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.repository.trainer.TrainerRepository;
 import com.example.trial_training.dto.trainer.TrainerDto;
@@ -24,6 +26,14 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public TrainerDto create(CreateTrainerRequest newTrainer) {
         Trainer trainer = trainerRepository.create(newTrainer);
+        return new TrainerDto(trainer);
+    }
+    @Override
+    public TrainerDto findByLogin(String login) {
+        Trainer trainer = trainerRepository.findClientByLogin(login);
+        if (trainer == null) {
+            throw new NotFoundException("Клиент с login " + login + " не найден");
+        }
         return new TrainerDto(trainer);
     }
 
