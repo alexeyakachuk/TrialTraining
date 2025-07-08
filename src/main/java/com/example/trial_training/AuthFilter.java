@@ -31,62 +31,69 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-
         String path = req.getRequestURI();
         String method = req.getMethod();
 
-
-
+        //запрос на создание клиента или тренера, пропускаем фильтр (регистрация не требует аутентификации)
         if("POST".equals(method) && ("/clients".equals(path) || "/trainers".equals(path))) {
             chain.doFilter(request, response);
             return;
         }
 
+        // Если путь входит в список исключений (например, вход/выход или получение списка тренеров), пропускаем фильтр
         if (EXCLUDED_PATHS.contains(path)) {
             chain.doFilter(request, response);
             return;
         }
 
+        // Получаем сессию без создания новой, если её нет - значит пользователь не авторизован
         HttpSession session = req.getSession(false);
 
+        // Если сессия отсутствует или в ней нет атрибута username — возвращаем 401 (требуется аутентификация)
         if (session == null || session.getAttribute("username") == null) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.setContentType("text/plain; charset=UTF-8");
             resp.getWriter().write("Требуется аутентификация");
             return;
         }
-//получаем id из сессии
+
+        // Получаем userId из сессии и проверяем что это Integer (иначе бросаем исключение)
         Object userIdObj = session.getAttribute("userId");
         if (!((userIdObj) instanceof Integer)) {
             throw new AuthenticationException("Некоректныее данные сессии");
         }
-//в переменную Integer устанавливаем userIdObj
+
         Integer userId = (Integer) userIdObj;
- //сосдаю переменную id
         Integer id = null;
+
+        // Если URL начинается с /clients/, пытаемся вытащить id клиента из URL
         if (path.startsWith("/clients/")) {
             String idStr = path.substring("/clients/".length());
             id = Integer.parseInt(idStr);
         }
 
+        // Если в URL есть id клиента и он не совпадает с userId из сессии — выбрасываем исключение (попытка доступа к чужим данным)
         if (id != null && !userId.equals(id)) {
             throw new AuthenticationException("Некоректныее данные сессии");
         }
 
-
-
+        // Если это PUT-запрос на обновление клиента ("/clients"), проверяем тело запроса
         if ("PUT".equals(method) && "/clients".equals(path)) {
+            // Оборачиваем запрос, чтобы можно было прочитать тело несколько раз
             CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
             Client client;
             try {
+                // Парсим JSON из тела запроса в объект Client
                 client = objectMapper.readValue(cachedReq.getInputStream(), Client.class);
             } catch (Exception e) {
+                // Если JSON некорректный — возвращаем 400
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 resp.setContentType("text/plain; charset=UTF-8");
                 resp.getWriter().write("Некорректный JSON в теле запроса");
                 return;
             }
 
+            // Проверяем, что в JSON есть поле id
             if (client.getId() == null) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 resp.setContentType("text/plain; charset=UTF-8");
@@ -94,6 +101,7 @@ public class AuthFilter implements Filter {
                 return;
             }
 
+            // Проверяем, что id клиента из тела совпадает с userId из сессии — иначе запрещаем обновлять чужие данные
             if (!userId.equals(client.getId())) {
                 resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 resp.setContentType("text/plain; charset=UTF-8");
@@ -101,12 +109,12 @@ public class AuthFilter implements Filter {
                 return;
             }
 
-            // Передаём дальше обёрнутый запрос
+            // Если проверки пройдены, передаём дальше обёрнутый запрос с возможностью повторного чтения тела
             chain.doFilter(cachedReq, response);
             return;
         }
 
-
+        // Для всех остальных запросов, если аутентификация пройдена, пропускаем дальше
         chain.doFilter(request, response);
     }
 }
