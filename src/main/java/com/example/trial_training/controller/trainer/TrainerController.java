@@ -52,22 +52,6 @@ public class TrainerController {
 
     @PutMapping
     public Integer updateTrainer(@Valid @RequestBody  Trainer newTrainer, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-
-        if (session == null) {
-            throw new AuthenticationException("Не найдена сессия");
-        }
-        Object userId = session.getAttribute("userId");
-
-        if (!((userId) instanceof Integer)) {
-            throw new AuthenticationException("Некорректные данные сессии");
-        }
-
-        Integer id = (Integer) userId;
-
-        if (!id.equals(newTrainer.getId())) {
-            throw new AuthenticationException("Доступ запрещён: можно обновлять только свои данные");
-        }
 
         return trainerService.updateTrainer(newTrainer);
     }

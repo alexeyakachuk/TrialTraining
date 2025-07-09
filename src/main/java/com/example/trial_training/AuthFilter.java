@@ -1,7 +1,11 @@
 package com.example.trial_training;
 
+import com.example.trial_training.dto.trainer.TrainerDto;
 import com.example.trial_training.exception.AuthenticationException;
 import com.example.trial_training.model.client.Client;
+import com.example.trial_training.model.trainer.Trainer;
+import com.example.trial_training.model.workout.Workout;
+import com.example.trial_training.service.trainer.TrainerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.*;
@@ -17,11 +21,12 @@ import java.util.Map;
 @Component
 public class AuthFilter implements Filter {
 
-    private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout",
-            "/trainers", "/trainers/{id}");
+private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout");
     private final ObjectMapper objectMapper;
+    private final TrainerService trainerService;
 
-    public AuthFilter(ObjectMapper objectMapper) {
+    public AuthFilter(ObjectMapper objectMapper, TrainerService trainerService) {
+        this.trainerService = trainerService;
         this.objectMapper = objectMapper;
         this.objectMapper.registerModule(new JavaTimeModule());
     }
@@ -35,8 +40,15 @@ public class AuthFilter implements Filter {
             String path = req.getRequestURI();
             String method = req.getMethod();
 
-            //запрос на создание клиента или тренера, пропускаем фильтр (регистрация не требует аутентификации)
+
+            // Разрешаем POST на регистрацию без аутентификации
             if ("POST".equals(method) && ("/clients".equals(path) || "/trainers".equals(path))) {
+                chain.doFilter(request, response);
+                return;
+            }
+
+            // Разрешаем GET /trainers и GET /trainers/{id} без аутентификации
+            if ("GET".equals(method) && ("/trainers".equals(path) || path.startsWith("/trainers/"))) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -78,6 +90,42 @@ public class AuthFilter implements Filter {
                 throw new AuthenticationException("Некоректныее данные сессии");
             }
 
+            // Если это POST-запрос на создание тренировки("/workout"), проверяем что id клиента пренадлежит авторезированному пользователю
+            // и тренер существует
+
+            if ("POST".equals(method) && "/workout".equals(path)) {
+                CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
+                Workout workout;
+                try {
+                    workout = objectMapper.readValue(cachedReq.getInputStream(), Workout.class);
+                } catch (Exception e) {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Некорректный JSON в теле запроса");
+                    return;
+                }
+
+                if (workout.getClientId() != session.getAttribute("userId")) {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Не возможно записатся на тренировку. " +
+                            "Id клиента не совподает с id сессии.");
+                    return;
+                }
+
+                TrainerDto trainer = trainerService.findTrainer(workout.getTrainerId());
+                if (trainer == null) {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Не возможно записатся на тренировку. " +
+                            "Такого тренера не существует");
+                    return;
+                }
+
+                chain.doFilter(cachedReq, response);
+                return;
+            }
+
             // Если это PUT-запрос на обновление клиента ("/clients"), проверяем тело запроса
             if ("PUT".equals(method) && "/clients".equals(path)) {
                 // Оборачиваем запрос, чтобы можно было прочитать тело несколько раз
@@ -104,6 +152,43 @@ public class AuthFilter implements Filter {
 
                 // Проверяем, что id клиента из тела совпадает с userId из сессии — иначе запрещаем обновлять чужие данные
                 if (!userId.equals(client.getId())) {
+                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Доступ запрещён: можно обновлять только свои данные");
+                    return;
+                }
+
+                // Если проверки пройдены, передаём дальше обёрнутый запрос с возможностью повторного чтения тела
+                chain.doFilter(cachedReq, response);
+                return;
+            }
+
+            // Если это PUT-запрос на обновление клиента ("/clients"), проверяем тело запроса
+            if ("PUT".equals(method) && "/trainers".equals(path)) {
+                // Оборачиваем запрос, чтобы можно было прочитать тело несколько раз
+                CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
+                Trainer trainer;
+                try {
+                    // Парсим JSON из тела запроса в объект Client
+                    trainer = objectMapper.readValue(cachedReq.getInputStream(), Trainer.class);
+                } catch (Exception e) {
+                    // Если JSON некорректный — возвращаем 400
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Некорректный JSON в теле запроса");
+                    return;
+                }
+
+                // Проверяем, что в JSON есть поле id
+                if (trainer.getId() == null) {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("В теле запроса отсутствует поле id");
+                    return;
+                }
+
+                // Проверяем, что id клиента из тела совпадает с userId из сессии — иначе запрещаем обновлять чужие данные
+                if (!userId.equals(trainer.getId())) {
                     resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     resp.setContentType("text/plain; charset=UTF-8");
                     resp.getWriter().write("Доступ запрещён: можно обновлять только свои данные");
