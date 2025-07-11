@@ -2,6 +2,7 @@ package com.example.trial_training;
 
 import com.example.trial_training.dto.trainer.TrainerDto;
 import com.example.trial_training.exception.AuthenticationException;
+import com.example.trial_training.exception.NotFoundException;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.model.workout.Workout;
@@ -21,7 +22,7 @@ import java.util.Map;
 @Component
 public class AuthFilter implements Filter {
 
-private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout");
+    private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout");
     private final ObjectMapper objectMapper;
     private final TrainerService trainerService;
 
@@ -104,21 +105,22 @@ private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth
                     resp.getWriter().write("Некорректный JSON в теле запроса");
                     return;
                 }
-
-                if (workout.getClientId() != session.getAttribute("userId")) {
+// Если id сессии не совподает с id клиента
+                if (!(workout.getClientId().equals(userId))) {
                     resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     resp.setContentType("text/plain; charset=UTF-8");
                     resp.getWriter().write("Не возможно записатся на тренировку. " +
                             "Id клиента не совподает с id сессии.");
                     return;
                 }
-
-                TrainerDto trainer = trainerService.findTrainer(workout.getTrainerId());
-                if (trainer == null) {
+//  Если тренера не существует
+                try {
+                    TrainerDto trainer = trainerService.findTrainer(workout.getTrainerId());
+                } catch (NotFoundException e) {
                     resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     resp.setContentType("text/plain; charset=UTF-8");
                     resp.getWriter().write("Не возможно записатся на тренировку. " +
-                            "Такого тренера не существует");
+                            e.getMessage());
                     return;
                 }
 
