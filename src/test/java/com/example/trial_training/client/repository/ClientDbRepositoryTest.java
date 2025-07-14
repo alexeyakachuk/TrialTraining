@@ -1,5 +1,6 @@
 package com.example.trial_training.client.repository;
 
+import com.example.trial_training.controller.client.CreateClientRequest;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,24 +30,26 @@ public class ClientDbRepositoryTest {
     void setUp() {
         jdbcOperations.update("DELETE FROM client", Map.of());
 
-        Client newClient1 = Client.builder()
+        CreateClientRequest newClient1 = CreateClientRequest.builder()
                 .name("client1")
                 .surname("surname1")
                 .birthday(LocalDate.of(1991,10,10))
                 .telephone("1111")
                 .email("1@y.ru")
                 .login("1111")
+                .password("aaaa")
                 .build();
 
         testClient1 = clientRepository.create(newClient1);
 
-        Client newClient2 = Client.builder()
+        CreateClientRequest newClient2 = CreateClientRequest.builder()
                 .name("client2")
                 .surname("surname2")
                 .birthday(LocalDate.of(1992,10,10))
                 .telephone("2222")
                 .email("2@y.ru")
                 .login("2222")
+                .password("ssss")
                 .build();
 
         clientRepository.create(newClient2);
@@ -55,13 +58,14 @@ public class ClientDbRepositoryTest {
 
     @Test
     void createClientTest() {
-        Client newClient = Client.builder()
+        CreateClientRequest newClient = CreateClientRequest.builder()
                 .name("client")
                 .surname("surname")
                 .birthday(LocalDate.of(1990,10,10))
                 .telephone("0000")
                 .email("0@y.ru")
                 .login("0000")
+                .password("dddd")
                 .build();
 
         Client client = clientRepository.create(newClient);

@@ -2,6 +2,7 @@ package com.example.trial_training.workout.repository;
 
 import com.example.trial_training.controller.client.CreateClientRequest;
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.controller.workout.CreateWorkoutRequest;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.model.trainer.Trainer;
@@ -52,6 +53,7 @@ public class WorkoutDbRepositoryTest {
                 .telephone("1111")
                 .email("1@y.ru")
                 .login("1111")
+                .password("1111")
                 .build());
 
 
@@ -62,6 +64,7 @@ public class WorkoutDbRepositoryTest {
                 .telephone("2222")
                 .email("2@y.ru")
                 .login("2222")
+                .password("2222")
                 .build());
 
 
@@ -72,6 +75,7 @@ public class WorkoutDbRepositoryTest {
                 .telephone("1111")
                 .email("1@y.ru")
                 .login("1111")
+                .password("1111")
                 .build());
 
 
@@ -82,17 +86,18 @@ public class WorkoutDbRepositoryTest {
                 .telephone("2222")
                 .email("2@y.ru")
                 .login("2222")
+                .password("2222")
                 .build());
 
 
-        testWorkout1 = workoutRepository.create(Workout.builder()
+        testWorkout1 = workoutRepository.create(CreateWorkoutRequest.builder()
                 .clientId(testClient1.getId())
                 .trainerId(testTrainer1.getId())
                 .date(LocalDate.of(2024, 4, 23))
                 .startTime(LocalTime.of(10, 0))
                 .build());
 
-        testWorkout2 = workoutRepository.create(Workout.builder()
+        testWorkout2 = workoutRepository.create(CreateWorkoutRequest.builder()
                 .clientId(testClient2.getId())
                 .trainerId(testTrainer1.getId())
                 .date(LocalDate.of(2024, 4, 23))
@@ -102,7 +107,7 @@ public class WorkoutDbRepositoryTest {
 
     @Test
     void createTest() {
-        Workout newWorkout = Workout.builder()
+        CreateWorkoutRequest newWorkout = CreateWorkoutRequest.builder()
                 .clientId(testClient1.getId())
                 .trainerId(testTrainer1.getId())
                 .date(LocalDate.of(2025, 5, 5))
