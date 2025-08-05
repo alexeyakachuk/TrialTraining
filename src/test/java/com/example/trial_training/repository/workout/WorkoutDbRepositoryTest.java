@@ -1,4 +1,4 @@
-package com.example.trial_training.workout.repository;
+package com.example.trial_training.repository.workout;
 
 import com.example.trial_training.controller.client.CreateClientRequest;
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
@@ -8,7 +8,6 @@ import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.repository.trainer.TrainerRepository;
 import com.example.trial_training.model.workout.Workout;
-import com.example.trial_training.repository.workout.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

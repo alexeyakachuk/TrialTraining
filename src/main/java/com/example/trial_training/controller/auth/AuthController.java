@@ -1,4 +1,4 @@
-package com.example.trial_training.controller.authController;
+package com.example.trial_training.controller.auth;
 
 import com.example.trial_training.controller.authRequest.AuthRequest;
 import com.example.trial_training.dto.client.ClientDto;

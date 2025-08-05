@@ -1,4 +1,4 @@
-package com.example.trial_training.workout.service;
+package com.example.trial_training.service.workout;
 
 import com.example.trial_training.controller.client.CreateClientRequest;
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
@@ -8,8 +8,6 @@ import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.repository.trainer.TrainerRepository;
 import com.example.trial_training.dto.workout.WorkoutDto;
-import com.example.trial_training.model.workout.Workout;
-import com.example.trial_training.service.workout.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

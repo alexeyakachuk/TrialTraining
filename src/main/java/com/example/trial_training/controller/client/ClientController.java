@@ -57,10 +57,10 @@ public class ClientController {
 
     @GetMapping("/{id}/workouts")
     public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id, HttpServletRequest request) {
-        final HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userId") != id) {
-            throw new AuthenticationException("Не найдена сессия");
-        }
+//        final HttpSession session = request.getSession(false);
+//        if (session == null || session.getAttribute("userId") != id) {
+//            throw new AuthenticationException("Не найдена сессия");
+//        }
         return clientService.findAllWorkoutsOfClient(id);
     }
 }
