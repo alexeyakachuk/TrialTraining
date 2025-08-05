@@ -46,4 +46,11 @@ public class ErrorHandler {
         log.error("Произошла ошибка не корретно веденно время тренировки");
         return Map.of("Произошла ошибка", e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Map<String, String> handAuthenticationException(final AuthenticationException e) {
+        log.error("Не найдена сессия");
+        return Map.of("Произошла ошибка. Пожайлуста зарегестрируйтесь или пройдите аунтефикацию", e.getMessage());
+    }
 }

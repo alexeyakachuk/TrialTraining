@@ -19,4 +19,6 @@ public interface ClientRepository {
     void deleteClient(Integer id);
 
     List<WorkoutDto> findAllWorkoutsOfClient(Integer id);
+
+    Client findClientByLogin(String login);
 }

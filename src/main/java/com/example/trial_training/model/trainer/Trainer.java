@@ -28,4 +28,7 @@ public class Trainer {
     @NotBlank(message = "Не может быть пустым")
     @NotNull
     private String login;
+    @NotBlank(message = "Не может быть пустым")
+    @NotNull
+    private String password;
 }
