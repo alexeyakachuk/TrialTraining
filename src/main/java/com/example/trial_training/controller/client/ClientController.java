@@ -3,6 +3,7 @@ package com.example.trial_training.controller.client;
 import com.example.trial_training.dto.client.ClientDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.exception.AuthenticationException;
+import com.example.trial_training.filters.AuthFilters;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.service.client.ClientService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,10 +45,14 @@ public class ClientController {
     // посмотреть всех своих клиентов. Спросить у Андрея писать этот метод у тренера или клиента
 
 // этот метод готов
-    @DeleteMapping("{id}")
-    public void deleteClient(@PathVariable Integer id, HttpServletRequest request) {
+//    @DeleteMapping("{id}")
+    @DeleteMapping
+    public void deleteClient(
+//            @PathVariable Integer id,
+            HttpServletRequest request) {
+        Integer sessionUserId = AuthFilters.getSessionUserId(request);
 
-        clientService.deleteClient(id);
+        clientService.deleteClient(sessionUserId);
     }
 
     @PutMapping

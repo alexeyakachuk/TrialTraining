@@ -3,13 +3,11 @@ package com.example.trial_training.filters;
 import com.example.trial_training.exception.AuthenticationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
 
-@Component
+
 public class AuthFilters {
-    private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout");
+//    private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout");
 
     public static Integer getSessionUserId(HttpServletRequest request) throws AuthenticationException {
         HttpSession session = request.getSession(false);
@@ -17,6 +15,7 @@ public class AuthFilters {
 
         if (session == null || session.getAttribute("username") == null) {
             throw new AuthenticationException("Требуется аунтефикация");
+//            return null;
         }
 
         Object userIdObj = session.getAttribute("userId");

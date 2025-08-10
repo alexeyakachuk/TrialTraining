@@ -1,10 +1,9 @@
 package com.example.trial_training.filters;
 
-
 import com.example.trial_training.CachedBodyHttpServletRequest;
 import com.example.trial_training.exception.AuthenticationException;
-import com.example.trial_training.model.trainer.Trainer;
-import com.example.trial_training.service.trainer.TrainerService;
+import com.example.trial_training.model.client.Client;
+import com.example.trial_training.service.client.ClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.*;
@@ -17,16 +16,17 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class TrainerFilter implements Filter {
+public class ClientFilter implements Filter {
 
     private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout");
     private final ObjectMapper objectMapper;
-    private final TrainerService trainerService;
+    private final ClientService clientService;
 
-    public TrainerFilter(ObjectMapper objectMapper, TrainerService trainerService) {
+    public ClientFilter(ObjectMapper objectMapper, ClientService clientService)
+            throws IOException, ServletException {
         this.objectMapper = objectMapper;
         this.objectMapper.registerModule(new JavaTimeModule());
-        this.trainerService = trainerService;
+        this.clientService = clientService;
     }
 
     @Override
@@ -39,32 +39,98 @@ public class TrainerFilter implements Filter {
         String method = req.getMethod();
 
         try {
-
             // 1. Если путь входит в список исключений (например, вход/выход)
             if (EXCLUDED_PATHS.contains(path)) {
                 chain.doFilter(request, response);
                 return;
             }
 
-
-            if ("GET".equals(method) && path.startsWith("/trainers")) {
-                chain.doFilter(request, response);
-                return;
-            }
+//            if (!path.startsWith("/clients")) {
+//                chain.doFilter(request, response);
+//                return;
+//            }
 
             //получаю Id пользователя из сессии
             Integer sessionUserId = AuthFilters.getSessionUserId(req);
 
-            // 2. Фильтр для получения всех тренеровок определенного тренера
-            //добавить коментарии и проверить имена переменных
-            if ("GET".equals(method) && path.matches("^/trainers/\\d+/workouts$")) {
-
+            // 2. Фильтр для получения клиента по id.
+            if ("GET".equals(method) && path.matches("^/clients/\\d+$")) {
                 //разбиваем строку по слешу
                 String[] parts = path.split("/");
                 Integer id = null;
+
                 // проверяем длину строки(URL)
                 if (parts.length > 2) {
-                    //получаю id тренера из URL
+                    String idStr = parts[2];
+                    try {
+                        id = Integer.parseInt(idStr);
+                    } catch (NumberFormatException e) {
+                        throw new AuthenticationException("Некоруктные данные сессии");
+                    }
+                }
+
+                if (!sessionUserId.equals(id)) {
+                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Доступ запрещён: пройдите аунтефикацию");
+                    return;
+                }
+                chain.doFilter(request, response);
+                return;
+            }
+
+            // 3. Фильтр для удоления клиента
+            if ("DELETE".equals(method) && path.startsWith("/clients")) {
+                chain.doFilter(request, response);
+                return;
+            }
+
+            // 4. Фильтр для обновленя клиента
+            if ("PUT".equals(method) && path.startsWith("/clients")) {
+                // оборачиваем request в обертку
+                CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
+
+                Client client;
+                // Парсим json в сущьность client
+                try {
+                    client = objectMapper.readValue(cachedReq.getInputStream(), Client.class);
+                } catch (Exception e) {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Некорректный JSON в теле запроса");
+                    return;
+                }
+
+                // проверяем наличие поля id
+                if (client.getId() == null) {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("В теле запроса отсутствует поле тренера id");
+                    return;
+                }
+
+                // проверяем совподает ли поле id с id сессии
+                if (!sessionUserId.equals(client.getId())) {
+                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Доступ запрещён: можно обновлять только свои данные");
+                    return;
+                }
+
+                chain.doFilter(cachedReq, response);
+                return;
+
+            }
+
+            // 5. Фильтр для получения всех тренировок клиента
+            if ("GET".equals(method) && path.matches("^/clients/\\d+/workouts$")) {
+
+                // разбиваем строку по слешу
+                String[] parts = path.split("/");
+                Integer id = null;
+
+                // проверяем длину строки
+                if (parts.length > 2) {
                     String idStr = parts[2];
                     try {
                         id = Integer.parseInt(idStr);
@@ -81,60 +147,14 @@ public class TrainerFilter implements Filter {
                 }
                 chain.doFilter(request, response);
                 return;
-
             }
 
-            // 3. Фильтр для получения тренира по id или всех тренеров без аунтефикации.
-            if ("GET".equals(method) && path.startsWith("/trainers")) {
-                chain.doFilter(request, response);
-                return;
-            }
-
-            // 4. Фильтр для создания тренера
-            if ("POST".equals(method) && path.startsWith("/trainers")) {
-                chain.doFilter(request, response);
-                return;
-            }
-
-            // 5. Фильтр для обновления тренера
-            if ("PUT".equals(method) && path.startsWith("/trainers")) {
-                //Оборачиваем request в класс обертку
-                CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
-
-                Trainer trainer;
-                //парсим json в сущьность Trainer
-                try {
-                    trainer = objectMapper.readValue(cachedReq.getInputStream(), Trainer.class);
-                } catch (Exception e) {
-                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    resp.setContentType("text/plain; charset=UTF-8");
-                    resp.getWriter().write("Некорректный JSON в теле запроса");
-                    return;
-                }
-
-                //Проверяем наличие поля id
-                if (trainer.getId() == null) {
-                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    resp.setContentType("text/plain; charset=UTF-8");
-                    resp.getWriter().write("В теле запроса отсутствует поле тренера id");
-                    return;
-                }
-
-                //проверяем совподает ли поле id тренера с id сессии
-                if (!sessionUserId.equals(trainer.getId())) {
-                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    resp.setContentType("text/plain; charset=UTF-8");
-                    resp.getWriter().write("Доступ запрещён: можно обновлять только свои данные");
-                    return;
-                }
-
-                chain.doFilter(cachedReq, response);
-            }
 
             //Для всех остальных запросов, если аутентификация пройдена, пропускаем дальше
             chain.doFilter(request, response);
 
-        } catch (AuthenticationException e) {
+        } catch (
+                AuthenticationException e) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.setContentType("application/json; charset=UTF-8");
             Map<String, String> error = Map.of(
