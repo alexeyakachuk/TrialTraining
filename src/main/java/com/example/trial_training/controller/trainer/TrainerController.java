@@ -2,10 +2,12 @@ package com.example.trial_training.controller.trainer;
 
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.exception.AuthenticationException;
+import com.example.trial_training.filters.AuthFilters;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.service.trainer.TrainerService;
 import com.example.trial_training.dto.trainer.TrainerDto;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,12 @@ public class TrainerController {
     public Integer updateTrainer(@Valid @RequestBody  Trainer newTrainer, HttpServletRequest request) {
 
         return trainerService.updateTrainer(newTrainer);
+    }
+
+    @DeleteMapping
+    public void deleteTrainer(HttpServletRequest request) {
+        Integer sessionUserId = AuthFilters.getSessionUserId(request);
+        trainerService.deleteTrainer(sessionUserId);
     }
 
     @GetMapping("/{id}/workouts")
