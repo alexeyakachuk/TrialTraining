@@ -138,47 +138,6 @@ public class TrainerFilter implements Filter {
                 return;
             }
 
-            //-----------------------------------------------------------------------------------
-
-            //Фильтры для контролеров workout
-
-            // 1. Фильт для создания тренеровки
-            if ("POST".equals(method) && path.startsWith("/workout")) {
-                chain.doFilter(request, response);
-                return;
-            }
-
-            // 2. Получение тренеровки по id
-            if ("GET".equals(method) && path.startsWith("/workout")) {
-                CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
-                Workout workout;
-                // Парсим json в сущьность workout
-                try {
-                    workout = objectMapper.readValue(cachedReq.getInputStream(), Workout.class);
-                } catch (Exception e) {
-                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    resp.setContentType("text/plain; charset=UTF-8");
-                    resp.getWriter().write("Некорректный JSON в теле запроса");
-                    return;
-                }
-                // проверяем что id сессии совподает с id переданным в workout через json
-                if (!sessionUserId.equals(workout.getTrainerId())) {
-                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    resp.setContentType("text/plain; charset=UTF-8");
-                    resp.getWriter().write("Доступ запрещён: пройдите аунтефикацию");
-                    return;
-                }
-
-
-                chain.doFilter(cachedReq, response);
-                return;
-            }
-            // 3. Фильтр для удаления тренировки
-            if ("DELETE".equals(method) && path.startsWith("/workout")) {
-                chain.doFilter(request, response);
-                return;
-            }
-
             //Для всех остальных запросов, если аутентификация пройдена, пропускаем дальше
             chain.doFilter(request, response);
 
