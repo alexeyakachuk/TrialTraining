@@ -22,6 +22,7 @@ public class ClientDto {
     private String telephone;
     private String email;
     private String login;
+    private String password;
 
     public ClientDto(Client client) {
         this.id = client.getId();
@@ -31,5 +32,6 @@ public class ClientDto {
         this.telephone = client.getTelephone();
         this.email = client.getEmail();
         this.login = client.getLogin();
+        this.password = client.getPassword();
     }
 }

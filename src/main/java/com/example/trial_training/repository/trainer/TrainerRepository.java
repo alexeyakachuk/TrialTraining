@@ -2,6 +2,7 @@ package com.example.trial_training.repository.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
 import com.example.trial_training.dto.workout.WorkoutDto;
+import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.trainer.Trainer;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface TrainerRepository {
     List<WorkoutDto> findAllWorkoutsOfTrainer(Integer id);
 
     List<WorkoutDto> findAllTrainerWorkouts(Integer id);
+
+    Trainer findTrainerByLogin(String login);
 }

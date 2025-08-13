@@ -22,6 +22,7 @@ public class TrainerDto {
     private String telephone;
     private String email;
     private String login;
+    private String password;
 
     public TrainerDto(Trainer trainer) {
         this.id = trainer.getId();
@@ -31,5 +32,6 @@ public class TrainerDto {
         this.telephone = trainer.getTelephone();
         this.email = trainer.getEmail();
         this.login = trainer.getLogin();
+        this.password = trainer.getPassword();
 }
 }

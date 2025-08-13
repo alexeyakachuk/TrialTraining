@@ -14,4 +14,5 @@ public class CreateClientRequest {
     private String telephone;
     private String email;
     private String login;
+    private String password;
 }

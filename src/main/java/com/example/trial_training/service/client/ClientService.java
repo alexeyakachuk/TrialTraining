@@ -6,6 +6,7 @@ import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.client.Client;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ClientService {
 
@@ -20,4 +21,7 @@ public interface ClientService {
     void deleteClient(Integer id);
 
     List<WorkoutDto> findAllWorkoutsOfClient(Integer id);
+
+    Optional<ClientDto> findByLogin(String login);
 }
+
