@@ -12,8 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,7 +38,7 @@ public class ClientControllerTest {
 
     @Test
     void deleteClientTest() throws Exception {
-        this.mockMvc.perform(delete("/" + str + "/1").session(session)).andDo(print())
+        this.mockMvc.perform(delete("/" + str).session(session)).andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -48,4 +47,20 @@ public class ClientControllerTest {
         this.mockMvc.perform(get("/" + str + "/1/workouts").session(session)).andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void findClientTest() throws Exception {
+        this.mockMvc.perform(get("/" + str + "/1").session(session)).andDo(print())
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.name").value("Иван"))
+                .andExpect(jsonPath("$.surname").value("Петров"))
+                .andExpect(jsonPath("$.birthday").value("1990-01-10"))
+                .andExpect(jsonPath("$.telephone").value("+79007654321"))
+                .andExpect(jsonPath("$.email").value("ivan.petrov@example.com"))
+                .andExpect(jsonPath("$.login").value("ivan90"))
+                .andExpect(jsonPath("$.password").value("0000"));
+    }
+
 }

@@ -1,10 +1,12 @@
 package com.example.trial_training.filters;
 
 import com.example.trial_training.CachedBodyHttpServletRequest;
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.exception.AuthenticationException;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.workout.Workout;
 import com.example.trial_training.service.trainer.TrainerService;
+import com.example.trial_training.service.workout.WorkoutService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.*;
@@ -20,10 +22,12 @@ import java.util.Map;
 public class WorkoutFilter implements Filter {
     private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout");
     private final ObjectMapper objectMapper;
+    private final WorkoutService workoutService;
 
-    public WorkoutFilter(ObjectMapper objectMapper, TrainerService trainerService) {
+    public WorkoutFilter(ObjectMapper objectMapper, WorkoutService workoutService) {
         this.objectMapper = objectMapper;
         this.objectMapper.registerModule(new JavaTimeModule());
+        this.workoutService = workoutService;
     }
 
     @Override
@@ -52,30 +56,45 @@ public class WorkoutFilter implements Filter {
             }
 
             // 2. Получение тренеровки по id
-            if ("GET".equals(method) && path.startsWith("/workout")) {
-                CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
-                Workout workout;
-                // Парсим json в сущьность workout
-                try {
-                    workout = objectMapper.readValue(cachedReq.getInputStream(), Workout.class);
-                } catch (Exception e) {
+//            if ("GET".equals(method) && path.matches("^/workout/\\d+$")) {
+//                chain.doFilter(request, response);
+//                return;
+//            }
+
+            if ("GET".equals(method) && path.matches("^/workout/\\d+$")) {
+                // разбиваем строку по слешу
+                String[] parts = path.split("/");
+                Integer workoutId;
+
+                //проверяем длину строки
+                if (parts.length < 3) {
                     resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     resp.setContentType("text/plain; charset=UTF-8");
-                    resp.getWriter().write("Некорректный JSON в теле запроса");
+                    resp.getWriter().write("Некорректный путь запроса");
                     return;
                 }
-                // проверяем что id сессии совподает с id переданным в workout через json
-                if (!sessionUserId.equals(workout.getClientId())) {
+
+                try {
+                    workoutId = Integer.valueOf(parts[2]);
+                } catch (NumberFormatException e) {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    resp.setContentType("text/plain; charset=UTF-8");
+                    resp.getWriter().write("Некорректный id тренировки");
+                    return;
+                }
+
+                WorkoutDto workout = workoutService.findWorkout(workoutId);
+
+                if (!workout.getClient().getId().equals(sessionUserId)) {
                     resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     resp.setContentType("text/plain; charset=UTF-8");
-                    resp.getWriter().write("Доступ запрещён: пройдите аунтефикацию");
+                    resp.getWriter().write("Доступ запрещён. Id пользователя не совподает с сессией");
                     return;
                 }
-
-
-                chain.doFilter(cachedReq, response);
+                chain.doFilter(request, response);
                 return;
             }
+
             // 3. Фильтр для удаления тренировки
             if ("DELETE".equals(method) && path.startsWith("/workout")) {
                 chain.doFilter(request, response);

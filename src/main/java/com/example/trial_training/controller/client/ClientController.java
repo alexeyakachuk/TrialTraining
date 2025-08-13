@@ -53,16 +53,12 @@ public class ClientController {
     }
 
     @PutMapping
-    public Integer updateClient(@Valid @RequestBody Client newClient, HttpServletRequest request) {
+    public Integer updateClient(@Valid @RequestBody Client newClient) {
         return clientService.updateClient(newClient);
     }
 
     @GetMapping("/{id}/workouts")
-    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id, HttpServletRequest request) {
-//        final HttpSession session = request.getSession(false);
-//        if (session == null || session.getAttribute("userId") != id) {
-//            throw new AuthenticationException("Не найдена сессия");
-//        }
+    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id) {
         return clientService.findAllWorkoutsOfClient(id);
     }
 }
