@@ -51,10 +51,16 @@ public class ClientFilter implements Filter {
 //                return;
 //            }
 
+            // 2. Фильтр для создания коиента
+            if ("POST".equals(method) && path.startsWith("/clients")) {
+                chain.doFilter(request, response);
+                return;
+            }
+
             //получаю Id пользователя из сессии
             Integer sessionUserId = AuthFilters.getSessionUserId(req);
 
-            // 2. Фильтр для получения клиента по id.
+            // 3. Фильтр для получения клиента по id.
             if ("GET".equals(method) && path.matches("^/clients/\\d+$")) {
                 //разбиваем строку по слешу
                 String[] parts = path.split("/");
@@ -80,13 +86,13 @@ public class ClientFilter implements Filter {
                 return;
             }
 
-            // 3. Фильтр для удоления клиента
+            // 4. Фильтр для удоления клиента
             if ("DELETE".equals(method) && path.startsWith("/clients")) {
                 chain.doFilter(request, response);
                 return;
             }
 
-            // 4. Фильтр для обновленя клиента
+            // 5. Фильтр для обновленя клиента
             if ("PUT".equals(method) && path.startsWith("/clients")) {
                 // оборачиваем request в обертку
                 CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
@@ -123,7 +129,7 @@ public class ClientFilter implements Filter {
 
             }
 
-            // 5. Фильтр для получения всех тренировок клиента
+            // 6. Фильтр для получения всех тренировок клиента
             if ("GET".equals(method) && path.matches("^/clients/\\d+/workouts$")) {
 
                 // разбиваем строку по слешу
@@ -150,11 +156,7 @@ public class ClientFilter implements Filter {
                 return;
             }
 
-            // 6. Фильтр для создания коиента
-            if ("POST".equals(method) && path.startsWith("/clients")) {
-                chain.doFilter(request, response);
-                return;
-            }
+
 
             //Для всех остальных запросов, если аутентификация пройдена, пропускаем дальше
             chain.doFilter(request, response);

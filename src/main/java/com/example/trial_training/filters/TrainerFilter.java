@@ -48,7 +48,13 @@ public class TrainerFilter implements Filter {
             }
 
 
-            if ("GET".equals(method) && path.startsWith("/trainers")) {
+            if ("GET".equals(method) && path.matches("/trainers$") || path.matches("^/trainers/\\d+$")) {
+                chain.doFilter(request, response);
+                return;
+            }
+
+            // 2. Фильтр для создания тренера
+            if ("POST".equals(method) && path.startsWith("/trainers")) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -56,7 +62,7 @@ public class TrainerFilter implements Filter {
             //получаю Id пользователя из сессии
             Integer sessionUserId = AuthFilters.getSessionUserId(req);
 
-            // 2. Фильтр для получения всех тренеровок определенного тренера
+            // 3. Фильтр для получения всех тренеровок определенного тренера
             //добавить коментарии и проверить имена переменных
             if ("GET".equals(method) && path.matches("^/trainers/\\d+/workouts$")) {
 
@@ -85,14 +91,8 @@ public class TrainerFilter implements Filter {
 
             }
 
-            // 3. Фильтр для получения тренира по id или всех тренеров без аунтефикации.
+            // 4. Фильтр для получения тренира по id или всех тренеров без аунтефикации.
             if ("GET".equals(method) && path.startsWith("/trainers")) {
-                chain.doFilter(request, response);
-                return;
-            }
-
-            // 4. Фильтр для создания тренера
-            if ("POST".equals(method) && path.startsWith("/trainers")) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -130,6 +130,7 @@ public class TrainerFilter implements Filter {
                 }
 
                 chain.doFilter(cachedReq, response);
+                return;
             }
 
             // 6. Фильтр для удаления тренера
