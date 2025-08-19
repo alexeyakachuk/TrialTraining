@@ -55,7 +55,7 @@ public class WorkoutFilter implements Filter {
                 return;
             }
 
-            // 2. Получение тренеровки по id
+            // 2. Получение тренеровки по id. потом переделать что бы имел доспут только администратор
 //            if ("GET".equals(method) && path.matches("^/workout/\\d+$")) {
 //                chain.doFilter(request, response);
 //                return;
@@ -83,14 +83,14 @@ public class WorkoutFilter implements Filter {
                     return;
                 }
 
-                WorkoutDto workout = workoutService.findWorkout(workoutId);
-
-                if (!workout.getClient().getId().equals(sessionUserId)) {
-                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    resp.setContentType("text/plain; charset=UTF-8");
-                    resp.getWriter().write("Доступ запрещён. Id пользователя не совподает с сессией");
-                    return;
-                }
+//                WorkoutDto workout = workoutService.findWorkout(workoutId);
+//
+//                if (!workout.getClient().getId().equals(sessionUserId)) {
+//                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//                    resp.setContentType("text/plain; charset=UTF-8");
+//                    resp.getWriter().write("Доступ запрещён. Id пользователя не совподает с сессией");
+//                    return;
+//                }
                 chain.doFilter(request, response);
                 return;
             }

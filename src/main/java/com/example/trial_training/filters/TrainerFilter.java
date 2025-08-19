@@ -48,7 +48,7 @@ public class TrainerFilter implements Filter {
             }
 
 
-            if ("GET".equals(method) && path.matches("/trainers$") || path.matches("^/trainers/\\d+$")) {
+            if ("GET".equals(method) && (path.matches("/trainers$") || path.matches("^/trainers/\\d+$"))) {
                 chain.doFilter(request, response);
                 return;
             }

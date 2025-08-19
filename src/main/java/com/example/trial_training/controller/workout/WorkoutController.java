@@ -27,7 +27,7 @@ public class WorkoutController {
     public WorkoutDto create(@Valid @RequestBody CreateWorkoutRequest newWorkout) {
         return workoutService.create(newWorkout);
     }
-
+//потом переделать сто бы имел доступ только администратор
     @GetMapping("/{id}")
     public WorkoutDto findWorkout(@PathVariable Integer id, HttpServletRequest request) {
         WorkoutDto workout = workoutService.findWorkout(id);
