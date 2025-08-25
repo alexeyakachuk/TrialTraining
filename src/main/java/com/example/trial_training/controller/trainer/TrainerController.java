@@ -7,8 +7,6 @@ import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.service.trainer.TrainerService;
 import com.example.trial_training.dto.trainer.TrainerDto;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,15 +39,6 @@ public class TrainerController {
         return trainerService.findAllTrainers();
     }
 
-    @GetMapping("/{id}/workout")
-    public List<WorkoutDto> findAllTrainerWorkouts(@PathVariable Integer id, HttpServletRequest request) {
-//        final HttpSession session = request.getSession(false);
-//        if (session == null || session.getAttribute("userId") != id) {
-//            throw new AuthenticationException("Не найдена сессия");
-//        }
-        // В следующей ветке написать ролии
-        return trainerService.findAllTrainerWorkouts(id);
-    }
 
     @PutMapping
     public Integer updateTrainer(@Valid @RequestBody  Trainer newTrainer, HttpServletRequest request) {

@@ -53,6 +53,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    //Переделать. Возврощать просто Workout
     public List<WorkoutDto> findAllWorkouts() {
         return workoutRepository.findAllWorkouts().stream()
                 .map(workout -> {
