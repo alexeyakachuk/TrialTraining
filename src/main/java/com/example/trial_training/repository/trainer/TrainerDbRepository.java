@@ -4,6 +4,7 @@ import com.example.trial_training.controller.trainer.CreateTrainerRequest;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.mapper.trainer.AllWorkoutOfTrainerDtoRowMapper;
 import com.example.trial_training.mapper.trainer.TrainerRowMapper;
+import com.example.trial_training.model.client.Client;
 import com.example.trial_training.model.trainer.Trainer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -45,9 +46,10 @@ public class TrainerDbRepository implements TrainerRepository {
         params.addValue("telephone", newTrainer.getTelephone());
         params.addValue("email", newTrainer.getEmail());
         params.addValue("login", newTrainer.getLogin());
+        params.addValue("password", newTrainer.getPassword());
 
-        String sql = "INSERT INTO trainer (name, surname, birthday, telephone, email, login) " +
-                "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
+        String sql = "INSERT INTO trainer (name, surname, birthday, telephone, email, login, password) " +
+                "VALUES (:name, :surname, :birthday, :telephone, :email, :login, :password)";
 
         jdbcOperations.update(sql, params, keyHolder);
 
@@ -56,6 +58,17 @@ public class TrainerDbRepository implements TrainerRepository {
         Integer trainerId = Objects.requireNonNull(keyHolder.getKey()).intValue();
 
         return findTrainer(trainerId);
+    }
+
+    @Override
+    public Trainer findTrainerByLogin(String login) {
+        String sql = "SELECT * FROM trainer WHERE login = ?";
+
+        try {
+            return jdbcTemplate.queryForObject(sql, mapper, login);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

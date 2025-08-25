@@ -1,11 +1,13 @@
 package com.example.trial_training.service.trainer;
 
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.dto.client.ClientDto;
 import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.dto.trainer.TrainerDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TrainerService {
 
@@ -22,4 +24,6 @@ public interface TrainerService {
     List<WorkoutDto> findAllWorkoutsOfTrainer(Integer id);
 
     List<WorkoutDto> findAllTrainerWorkouts(Integer id);
+
+    Optional<TrainerDto> findByLogin(String login);
 }

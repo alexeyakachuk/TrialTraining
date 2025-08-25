@@ -1,14 +1,13 @@
-package com.example.trial_training.workout.service;
+package com.example.trial_training.service.workout;
 
 import com.example.trial_training.controller.client.CreateClientRequest;
 import com.example.trial_training.controller.trainer.CreateTrainerRequest;
+import com.example.trial_training.controller.workout.CreateWorkoutRequest;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientRepository;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.repository.trainer.TrainerRepository;
 import com.example.trial_training.dto.workout.WorkoutDto;
-import com.example.trial_training.model.workout.Workout;
-import com.example.trial_training.service.workout.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,9 +30,9 @@ public class WorkoutServiceImplTest {
     private final TrainerRepository trainerRepository;
     private final WorkoutService workoutService;
     private final NamedParameterJdbcOperations jdbcOperations;
-    private Workout testWorkout1;
-    private Workout testWorkout2;
-    private Workout testWorkout3;
+    private CreateWorkoutRequest testWorkout1;
+    private CreateWorkoutRequest testWorkout2;
+    private CreateWorkoutRequest testWorkout3;
 
 
 
@@ -50,6 +49,7 @@ public class WorkoutServiceImplTest {
                 .telephone("0000")
                 .email("0@.ru")
                 .login("1111")
+                .password("aaaa")
                 .build());
 
         Client testClient1 = clientRepository.create(CreateClientRequest.builder()
@@ -59,6 +59,7 @@ public class WorkoutServiceImplTest {
                 .telephone("1111")
                 .email("1@.ru")
                 .login("1111")
+                .password("ssss")
                 .build());
 
         Client testClient2 = clientRepository.create(CreateClientRequest.builder()
@@ -68,6 +69,7 @@ public class WorkoutServiceImplTest {
                 .telephone("2222")
                 .email("2@.ru")
                 .login("2222")
+                .password("dddd")
                 .build());
 
         Client testClient3 = clientRepository.create(CreateClientRequest.builder()
@@ -77,9 +79,10 @@ public class WorkoutServiceImplTest {
                 .telephone("3333")
                 .email("3@.ru")
                 .login("3333")
+                .password("ffff")
                 .build());
 
-        testWorkout1 = Workout.builder()
+        testWorkout1 = CreateWorkoutRequest.builder()
                 .clientId(testClient1.getId())
                 .trainerId(testTrainer.getId())
                 .date(LocalDate.of(2024, 4, 23))
@@ -87,7 +90,7 @@ public class WorkoutServiceImplTest {
                 .endTime(LocalTime.of(11, 0))
                 .build();
 
-        testWorkout2 = Workout.builder()
+        testWorkout2 = CreateWorkoutRequest.builder()
                 .clientId(testClient2.getId())
                 .trainerId(testTrainer.getId())
                 .date(LocalDate.of(2024, 4, 23))
@@ -95,7 +98,7 @@ public class WorkoutServiceImplTest {
                 .endTime(LocalTime.of(11, 0))
                 .build();
 
-        testWorkout3 = Workout.builder()
+        testWorkout3 = CreateWorkoutRequest.builder()
                 .clientId(testClient3.getId())
                 .trainerId(testTrainer.getId())
                 .date(LocalDate.of(2024, 4, 23))

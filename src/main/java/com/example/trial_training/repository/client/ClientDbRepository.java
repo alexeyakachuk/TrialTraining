@@ -44,9 +44,10 @@ public class ClientDbRepository implements ClientRepository {
         params.addValue("telephone", newClient.getTelephone());
         params.addValue("email", newClient.getEmail());
         params.addValue("login", newClient.getLogin());
+        params.addValue("password", newClient.getPassword());
 
-        String sql = "INSERT INTO client (name, surname, birthday, telephone, email, login) " +
-                "VALUES (:name, :surname, :birthday, :telephone, :email, :login)";
+        String sql = "INSERT INTO client (name, surname, birthday, telephone, email, login, password) " +
+                "VALUES (:name, :surname, :birthday, :telephone, :email, :login, :password)";
         jdbcOperations.update(sql, params, keyHolder);
 
         log.info("Новый клиент {} создан", newClient.getName());
@@ -74,9 +75,20 @@ public class ClientDbRepository implements ClientRepository {
     }
 
     @Override
+    public Client findClientByLogin(String login) {
+        String sql = "SELECT * FROM client WHERE login = ?";
+
+        try {
+            return jdbcTemplate.queryForObject(sql, mapper, login);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
     public Integer updateClient(Client newClient) {
         String sql = "UPDATE client SET name = :name, surname = :surname, birthday = :birthday, " +
-                "telephone = :telephone, email = :email, login = :login WHERE id = :id";
+                "telephone = :telephone, email = :email, login = :login, password = :password WHERE id = :id";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", newClient.getId());
@@ -86,6 +98,7 @@ public class ClientDbRepository implements ClientRepository {
         params.addValue("telephone", newClient.getTelephone());
         params.addValue("email", newClient.getEmail());
         params.addValue("login", newClient.getLogin());
+        params.addValue("password", newClient.getPassword());
 
         return jdbcOperations.update(sql, params);
     }

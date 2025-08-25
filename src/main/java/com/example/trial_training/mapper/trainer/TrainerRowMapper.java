@@ -20,6 +20,7 @@ public class TrainerRowMapper implements RowMapper<Trainer> {
                 .telephone(rs.getString("telephone"))
                 .email(rs.getString("email"))
                 .login(rs.getString("login"))
+                .password(rs.getString("password"))
                 .build();
     }
 }
