@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@Component
+//@Component
 public class TrainerFilter implements Filter {
 
     private static final List<String> EXCLUDED_PATHS = List.of("/auth/login", "/auth/logout");

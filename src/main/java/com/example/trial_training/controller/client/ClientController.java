@@ -6,6 +6,7 @@ import com.example.trial_training.exception.AuthenticationException;
 import com.example.trial_training.filters.AuthFilters;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.service.client.ClientService;
+import com.example.trial_training.service.client.ClientServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -18,47 +19,48 @@ import java.util.List;
 @RequestMapping(path = "/clients")
 public class ClientController {
 
-    private final ClientService clientService;
+    private final ClientServiceImpl clientServiceImpl;
 
     @Autowired
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
+    public ClientController(ClientServiceImpl clientServiceImpl) {
+        this.clientServiceImpl = clientServiceImpl;
     }
 
     @PostMapping
     public ClientDto create(@Valid @RequestBody CreateClientRequest newClient) {
-        return clientService.create(newClient);
+//        return clientService.create(newClient);
+        return null;
     }
 // этот метод готов
     @GetMapping("/{id}")
     public ClientDto findClient(@PathVariable Integer id, HttpServletRequest request) {
         //В следующей ветке доработать что бы мог смотреть тоько тренер которому записан на тренировку
         // этот клиент
-        return clientService.findClient(id);
+        return clientServiceImpl.findClient(id);
     }
 
     @GetMapping()
     public List<ClientDto> findAllClients() {
-        return clientService.findAllClients();
+        return clientServiceImpl.findAllClients();
     }
     //добавить метод findAllClients(Integer id) id - тренера. Тренер должен иметь возможность
     // посмотреть всех своих клиентов. Спросить у Андрея писать этот метод у тренера или клиента
 
 // этот метод готов
-    @DeleteMapping
-    public void deleteClient(HttpServletRequest request) {
-        Integer sessionUserId = AuthFilters.getSessionUserId(request);
-
-        clientService.deleteClient(sessionUserId);
-    }
-
-    @PutMapping
-    public Integer updateClient(@Valid @RequestBody Client newClient) {
-        return clientService.updateClient(newClient);
-    }
-
-    @GetMapping("/{id}/workouts")
-    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id) {
-        return clientService.findAllWorkoutsOfClient(id);
-    }
+//    @DeleteMapping
+//    public void deleteClient(HttpServletRequest request) {
+//        Integer sessionUserId = AuthFilters.getSessionUserId(request);
+//
+//        clientService.deleteClient(sessionUserId);
+//    }
+//
+//    @PutMapping
+//    public Integer updateClient(@Valid @RequestBody Client newClient) {
+//        return clientService.updateClient(newClient);
+//    }
+//
+//    @GetMapping("/{id}/workouts")
+//    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id) {
+//        return clientService.findAllWorkoutsOfClient(id);
+//    }
 }

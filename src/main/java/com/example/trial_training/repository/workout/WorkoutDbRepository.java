@@ -16,7 +16,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
-@Service
+//@Service
 @Slf4j
 public class WorkoutDbRepository implements WorkoutRepository {
 

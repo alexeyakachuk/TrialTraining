@@ -17,7 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import java.util.List;
 
-@Service
+//@Service
 public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final ClientRepository clientRepository;
