@@ -27,9 +27,8 @@ public class ClientController {
     }
 
     @PostMapping
-    public ClientDto create(@Valid @RequestBody CreateClientRequest newClient) {
-//        return clientService.create(newClient);
-        return null;
+    public ClientDto create(@Valid @RequestBody Client newClient) {
+        return clientServiceImpl.create(newClient);
     }
 // этот метод готов
     @GetMapping("/{id}")

@@ -24,8 +24,8 @@ import java.util.Objects;
 @Slf4j
 public class ClientDbRepository extends BaseRepository<Client> {
 
-    public ClientDbRepository(JdbcTemplate jdbcTemplate, JdbcOperations jdbcOperations) {
-        super(jdbcTemplate, jdbcOperations);
+    public ClientDbRepository(NamedParameterJdbcOperations jdbcOperations) {
+        super(jdbcOperations);
     }
 
     @Override
@@ -43,7 +43,23 @@ public class ClientDbRepository extends BaseRepository<Client> {
         return new ClientRowMapper();
     }
 
-//    private final JdbcTemplate jdbcTemplate;
+    @Override
+    public Client create(Client newClient) {
+        log.info("Создаем нового клиента : {}", newClient.getName());
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", newClient.getName());
+        params.addValue("surname", newClient.getSurname());
+        params.addValue("birthday", newClient.getBirthday());
+        params.addValue("telephone", newClient.getTelephone());
+        params.addValue("email", newClient.getEmail());
+        params.addValue("login", newClient.getLogin());
+        params.addValue("password", newClient.getPassword());
+
+        String sql = "INSERT INTO client (name, surname, birthday, telephone, email, login, password) " +
+                "VALUES (:name, :surname, :birthday, :telephone, :email, :login, :password)";
+        return super.create(sql, params);
+    }
+    //    private final JdbcTemplate jdbcTemplate;
 //    private final ClientRowMapper mapper;
 //    private final NamedParameterJdbcOperations jdbcOperations;
 //    private final AllWorkoutOfClientDtoRowMapper allWorkoutDtoRowMapper;
@@ -56,7 +72,7 @@ public class ClientDbRepository extends BaseRepository<Client> {
 //        this.allWorkoutDtoRowMapper = allWorkoutDtoRowMapper;
 //    }
 //
-//    @Override
+//    @Override  сделал
 //    public Client create(CreateClientRequest newClient) {
 //        log.info("Создаем нового клиента : {}", newClient.getName());
 //        KeyHolder keyHolder = new GeneratedKeyHolder();
