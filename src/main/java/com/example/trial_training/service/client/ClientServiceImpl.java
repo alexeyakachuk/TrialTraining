@@ -54,10 +54,10 @@ public class ClientServiceImpl {
         return clientDbRepository.update(newClient);
     }
 //
-//    @Override
-//    public void deleteClient(Integer id) {
-//        clientDbRepository.deleteClient(id);
-//    }
+
+    public void deleteClient(Integer id) {
+        clientDbRepository.delete(id);
+    }
 //
 //    @Override
 //    public List<WorkoutDto> findAllWorkoutsOfClient(Integer id) {

@@ -46,13 +46,14 @@ public class ClientController {
     // посмотреть всех своих клиентов. Спросить у Андрея писать этот метод у тренера или клиента
 
 // этот метод готов
-//    @DeleteMapping
-//    public void deleteClient(HttpServletRequest request) {
+    @DeleteMapping("/{id}")
+    public void deleteClient(HttpServletRequest request,@PathVariable Integer id) {
 //        Integer sessionUserId = AuthFilters.getSessionUserId(request);
-//
-//        clientService.deleteClient(sessionUserId);
-//    }
-//
+
+//        clientServiceImpl.deleteClient(sessionUserId);
+        clientServiceImpl.deleteClient(id);
+    }
+
     @PutMapping
     public Client updateClient(@Valid @RequestBody Client newClient) {
         return clientServiceImpl.updateClient(newClient);

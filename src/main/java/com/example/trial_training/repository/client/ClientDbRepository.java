@@ -145,7 +145,7 @@ public class ClientDbRepository extends BaseRepository<Client> {
 //        }
 //    }
 //
-//    @Override
+//    @Override сделал
 //    public Integer updateClient(Client newClient) {
 //        String sql = "UPDATE client SET name = :name, surname = :surname, birthday = :birthday, " +
 //                "telephone = :telephone, email = :email, login = :login, password = :password WHERE id = :id";

@@ -84,4 +84,13 @@ public abstract class BaseRepository<T> {
         }
         return findById(id);
     }
+
+    // удаление
+    public void delete(Integer id) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        String sql = "DELETE FROM " + getTableName() + " WHERE id = :id";
+        jdbcOperations.update(sql, params);
+    }
 }
