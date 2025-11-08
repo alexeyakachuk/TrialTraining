@@ -18,6 +18,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Repository
@@ -59,6 +60,26 @@ public class ClientDbRepository extends BaseRepository<Client> {
                 "VALUES (:name, :surname, :birthday, :telephone, :email, :login, :password)";
         return super.create(sql, params);
     }
+
+    @Override
+    public Client update(Client newClient) {
+        log.info("Создаем нового обновляем : {}", newClient.getName());
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        String sql = "UPDATE client SET name = :name, surname = :surname, birthday = :birthday, " +
+                "telephone = :telephone, email = :email, login = :login, password = :password WHERE id = :id";
+
+        params.addValue("id", newClient.getId());
+        params.addValue("name", newClient.getName());
+        params.addValue("surname", newClient.getSurname());
+        params.addValue("birthday", newClient.getBirthday());
+        params.addValue("telephone", newClient.getTelephone());
+        params.addValue("email", newClient.getEmail());
+        params.addValue("login", newClient.getLogin());
+        params.addValue("password", newClient.getPassword());
+
+        return super.update(sql, params, newClient.getId());
+    }
+
     //    private final JdbcTemplate jdbcTemplate;
 //    private final ClientRowMapper mapper;
 //    private final NamedParameterJdbcOperations jdbcOperations;
@@ -95,14 +116,14 @@ public class ClientDbRepository extends BaseRepository<Client> {
 //        return findClient(clientId);
 //    }
 //
-//    @Override
+//    @Override сделал
 //    public List<Client> findAllClients() {
 //        String sql = "SELECT * FROM client";
 //
 //        return jdbcTemplate.query(sql, mapper);
 //    }
 //
-//    @Override
+//    @Override сделал
 //    public Client findClient(Integer id) {
 //        String sql = "SELECT * FROM client WHERE id = ?";
 //
@@ -113,7 +134,7 @@ public class ClientDbRepository extends BaseRepository<Client> {
 //        }
 //    }
 //
-//    @Override
+//    @Override  сделал
 //    public Client findClientByLogin(String login) {
 //        String sql = "SELECT * FROM client WHERE login = ?";
 //

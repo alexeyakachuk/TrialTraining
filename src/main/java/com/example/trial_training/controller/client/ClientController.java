@@ -53,10 +53,10 @@ public class ClientController {
 //        clientService.deleteClient(sessionUserId);
 //    }
 //
-//    @PutMapping
-//    public Integer updateClient(@Valid @RequestBody Client newClient) {
-//        return clientService.updateClient(newClient);
-//    }
+    @PutMapping
+    public Client updateClient(@Valid @RequestBody Client newClient) {
+        return clientServiceImpl.updateClient(newClient);
+    }
 //
 //    @GetMapping("/{id}/workouts")
 //    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id) {

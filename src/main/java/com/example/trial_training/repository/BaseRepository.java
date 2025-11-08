@@ -2,6 +2,7 @@ package com.example.trial_training.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -28,6 +29,7 @@ public abstract class BaseRepository<T> {
     protected abstract String getColumnName();
     protected abstract RowMapper<T> getRowMapper();
 
+    // метод для получения всех пользователей
     public List<T> findByUsers() {
         String sql = "SELECT * FROM " + getTableName();
 
@@ -38,6 +40,7 @@ public abstract class BaseRepository<T> {
         }
     }
 
+    // получения пользователя по id
     public T findById(Integer id) {
         String sql = "SELECT * FROM " + getTableName() + " WHERE id = :id";
         try {
@@ -47,6 +50,7 @@ public abstract class BaseRepository<T> {
         }
     }
 
+    // создание пользователей
     public abstract T create(T entity);
 
 
@@ -56,6 +60,28 @@ public abstract class BaseRepository<T> {
         jdbcOperations.update(sql, params, keyHolder);
 
         Integer id = Objects.requireNonNull(keyHolder.getKey()).intValue();
+        return findById(id);
+    }
+
+    // получение по логину
+
+    public T findByLogin(String login) {
+        String sql = "SELECT * FROM " + getTableName() + " WHERE login = :login";
+        try {
+            return jdbcOperations.queryForObject(sql, Map.of("login", login), getRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    //обновление пользователя
+    public abstract T update(T entity);
+
+    protected T update(String sql, MapSqlParameterSource params, Integer id) {
+        int rowsAffected = jdbcOperations.update(sql, params);
+        if (rowsAffected == 0) {
+            throw new OptimisticLockingFailureException("Не удалось обновить запись с ID: " + id + ". Возможно, она была изменена другим процессом.");
+        }
         return findById(id);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientServiceImpl {
@@ -42,16 +43,16 @@ public class ClientServiceImpl {
     }
 
 
-//    @Override
-//    public Optional<ClientDto> findByLogin(String login) {
-//        Client client = clientDbRepository.findClientByLogin(login);
-//        return Optional.ofNullable(client).map(ClientDto::new);
-//    }
-//
-//    @Override
-//    public Integer updateClient(Client newClient) {
-//        return clientDbRepository.updateClient(newClient);
-//    }
+// не помню где используется потом обязательно разаобратся
+    public Optional<ClientDto> findByLogin(String login) {
+        Client client = clientDbRepository.findByLogin(login);
+        return Optional.ofNullable(client).map(ClientDto::new);
+    }
+
+    //
+    public Client updateClient(Client newClient) {
+        return clientDbRepository.update(newClient);
+    }
 //
 //    @Override
 //    public void deleteClient(Integer id) {
