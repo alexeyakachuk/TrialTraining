@@ -2,6 +2,7 @@ package com.example.trial_training.service.client;
 
 import com.example.trial_training.controller.client.CreateClientRequest;
 import com.example.trial_training.dto.client.ClientDto;
+import com.example.trial_training.dto.workout.WorkoutDto;
 import com.example.trial_training.model.client.Client;
 import com.example.trial_training.repository.client.ClientDbRepository;
 import com.example.trial_training.exception.NotFoundException;
@@ -58,9 +59,9 @@ public class ClientServiceImpl {
     public void deleteClient(Integer id) {
         clientDbRepository.delete(id);
     }
-//
-//    @Override
-//    public List<WorkoutDto> findAllWorkoutsOfClient(Integer id) {
-//        return clientDbRepository.findAllWorkoutsOfClient(id);
-//    }
+
+
+    public List<WorkoutDto> findAllWorkoutsOfClient(Integer id) {
+        return clientDbRepository.findAllWorkoutsOfClient(id);
+    }
 }

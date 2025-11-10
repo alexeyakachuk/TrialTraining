@@ -58,9 +58,9 @@ public class ClientController {
     public Client updateClient(@Valid @RequestBody Client newClient) {
         return clientServiceImpl.updateClient(newClient);
     }
-//
-//    @GetMapping("/{id}/workouts")
-//    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id) {
-//        return clientService.findAllWorkoutsOfClient(id);
-//    }
+
+    @GetMapping("/{id}/workouts")
+    public List<WorkoutDto> findAllWorkoutsOfClient(@PathVariable Integer id) {
+        return clientServiceImpl.findAllWorkoutsOfClient(id);
+    }
 }

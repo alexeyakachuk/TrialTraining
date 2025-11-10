@@ -6,6 +6,7 @@ import com.example.trial_training.filters.AuthFilters;
 import com.example.trial_training.model.trainer.Trainer;
 import com.example.trial_training.service.trainer.TrainerService;
 import com.example.trial_training.dto.trainer.TrainerDto;
+import com.example.trial_training.service.trainer.TrainerServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,43 +18,45 @@ import java.util.List;
 @RequestMapping(path = "/trainers")
 public class TrainerController {
 
-    private final TrainerService trainerService;
+    private final TrainerServiceImpl trainerServiceImpl;
 
     @Autowired
-    public TrainerController(TrainerService trainerService) {
-        this.trainerService = trainerService;
+    public TrainerController(TrainerServiceImpl trainerServiceImpl) {
+        this.trainerServiceImpl = trainerServiceImpl;
     }
 
     @PostMapping
-    public TrainerDto create(@Valid @RequestBody CreateTrainerRequest newTrainer) {
-        return trainerService.create(newTrainer);
+    public TrainerDto create(@Valid @RequestBody Trainer newTrainer) {   //CreateTrainerRequest newTrainer
+        return trainerServiceImpl.create(newTrainer);
     }
 
     @GetMapping("/{id}")
     public TrainerDto findTrainer(@PathVariable Integer id) {
-        return trainerService.findTrainer(id);
+        return trainerServiceImpl.findTrainer(id);
     }
 
     @GetMapping()
     public List<TrainerDto> findAllTrainers() {
-        return trainerService.findAllTrainers();
+        return trainerServiceImpl.findAllTrainers();
     }
 
 
     @PutMapping
-    public Integer updateTrainer(@Valid @RequestBody  Trainer newTrainer, HttpServletRequest request) {
+    //Integer
+    public Trainer updateTrainer(@Valid @RequestBody  Trainer newTrainer) { //HttpServletRequest request
 
-        return trainerService.updateTrainer(newTrainer);
+        return trainerServiceImpl.updateTrainer(newTrainer);
     }
 
-    @DeleteMapping
-    public void deleteTrainer(HttpServletRequest request) {
-        Integer sessionUserId = AuthFilters.getSessionUserId(request);
-        trainerService.deleteTrainer(sessionUserId);
+    @DeleteMapping("/{id}")
+    public void deleteTrainer(@PathVariable Integer id) {  // HttpServletRequest request
+//        Integer sessionUserId = AuthFilters.getSessionUserId(request);
+//        trainerServiceImpl.deleteTrainer(sessionUserId);
+        trainerServiceImpl.deleteTrainer(id);
     }
 
     @GetMapping("/{id}/workouts")
     public List<WorkoutDto> findAllWorkoutsOfTrainer(@PathVariable Integer id) {
-        return trainerService.findAllWorkoutsOfTrainer(id);
+        return trainerServiceImpl.findAllWorkoutsOfTrainer(id);
     }
 }

@@ -25,8 +25,12 @@ import java.util.Objects;
 @Slf4j
 public class ClientDbRepository extends BaseRepository<Client> {
 
-    public ClientDbRepository(NamedParameterJdbcOperations jdbcOperations) {
+    private final AllWorkoutOfClientDtoRowMapper allWorkoutDtoRowMapper;
+
+    public ClientDbRepository(NamedParameterJdbcOperations jdbcOperations,
+                              AllWorkoutOfClientDtoRowMapper allWorkoutDtoRowMapper) {
         super(jdbcOperations);
+        this.allWorkoutDtoRowMapper = allWorkoutDtoRowMapper;
     }
 
     @Override
@@ -47,6 +51,10 @@ public class ClientDbRepository extends BaseRepository<Client> {
     @Override
     public Client create(Client newClient) {
         log.info("Создаем нового клиента : {}", newClient.getName());
+
+        String sql = "INSERT INTO client (name, surname, birthday, telephone, email, login, password) " +
+                "VALUES (:name, :surname, :birthday, :telephone, :email, :login, :password)";
+
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", newClient.getName());
         params.addValue("surname", newClient.getSurname());
@@ -56,14 +64,12 @@ public class ClientDbRepository extends BaseRepository<Client> {
         params.addValue("login", newClient.getLogin());
         params.addValue("password", newClient.getPassword());
 
-        String sql = "INSERT INTO client (name, surname, birthday, telephone, email, login, password) " +
-                "VALUES (:name, :surname, :birthday, :telephone, :email, :login, :password)";
         return super.create(sql, params);
     }
 
     @Override
     public Client update(Client newClient) {
-        log.info("Создаем нового обновляем : {}", newClient.getName());
+        log.info("Обновляем клиента : {}", newClient.getName());
         MapSqlParameterSource params = new MapSqlParameterSource();
         String sql = "UPDATE client SET name = :name, surname = :surname, birthday = :birthday, " +
                 "telephone = :telephone, email = :email, login = :login, password = :password WHERE id = :id";
@@ -80,7 +86,25 @@ public class ClientDbRepository extends BaseRepository<Client> {
         return super.update(sql, params, newClient.getId());
     }
 
-    //    private final JdbcTemplate jdbcTemplate;
+    public List<WorkoutDto> findAllWorkoutsOfClient(Integer id) {
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        String sql = "SELECT TRAINER.name, TRAINER.surname, TRAINER.telephone, WORKOUT.id, WORKOUT.\"date\", " +
+                "WORKOUT.start_time, WORKOUT.end_time " +
+                "FROM WORKOUT " +
+                "LEFT JOIN TRAINER ON WORKOUT.trainer_id = TRAINER.id " + // Исправлено: сначала соединяем с TRAINER
+                "LEFT JOIN CLIENT ON WORKOUT.client_id = CLIENT.id " + // Затем соединяем с CLIENT
+                "WHERE WORKOUT.client_id = :id";
+
+        return jdbcOperations.query(sql, params, allWorkoutDtoRowMapper);
+    }
+
+
+
+
+//        private final JdbcTemplate jdbcTemplate;
 //    private final ClientRowMapper mapper;
 //    private final NamedParameterJdbcOperations jdbcOperations;
 //    private final AllWorkoutOfClientDtoRowMapper allWorkoutDtoRowMapper;
@@ -163,7 +187,7 @@ public class ClientDbRepository extends BaseRepository<Client> {
 //        return jdbcOperations.update(sql, params);
 //    }
 //
-//    @Override
+//    @Override сделал
 //    public void deleteClient(Integer id) {
 //        MapSqlParameterSource params = new MapSqlParameterSource();
 //        params.addValue("id", id);
@@ -173,7 +197,7 @@ public class ClientDbRepository extends BaseRepository<Client> {
 //        jdbcOperations.update(sql, params);
 //    }
 //
-//    @Override
+
 //    public List<WorkoutDto> findAllWorkoutsOfClient(Integer id) {
 //
 //        MapSqlParameterSource params = new MapSqlParameterSource();
