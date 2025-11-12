@@ -48,11 +48,10 @@ public class TrainerController {
         return trainerService.updateTrainer(newTrainer);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteTrainer(@PathVariable Integer id) {  // HttpServletRequest request
-//        Integer sessionUserId = AuthFilters.getSessionUserId(request);
-//        trainerServiceImpl.deleteTrainer(sessionUserId);
-        trainerService.deleteTrainer(id);
+    @DeleteMapping()
+    public void deleteTrainer(@PathVariable HttpServletRequest request) {  // HttpServletRequest request
+        Integer sessionUserId = AuthFilters.getSessionUserId(request);
+        trainerService.deleteTrainer(sessionUserId);
     }
 
     @GetMapping("/{id}/workouts")
