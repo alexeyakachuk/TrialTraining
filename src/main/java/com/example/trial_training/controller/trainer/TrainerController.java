@@ -18,26 +18,26 @@ import java.util.List;
 @RequestMapping(path = "/trainers")
 public class TrainerController {
 
-    private final TrainerServiceImpl trainerServiceImpl;
+    private final TrainerService trainerService;
 
     @Autowired
-    public TrainerController(TrainerServiceImpl trainerServiceImpl) {
-        this.trainerServiceImpl = trainerServiceImpl;
+    public TrainerController(TrainerService trainerService) {
+        this.trainerService = trainerService;
     }
 
     @PostMapping
     public TrainerDto create(@Valid @RequestBody Trainer newTrainer) {   //CreateTrainerRequest newTrainer
-        return trainerServiceImpl.create(newTrainer);
+        return trainerService.create(newTrainer);
     }
 
     @GetMapping("/{id}")
     public TrainerDto findTrainer(@PathVariable Integer id) {
-        return trainerServiceImpl.findTrainer(id);
+        return trainerService.findTrainer(id);
     }
 
     @GetMapping()
     public List<TrainerDto> findAllTrainers() {
-        return trainerServiceImpl.findAllTrainers();
+        return trainerService.findAllTrainers();
     }
 
 
@@ -45,18 +45,18 @@ public class TrainerController {
     //Integer
     public Trainer updateTrainer(@Valid @RequestBody  Trainer newTrainer) { //HttpServletRequest request
 
-        return trainerServiceImpl.updateTrainer(newTrainer);
+        return trainerService.updateTrainer(newTrainer);
     }
 
     @DeleteMapping("/{id}")
     public void deleteTrainer(@PathVariable Integer id) {  // HttpServletRequest request
 //        Integer sessionUserId = AuthFilters.getSessionUserId(request);
 //        trainerServiceImpl.deleteTrainer(sessionUserId);
-        trainerServiceImpl.deleteTrainer(id);
+        trainerService.deleteTrainer(id);
     }
 
     @GetMapping("/{id}/workouts")
     public List<WorkoutDto> findAllWorkoutsOfTrainer(@PathVariable Integer id) {
-        return trainerServiceImpl.findAllWorkoutsOfTrainer(id);
+        return trainerService.findAllWorkoutsOfTrainer(id);
     }
 }

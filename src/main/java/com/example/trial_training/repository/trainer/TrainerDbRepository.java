@@ -118,6 +118,7 @@ public class TrainerDbRepository extends BaseRepository<Trainer> {
 
         return jdbcOperations.query(sql, params, allWorkoutOfTrainerDtoRowMapper);
     }
+}
 
 
 
@@ -252,4 +253,4 @@ public class TrainerDbRepository extends BaseRepository<Trainer> {
 //
 //        return jdbcOperations.query(sql, params, allWorkoutDtoRowMapper);
 //    }
-}
+//}

@@ -100,6 +100,7 @@ public class ClientDbRepository extends BaseRepository<Client> {
 
         return jdbcOperations.query(sql, params, allWorkoutDtoRowMapper);
     }
+}
 
 
 
@@ -212,4 +213,4 @@ public class ClientDbRepository extends BaseRepository<Client> {
 //
 //        return jdbcOperations.query(sql, params, allWorkoutDtoRowMapper);
 //    }
-}
+//}

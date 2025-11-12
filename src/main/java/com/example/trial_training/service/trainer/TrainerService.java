@@ -11,13 +11,13 @@ import java.util.Optional;
 
 public interface TrainerService {
 
-    TrainerDto create(CreateTrainerRequest newTrainer);
+    TrainerDto create(Trainer trainer);//CreateTrainerRequest newTrainer
 
     List<TrainerDto> findAllTrainers();
 
     void deleteTrainer(Integer id);
 
-    Integer updateTrainer(Trainer newTrainer);
+     Trainer updateTrainer(Trainer newTrainer);//Integer
 
     TrainerDto findTrainer(Integer id);
 

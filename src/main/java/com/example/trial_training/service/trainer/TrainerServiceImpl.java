@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TrainerServiceImpl {
+public class TrainerServiceImpl implements TrainerService {
 
     private final TrainerDbRepository trainerDbRepository;
 
@@ -25,12 +25,13 @@ public class TrainerServiceImpl {
         this.trainerDbRepository = trainerDbRepository;
     }
 
-
+    @Override
     public TrainerDto create(Trainer newTrainer) {
         Trainer trainer = trainerDbRepository.create(newTrainer);
         return new TrainerDto(trainer);
     }
 
+    @Override
     public TrainerDto findTrainer(Integer id) {
         Trainer trainer = trainerDbRepository.findById(id);
 
@@ -40,24 +41,25 @@ public class TrainerServiceImpl {
         return new TrainerDto(trainer);
     }
 
+    @Override
     public Optional<TrainerDto> findByLogin(String login) {
         Trainer trainer = trainerDbRepository.findByLogin(login);
         return Optional.ofNullable(trainer).map(TrainerDto::new);
     }
 
-
+    @Override
     public List<TrainerDto> findAllTrainers() {
         return trainerDbRepository.findByUsers().stream()
                 .map(trainer -> new TrainerDto(trainer))
                 .toList();
     }
 
-
+    @Override
     public void deleteTrainer(Integer id) {
         trainerDbRepository.delete(id);
     }
 
-
+    @Override
     public Trainer updateTrainer(Trainer newTrainer) {
         return trainerDbRepository.update(newTrainer);
     }
@@ -66,7 +68,7 @@ public class TrainerServiceImpl {
         return trainerDbRepository.findAllWorkoutsOfTrainer(id);
     }
 
-
+    @Override
     public List<WorkoutDto> findAllTrainerWorkouts(Integer id) {
         return trainerDbRepository.findAllTrainerWorkouts(id);
     }

@@ -10,13 +10,13 @@ import java.util.Optional;
 
 public interface ClientService {
 
-    ClientDto create(CreateClientRequest newClient);
+    ClientDto create(Client newClient);//CreateClientRequest newClient
 
     List<ClientDto> findAllClients();
 
     ClientDto findClient(Integer id);
 
-    Integer updateClient(Client newClient);
+     Client updateClient(Client newClient);//Integer
 
     void deleteClient(Integer id);
 
